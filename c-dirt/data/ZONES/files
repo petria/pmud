@@ -1,0 +1,83 @@
+../mkdata.log
+../zones
+../../include/mobiles.h
+../mobiles
+../../include/objects.h
+../objects
+../reset.list
+../../include/locations.h
+../locations
+abyss
+ancient
+arena
+awiz
+beach
+blizzard
+caledonia
+camelot
+castle
+catacomb
+cave
+church
+dead		xlimbo.zone
+dgod
+eastcoast
+eforest
+evolution
+fairybook  # needs quest stuff added
+fairytale  # likewise
+fareast
+forest
+frobozz
+god
+grove
+haven		xlimbo.zone
+heaven
+hick
+home
+icecave
+island
+ist
+labyrinth
+ledge
+limbo 		xlimbo.zone
+loligo
+marriage
+moor
+mountain
+newbie
+nibelung
+noxypickle
+oaktree
+orchold
+pirate
+pit   		xlimbo.zone
+quarry
+rainforest
+ruins
+sea
+shalafi
+sherwood
+start 		xlimbo.zone
+thyrannen
+tower
+treehouse
+valley
+village
+volcano
+waste
+wiz
+zodiac
+batcave
+cottage
+deathlok
+chlyon
+eosia
+lost
+town
+windy
+system
+mrealms
+mithdan
+talon
+

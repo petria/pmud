@@ -1,0 +1,175 @@
+Jun23 11:15 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 1905)
+Jun23 11:17 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 1918)
+Jun23 11:17 &+GCONNECT &+W[7]: &N127.0.0.1
+Jun23 11:20 ABERCHAT: Shutdown
+Jun23 11:21 SIGNAL: SIGTERM
+Jun23 11:22 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 2519)
+Jun23 11:22 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun23 11:22 &+BENTRY   &+W[7]: &NRydis [Level: 95000, Score: 72000]
+Jun23 17:01 FROB: Rydis by Rydis: Lev = 95000, Sco = 72000, Str = 760067
+Jun23 17:01 UNVEIL (BAD): Rydis
+Jun23 17:04 UNVEIL: Rydis to 90000
+Jun23 17:05 FROB: Rydis by Rydis: Lev = 90000, Sco = 72000, Str = 760067
+Jun24 07:40 &+GCONNECT &+W[17]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 07:40 &+WSYSTEM:&N Rydis has resumed connection
+Jun24 08:05 &+MEXIT    &+W[17]: &NRydis [Level: 90000, Score: 72000]
+Jun24 08:28 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun24 08:29 &+BENTRY   &+W[7]: &NYrdis [Level: 1, Score: 0]
+Jun24 09:02 &+WSYSTEM:&N Yrdis to level 2
+Jun24 09:03 &+WSYSTEM:&N Yrdis to level 3
+Jun24 09:40 &+GCONNECT &+W[17]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 09:40 &+BENTRY   &+W[17]: &NRydis [Level: 90000, Score: 72000]
+Jun24 11:59 &+GCONNECT &+W[26]: &Npetria@airiot.fi
+Jun24 12:00 &+WSYSTEM:&N Yrdis has resumed connection
+Jun24 12:00 &+WSYSTEM:&N Reset by Rydis
+Jun24 12:32 &+MEXIT    &+W[26]: &NYrdis [Level: 3, Score: 5772]
+Jun24 12:33 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun24 12:33 &+BENTRY   &+W[7]: &NYrdis [Level: 3, Score: 5772]
+Jun24 12:39 &+MEXIT    &+W[7]: &NYrdis [Level: 3, Score: 5772]
+Jun24 12:39 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun24 12:39 &+BENTRY   &+W[7]: &NYrdis [Level: 3, Score: 5772]
+Jun24 12:40 &+WSYSTEM:&N Reset by Rydis
+Jun24 13:11 UNVEIL (BAD): Rydis
+Jun24 13:36 &+WSYSTEM:&N Yrdis to level 4
+Jun24 13:46 ERROR: Cannot read file: credits
+Jun24 14:50 &+WSYSTEM:&N Yrdis to level 5
+Jun24 15:14 &+MEXIT    &+W[7]: &NYrdis [Level: 5, Score: 15461]
+Jun24 16:24 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 16:25 &+BENTRY   &+W[7]: &NYrdis [Level: 5, Score: 15461]
+Jun24 16:25 &+WSYSTEM:&N Reset by Rydis
+Jun24 16:29 SIGNAL: SIGINT[2]
+Jun24 16:29 &+MEXIT    &+W[7]: &NYrdis [Level: 5, Score: 15482]
+Jun24 16:29 &+MEXIT    &+W[17]: &NRydis [Level: 90000, Score: 72000]
+Jun24 16:35 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 4007)
+Jun24 16:35 SIGNAL: SIGINT[2]
+Jun24 16:36 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 4012)
+Jun24 16:36 &+GCONNECT &+W[6]: &N127.0.0.1
+Jun24 16:40 SIGNAL: SIGTERM
+Jun24 16:41 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 4605)
+Jun24 16:42 &+GCONNECT &+W[6]: &Npetria@87.92.64.41
+Jun24 16:42 &+BENTRY   &+W[6]: &NYrdis [Level: 5, Score: 15482]
+Jun24 16:43 SIGNAL: SIGTERM
+Jun24 16:43 &+MEXIT    &+W[6]: &NYrdis [Level: 5, Score: 15482]
+Jun24 17:08 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 1847)
+Jun24 17:09 &+GCONNECT &+W[6]: &Npetria@87.92.64.41
+Jun24 17:09 &+BENTRY   &+W[6]: &NRydis [Level: 90000, Score: 72000]
+Jun24 17:15 &+MEXIT    &+W[6]: &NRydis [Level: 90000, Score: 72000]
+Jun24 17:35 SIGNAL: SIGINT[2]
+Jun24 17:35 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 2993)
+Jun24 17:36 &+GCONNECT &+W[6]: &Npetria@87.92.64.41
+Jun24 17:37 &+BENTRY   &+W[6]: &NRydis [Level: 90000, Score: 72000]
+Jun24 17:49 SIGNAL: SIGINT[2]
+Jun24 17:49 &+MEXIT    &+W[6]: &NRydis [Level: 90000, Score: 72000]
+Jun24 18:00 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 3298)
+Jun24 18:00 &+GCONNECT &+W[6]: &Npetria@87.92.64.41
+Jun24 18:01 SIGNAL: SIGINT[2]
+Jun24 18:02 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 3329)
+Jun24 18:02 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 18:02 &+BENTRY   &+W[7]: &NYrdis [Level: 5, Score: 15482]
+Jun24 19:06 &+MEXIT    &+W[7]: &NYrdis [Level: 5, Score: 15482]
+Jun24 19:07 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 19:07 &+BENTRY   &+W[7]: &NRydis [Level: 90000, Score: 72000]
+Jun24 20:47 &+GCONNECT &+W[8]: &N46.183.103.17
+Jun24 20:48 &+BENTRY   &+W[8]: &NFreddi [Level: 1, Score: 0]
+Jun24 21:17 UNVEIL: Rydis to 90000
+Jun24 21:18 Rydis has started snooping Freddi.
+Jun24 21:19 Rydis has stopped snooping Freddi.
+Jun24 21:19 &+WSYSTEM:&N Freddi to level 2
+Jun24 21:23 UNVEIL: Rydis to 10
+Jun24 21:23 UNVEIL (WRONG): Rydis to 10
+Jun24 21:23 UNVEIL (WRONG): Rydis to 10
+Jun24 21:24 UNVEIL: Rydis to 99999
+Jun24 22:06 &+WSYSTEM:&N Crash by Rydis
+Jun24 22:06 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:06 &+MEXIT    &+W[8]: &NFreddi [Level: 2, Score: 3186]
+Jun24 22:10 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 4658)
+Jun24 22:10 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:10 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:11 SIGNAL: SIGINT[2]
+Jun24 22:11 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:12 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 5132)
+Jun24 22:12 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:12 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:14 SIGNAL: SIGINT[2]
+Jun24 22:14 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:14 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 5605)
+Jun24 22:14 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:15 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:18 SIGNAL: SIGINT[2]
+Jun24 22:18 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:18 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 6086)
+Jun24 22:18 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:19 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:20 SIGNAL: SIGINT[2]
+Jun24 22:20 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:21 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 6568)
+Jun24 22:21 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:21 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:23 SIGNAL: SIGINT[2]
+Jun24 22:23 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:23 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 7041)
+Jun24 22:23 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:23 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:34 SIGNAL: SIGINT[2]
+Jun24 22:34 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:35 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 8018)
+Jun24 22:35 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:35 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:35 SIGNAL: SIGSEGV[11]
+Jun24 22:35 &+RREBOOT:&N Crash has occured, rebooting system
+Jun24 22:35 &+WSYSTEM:&N Update Successful, C-Dirt Daemon Restarted
+Jun24 22:36 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 8489)
+Jun24 22:36 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:36 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:36 SIGNAL: SIGSEGV[11]
+Jun24 22:36 &+RREBOOT:&N Crash has occured, rebooting system
+Jun24 22:36 &+WSYSTEM:&N Update Successful, C-Dirt Daemon Restarted
+Jun24 22:39 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 8964)
+Jun24 22:39 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:39 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:40 SIGNAL: SIGINT[2]
+Jun24 22:40 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun24 22:40 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 9442)
+Jun24 22:40 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:41 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 06:28 SIGNAL: SIGINT[2]
+Jun25 06:28 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 06:29 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 11914)
+Jun25 06:29 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 06:29 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 06:31 SIGNAL: SIGINT[2]
+Jun25 06:31 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 06:31 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 12394)
+Jun25 06:31 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 06:31 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 06:44 Quest &+MExcalibur&N completed by Rydis
+Jun25 07:05 SIGNAL: SIGINT[2]
+Jun25 07:05 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 07:10 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 13468)
+Jun25 07:10 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 07:10 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 07:11 Quest &+MExcalibur&N completed by Rydis
+Jun25 07:29 SIGNAL: SIGTERM
+Jun25 07:29 &+MEXIT    &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 07:37 &+WSYSTEM:&N C-Dirt CDirt 2.42 Booted (PID: 1289)
+Jun25 07:37 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 07:37 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72000]
+Jun25 08:04 &+GCONNECT &+W[8]: &Npetria@airiot.fi
+Jun25 08:05 &+BENTRY   &+W[8]: &NYrdis [Level: 5, Score: 15482]
+Jun25 08:07 &+GCONNECT &+W[9]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 08:07 &+WSYSTEM:&N Rydis has resumed connection
+Jun25 08:44 Quest &+MExcalibur&N completed by Yrdis
+Jun25 10:15 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun25 10:15 &+WSYSTEM:&N Yrdis has resumed connection
+Jun25 11:14 &+WSYSTEM:&N Yrdis to level 6
+Jun25 11:17 &+MEXIT    &+W[7]: &NYrdis [Level: 6, Score: 22077]
+Jun25 13:55 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun25 13:56 &+BENTRY   &+W[7]: &NYrdis [Level: 6, Score: 22077]
+Jun25 13:56 &+WSYSTEM:&N Reset by Rydis
+Jun25 14:19 &+MEXIT    &+W[7]: &NYrdis [Level: 6, Score: 24102]
+Jun25 19:36 &+GCONNECT &+W[7]: &Npetria@airiot.fi
+Jun25 19:36 &+BENTRY   &+W[7]: &NYrdis [Level: 6, Score: 24102]
+Jun25 19:36 &+MEXIT    &+W[7]: &NYrdis [Level: 6, Score: 24102]
+Jun25 20:17 &+MEXIT    &+W[9]: &NRydis [Level: 99999, Score: 72250]
+Jun25 20:19 &+GCONNECT &+W[7]: &Npetria@87-92-64-41.bb.dnainternet.fi
+Jun25 20:19 &+BENTRY   &+W[7]: &NRydis [Level: 99999, Score: 72250]

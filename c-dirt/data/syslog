@@ -1,0 +1,175 @@
+Jun23 11:15 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 1905)
+Jun23 11:17 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 1918)
+Jun23 11:17 CONNECT [7]: 127.0.0.1
+Jun23 11:20 ABERCHAT: Shutdown
+Jun23 11:21 SIGNAL: SIGTERM
+Jun23 11:22 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 2519)
+Jun23 11:22 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun23 11:22 ENTRY   [7]: Rydis [Level: 95000, Score: 72000]
+Jun23 17:01 FROB: Rydis by Rydis: Lev = 95000, Sco = 72000, Str = 760067
+Jun23 17:01 UNVEIL (BAD): Rydis
+Jun23 17:04 UNVEIL: Rydis to 90000
+Jun23 17:05 FROB: Rydis by Rydis: Lev = 90000, Sco = 72000, Str = 760067
+Jun24 07:40 CONNECT [17]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 07:40 SYSTEM: Rydis has resumed connection
+Jun24 08:05 EXIT    [17]: Rydis [Level: 90000, Score: 72000]
+Jun24 08:28 CONNECT [7]: petria@airiot.fi
+Jun24 08:29 ENTRY   [7]: Yrdis [Level: 1, Score: 0]
+Jun24 09:02 SYSTEM: Yrdis to level 2
+Jun24 09:03 SYSTEM: Yrdis to level 3
+Jun24 09:40 CONNECT [17]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 09:40 ENTRY   [17]: Rydis [Level: 90000, Score: 72000]
+Jun24 11:59 CONNECT [26]: petria@airiot.fi
+Jun24 12:00 SYSTEM: Yrdis has resumed connection
+Jun24 12:00 SYSTEM: Reset by Rydis
+Jun24 12:32 EXIT    [26]: Yrdis [Level: 3, Score: 5772]
+Jun24 12:33 CONNECT [7]: petria@airiot.fi
+Jun24 12:33 ENTRY   [7]: Yrdis [Level: 3, Score: 5772]
+Jun24 12:39 EXIT    [7]: Yrdis [Level: 3, Score: 5772]
+Jun24 12:39 CONNECT [7]: petria@airiot.fi
+Jun24 12:39 ENTRY   [7]: Yrdis [Level: 3, Score: 5772]
+Jun24 12:40 SYSTEM: Reset by Rydis
+Jun24 13:11 UNVEIL (BAD): Rydis
+Jun24 13:36 SYSTEM: Yrdis to level 4
+Jun24 13:46 ERROR: Cannot read file: credits
+Jun24 14:50 SYSTEM: Yrdis to level 5
+Jun24 15:14 EXIT    [7]: Yrdis [Level: 5, Score: 15461]
+Jun24 16:24 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 16:25 ENTRY   [7]: Yrdis [Level: 5, Score: 15461]
+Jun24 16:25 SYSTEM: Reset by Rydis
+Jun24 16:29 SIGNAL: SIGINT[2]
+Jun24 16:29 EXIT    [7]: Yrdis [Level: 5, Score: 15482]
+Jun24 16:29 EXIT    [17]: Rydis [Level: 90000, Score: 72000]
+Jun24 16:35 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 4007)
+Jun24 16:35 SIGNAL: SIGINT[2]
+Jun24 16:36 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 4012)
+Jun24 16:36 CONNECT [6]: 127.0.0.1
+Jun24 16:40 SIGNAL: SIGTERM
+Jun24 16:41 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 4605)
+Jun24 16:42 CONNECT [6]: petria@87.92.64.41
+Jun24 16:42 ENTRY   [6]: Yrdis [Level: 5, Score: 15482]
+Jun24 16:43 SIGNAL: SIGTERM
+Jun24 16:43 EXIT    [6]: Yrdis [Level: 5, Score: 15482]
+Jun24 17:08 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 1847)
+Jun24 17:09 CONNECT [6]: petria@87.92.64.41
+Jun24 17:09 ENTRY   [6]: Rydis [Level: 90000, Score: 72000]
+Jun24 17:15 EXIT    [6]: Rydis [Level: 90000, Score: 72000]
+Jun24 17:35 SIGNAL: SIGINT[2]
+Jun24 17:35 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 2993)
+Jun24 17:36 CONNECT [6]: petria@87.92.64.41
+Jun24 17:37 ENTRY   [6]: Rydis [Level: 90000, Score: 72000]
+Jun24 17:49 SIGNAL: SIGINT[2]
+Jun24 17:49 EXIT    [6]: Rydis [Level: 90000, Score: 72000]
+Jun24 18:00 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 3298)
+Jun24 18:00 CONNECT [6]: petria@87.92.64.41
+Jun24 18:01 SIGNAL: SIGINT[2]
+Jun24 18:02 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 3329)
+Jun24 18:02 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 18:02 ENTRY   [7]: Yrdis [Level: 5, Score: 15482]
+Jun24 19:06 EXIT    [7]: Yrdis [Level: 5, Score: 15482]
+Jun24 19:07 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 19:07 ENTRY   [7]: Rydis [Level: 90000, Score: 72000]
+Jun24 20:47 CONNECT [8]: 46.183.103.17
+Jun24 20:48 ENTRY   [8]: Freddi [Level: 1, Score: 0]
+Jun24 21:17 UNVEIL: Rydis to 90000
+Jun24 21:18 Rydis has started snooping Freddi.
+Jun24 21:19 Rydis has stopped snooping Freddi.
+Jun24 21:19 SYSTEM: Freddi to level 2
+Jun24 21:23 UNVEIL: Rydis to 10
+Jun24 21:23 UNVEIL (WRONG): Rydis to 10
+Jun24 21:23 UNVEIL (WRONG): Rydis to 10
+Jun24 21:24 UNVEIL: Rydis to 99999
+Jun24 22:06 SYSTEM: Crash by Rydis
+Jun24 22:06 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:06 EXIT    [8]: Freddi [Level: 2, Score: 3186]
+Jun24 22:10 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 4658)
+Jun24 22:10 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:10 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:11 SIGNAL: SIGINT[2]
+Jun24 22:11 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:12 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 5132)
+Jun24 22:12 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:12 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:14 SIGNAL: SIGINT[2]
+Jun24 22:14 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:14 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 5605)
+Jun24 22:14 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:15 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:18 SIGNAL: SIGINT[2]
+Jun24 22:18 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:18 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 6086)
+Jun24 22:18 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:19 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:20 SIGNAL: SIGINT[2]
+Jun24 22:20 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:21 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 6568)
+Jun24 22:21 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:21 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:23 SIGNAL: SIGINT[2]
+Jun24 22:23 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:23 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 7041)
+Jun24 22:23 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:23 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:34 SIGNAL: SIGINT[2]
+Jun24 22:34 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:35 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 8018)
+Jun24 22:35 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:35 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:35 SIGNAL: SIGSEGV[11]
+Jun24 22:35 REBOOT: Crash has occured, rebooting system
+Jun24 22:35 SYSTEM: Update Successful, C-Dirt Daemon Restarted
+Jun24 22:36 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 8489)
+Jun24 22:36 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:36 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:36 SIGNAL: SIGSEGV[11]
+Jun24 22:36 REBOOT: Crash has occured, rebooting system
+Jun24 22:36 SYSTEM: Update Successful, C-Dirt Daemon Restarted
+Jun24 22:39 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 8964)
+Jun24 22:39 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:39 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:40 SIGNAL: SIGINT[2]
+Jun24 22:40 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun24 22:40 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 9442)
+Jun24 22:40 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun24 22:41 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 06:28 SIGNAL: SIGINT[2]
+Jun25 06:28 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 06:29 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 11914)
+Jun25 06:29 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 06:29 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 06:31 SIGNAL: SIGINT[2]
+Jun25 06:31 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 06:31 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 12394)
+Jun25 06:31 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 06:31 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 06:44 Quest Excalibur completed by Rydis
+Jun25 07:05 SIGNAL: SIGINT[2]
+Jun25 07:05 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 07:10 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 13468)
+Jun25 07:10 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 07:10 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 07:11 Quest Excalibur completed by Rydis
+Jun25 07:29 SIGNAL: SIGTERM
+Jun25 07:29 EXIT    [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 07:37 SYSTEM: C-Dirt CDirt 2.42 Booted (PID: 1289)
+Jun25 07:37 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 07:37 ENTRY   [7]: Rydis [Level: 99999, Score: 72000]
+Jun25 08:04 CONNECT [8]: petria@airiot.fi
+Jun25 08:05 ENTRY   [8]: Yrdis [Level: 5, Score: 15482]
+Jun25 08:07 CONNECT [9]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 08:07 SYSTEM: Rydis has resumed connection
+Jun25 08:44 Quest Excalibur completed by Yrdis
+Jun25 10:15 CONNECT [7]: petria@airiot.fi
+Jun25 10:15 SYSTEM: Yrdis has resumed connection
+Jun25 11:14 SYSTEM: Yrdis to level 6
+Jun25 11:17 EXIT    [7]: Yrdis [Level: 6, Score: 22077]
+Jun25 13:55 CONNECT [7]: petria@airiot.fi
+Jun25 13:56 ENTRY   [7]: Yrdis [Level: 6, Score: 22077]
+Jun25 13:56 SYSTEM: Reset by Rydis
+Jun25 14:19 EXIT    [7]: Yrdis [Level: 6, Score: 24102]
+Jun25 19:36 CONNECT [7]: petria@airiot.fi
+Jun25 19:36 ENTRY   [7]: Yrdis [Level: 6, Score: 24102]
+Jun25 19:36 EXIT    [7]: Yrdis [Level: 6, Score: 24102]
+Jun25 20:17 EXIT    [9]: Rydis [Level: 99999, Score: 72250]
+Jun25 20:19 CONNECT [7]: petria@87-92-64-41.bb.dnainternet.fi
+Jun25 20:19 ENTRY   [7]: Rydis [Level: 99999, Score: 72250]
