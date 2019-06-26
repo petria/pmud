@@ -1,4 +1,4 @@
-package org.freakz.pmud.pmudserver;
+package org.freakz.pmud.pmudserver.config;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,6 @@ import org.springframework.jms.core.JmsTemplate;
 public class JmsConfig {
 
     String BROKER_URL = "tcp://localhost:61616";
-    String BROKER_USERNAME = "admin";
-    String BROKER_PASSWORD = "admin";
 
     @Bean
     public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() {
