@@ -32,16 +32,19 @@ import java.util.stream.Stream;
 public class CDirtDataParser {
 
     public class ParsedZone {
-        String name;
+        public String name;
 
-        List<String> mobiles;
-        List<String> objects;
-        List<String> locations;
-
-
+        public List<String> mobiles;
+        public List<String> objects;
+        public List<String> locations;
     }
 
-    private static final String ZONES_DIR = "c-dirt/data/ZONES/";
+    private String zonesDir = "c-dirt/data/ZONES/";
+
+    public void setZonesDir(String zonesDir) {
+        this.zonesDir = zonesDir;
+    }
+
 
     public Set<String> getFiles(String dir, int depth, String endsWith) throws IOException {
         try (Stream<Path> stream = Files.walk(Paths.get(dir), depth)) {
@@ -54,20 +57,16 @@ public class CDirtDataParser {
         }
     }
 
-    //    @Override
-    public void run(String... args) throws Exception {
-//        Set<String> files = getFiles(ZONES_DIR, 1, ".zone");
-//        parseZoneFiles(files);
-    }
-
     public Map<String, ParsedZone> parseZoneFiles(Set<String> files) throws IOException {
         Map<String, ParsedZone> parsedZoneMap = new HashMap<>();
         for (String zoneFile : files) {
             List<String> lines = Files.readAllLines(Path.of(zoneFile));
             ParsedZone parsedZone = parseOneZone(lines);
             if (parsedZone != null) {
-                parsedZone.name = zoneFile.replaceFirst("c-dirt/data/ZONES/", "");
+                parsedZone.name = zoneFile.replaceFirst(this.zonesDir, "");
                 parsedZoneMap.put(parsedZone.name, parsedZone);
+            } else {
+                log.error("Zone file not parsed: {]", zoneFile);
             }
         }
         return parsedZoneMap;
@@ -75,16 +74,13 @@ public class CDirtDataParser {
 
     private ParsedZone parseOneZone(List<String> lines) {
         Iterator<String> iterator = lines.iterator();
-        while (true) {
-            String line = findLine(iterator, "%mobiles");
-            if (line != null) {
-                ParsedZone parsedZone = new ParsedZone();
-                parsedZone.mobiles = parseSection(iterator, "%objects", "mobiles");
-                parsedZone.objects = parseSection(iterator, "%locations", "mobiles");
-                parsedZone.locations = parseLocations(iterator);
-                return parsedZone;
-            }
-            break;
+        String line = findLine(iterator, "%mobiles");
+        if (line != null) {
+            ParsedZone parsedZone = new ParsedZone();
+            parsedZone.mobiles = parseSection(iterator, "%objects", "mobiles");
+            parsedZone.objects = parseSection(iterator, "%locations", "objects");
+            parsedZone.locations = parseLocations(iterator);
+            return parsedZone;
         }
         return null;
     }
@@ -136,10 +132,6 @@ public class CDirtDataParser {
         return sectionLines;
     }
 
-    private void getLinesFromUntil(Iterator<String> iterator, String from, String until) {
-
-    }
-
     private String findLine(Iterator<String> iterator, String match) {
         while (iterator.hasNext()) {
             String line = iterator.next();
@@ -149,6 +141,5 @@ public class CDirtDataParser {
         }
         return null;
     }
-
 
 }
