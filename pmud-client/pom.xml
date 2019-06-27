@@ -8,7 +8,7 @@
     <name>pmud-client</name>
 
     <version>0.0.1-SNAPSHOT</version>
-    <description>Demo project for Spring Boot</description>
+    <description>PMud client, connects to PMud server</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -16,15 +16,6 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/>
     </parent>
-
-
-    <!--    <parent>
-            <groupId>org.freakz.pmud</groupId>
-            <artifactId>pmud-parent</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <relativePath>../../pmud</relativePath>
-        </parent>
-    -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +64,6 @@
     <build>
         <plugins>
             <plugin>
-                <!--                <version></version> -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
