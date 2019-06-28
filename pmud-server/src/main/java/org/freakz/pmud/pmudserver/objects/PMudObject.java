@@ -6,6 +6,9 @@ public abstract class PMudObject {
 
     private final int id;
 
+    private String name;
+
+
     public PMudObject() {
         this.id = ++objectCounter;
     }
@@ -16,6 +19,14 @@ public abstract class PMudObject {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

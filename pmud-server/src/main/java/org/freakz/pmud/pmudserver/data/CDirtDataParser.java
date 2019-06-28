@@ -50,26 +50,36 @@ public class CDirtDataParser {
         try (Stream<Path> stream = Files.walk(Paths.get(dir), depth)) {
             return stream
                     .filter(file -> !Files.isDirectory(file))
-                    .filter(file -> !file.endsWith(endsWith))
+                    .filter(file -> file.toString().endsWith(endsWith))
                     .map(Path::getFileName)
                     .map(Path::toString)
                     .collect(Collectors.toSet());
         }
     }
 
-    public Map<String, ParsedZone> parseZoneFiles(Set<String> files) throws IOException {
+    public Map<String, ParsedZone> parseZoneFiles(Set<String> files, String zoneDir) throws IOException {
         Map<String, ParsedZone> parsedZoneMap = new HashMap<>();
         for (String zoneFile : files) {
-            List<String> lines = Files.readAllLines(Path.of(zoneFile));
-            ParsedZone parsedZone = parseOneZone(lines);
-            if (parsedZone != null) {
-                parsedZone.name = zoneFile.replaceFirst(this.zonesDir, "");
-                parsedZoneMap.put(parsedZone.name, parsedZone);
-            } else {
-                log.error("Zone file not parsed: {]", zoneFile);
+            try {
+                String zoneFilePath = zoneDir + zoneFile;
+                List<String> lines = Files.readAllLines(Path.of(zoneFilePath));
+                ParsedZone parsedZone = parseOneZone(lines);
+                if (parsedZone != null) {
+                    parsedZone.name = zoneFile.replaceFirst(zonesDir, "");
+                    parsedZoneMap.put(parsedZone.name, parsedZone);
+                } else {
+                    log.error("Zone file not parsed: {}", zoneFile);
+                }
+            } catch (Exception e) {
+                log.error("Zone file not parsed: {}", zoneFile);
+                //e.printStackTrace();
             }
         }
         return parsedZoneMap;
+    }
+
+    public Map<String, ParsedZone> parseZoneFiles(Set<String> files) throws IOException {
+        return parseZoneFiles(files, zonesDir);
     }
 
     private ParsedZone parseOneZone(List<String> lines) {
@@ -126,7 +136,7 @@ public class CDirtDataParser {
                     sb.append(line).append("\n");
                 }
             }
-            log.debug("{} line: {}", section, line);
+//            log.debug("{} line: {}", section, line);
 
         }
         return sectionLines;

@@ -1,10 +1,8 @@
 package org.freakz.pmud.pmudserver.objects;
 
-public class Zone extends PMudObject {
+public class Location extends PMudObject {
 
-
-    public Zone() {
+    public Location() {
         super();
     }
-
 }
