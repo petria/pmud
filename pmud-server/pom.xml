@@ -110,7 +110,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.freakz.pmud.pmudserver.PmudserverApplication</mainClass>
+                            <mainClass>org.freakz.pmud.pmudserver.PMudServerApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,6 +1,8 @@
-package org.freakz.pmud.pmudserver.objects;
+package org.freakz.pmud.common.objects;
 
-public abstract class PMudObject {
+import java.io.Serializable;
+
+public abstract class PMudObject implements Serializable {
 
     private static int objectCounter = 0;
 

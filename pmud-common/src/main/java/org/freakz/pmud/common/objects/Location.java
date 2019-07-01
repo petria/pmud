@@ -1,6 +1,8 @@
-package org.freakz.pmud.pmudserver.objects;
+package org.freakz.pmud.common.objects;
 
-public class Location extends PMudObject {
+import java.io.Serializable;
+
+public class Location extends PMudObject implements Serializable {
 
     private String title;
     private String description;

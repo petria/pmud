@@ -15,7 +15,7 @@ import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PmudserverApplicationTests {
+public class PMudServerApplicationTests {
 
     private static final String ZONES_DIR = "../c-dirt/data/ZONES/";
 

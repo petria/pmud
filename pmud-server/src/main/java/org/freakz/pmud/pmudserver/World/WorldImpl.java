@@ -1,8 +1,8 @@
 package org.freakz.pmud.pmudserver.World;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.pmud.pmudserver.objects.Location;
-import org.freakz.pmud.pmudserver.objects.Zone;
+import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Zone;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

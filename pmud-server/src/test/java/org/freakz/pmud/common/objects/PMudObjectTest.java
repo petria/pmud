@@ -1,4 +1,4 @@
-package org.freakz.pmud.pmudserver.objects;
+package org.freakz.pmud.common.objects;
 
 import org.junit.Assert;
 import org.junit.Test;

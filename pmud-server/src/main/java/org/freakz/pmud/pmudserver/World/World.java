@@ -1,7 +1,7 @@
 package org.freakz.pmud.pmudserver.World;
 
-import org.freakz.pmud.pmudserver.objects.Location;
-import org.freakz.pmud.pmudserver.objects.Zone;
+import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Zone;
 
 public interface World {
 
