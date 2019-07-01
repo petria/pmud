@@ -76,7 +76,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.freakz.pmud.pmudclient.PmudclientApplication</mainClass>
+                            <mainClass>org.freakz.pmud.pmudclient.PMudClientApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
