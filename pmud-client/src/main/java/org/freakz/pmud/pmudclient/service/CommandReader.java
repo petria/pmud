@@ -21,9 +21,17 @@ public class CommandReader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         while (true) {
-            System.out.printf("prompt> ");
+            System.out.print("\npmud> ");
             String message = scanner.next();
-            sender.testSend(message);
+            if (!message.isEmpty()) {
+                if (message.equals("quit")) {
+                    System.out.print("\nBye bye!\n");
+                    System.exit(0);
+                } else {
+                    sender.testSend(message);
+                }
+            }
+
         }
     }
 
