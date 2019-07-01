@@ -27,14 +27,23 @@ public class BootStrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
+/*        Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
         Map<String, CDirtDataParser.ParsedZone> parsedZoneMap = dataParser.parseZoneFiles(files, ZONES_DIR);
-        createWorld(parsedZoneMap);
+        createWorld(parsedZoneMap);*/
+
+        world.init();
+
+        Location start = new Location();
+        start.setName("start1");
+        start.setTitle("And so it begins!");
+        start.setDescription("  Starting place of PMud engine\n");
+
+        world.addLocation(start);
+
         log.debug("World is created!");
     }
 
     private void createWorld(Map<String, CDirtDataParser.ParsedZone> parsedZoneMap) {
-        world.init();
         for (CDirtDataParser.ParsedZone parsedZone : parsedZoneMap.values()) {
             Zone zone = createZone(parsedZone);
             List<Location> locations = createLocations(parsedZone);
@@ -54,7 +63,6 @@ public class BootStrap implements CommandLineRunner {
     private Map<String, String> mapLinesToKeyValues(String locationLines) {
 
         Iterator<String> iterator = (Iterator<String>) Arrays.asList(locationLines.split("\n"));
-
 
         Map<String, String> map = new HashMap<>();
         for (String line : locationLines.split("\n")) {
