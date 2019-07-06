@@ -689,7 +689,7 @@ to Cimmura stretch off into the distance as far as you can see.  You can hear
 the sounds of the citizens from beyond the gates.
 ^
 
-eosia5 n:eosia10 e:eosia9 s:eosia4 w: eosia6;
+eosia5 n:eosia10 e:eosia9 s:eosia4 w:eosia6;
 lflags {outdoors party}
 Main Square^
         This is the main square of Cimmura.  From this point roads head

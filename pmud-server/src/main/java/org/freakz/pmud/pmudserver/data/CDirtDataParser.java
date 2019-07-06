@@ -63,19 +63,68 @@ public class CDirtDataParser {
             try {
                 String zoneFilePath = zoneDir + zoneFile;
                 List<String> lines = Files.readAllLines(Path.of(zoneFilePath));
-                ParsedZone parsedZone = parseOneZone(lines);
-                if (parsedZone != null) {
-                    parsedZone.name = zoneFile.split("\\.")[0];
-                    parsedZoneMap.put(parsedZone.name, parsedZone);
-                } else {
-                    log.error("Zone file not parsed: {}", zoneFile);
+                List<MultiZone> multiZoneList = checkMultipleZones(lines, zoneFile);
+
+                for (MultiZone multiZone : multiZoneList) {
+                    ParsedZone parsedZone = parseOneZone(multiZone.lines);
+                    if (parsedZone != null) {
+                        parsedZone.name = multiZone.name;
+                        parsedZoneMap.put(parsedZone.name, parsedZone);
+                    } else {
+                        log.error("Zone file not parsed: {}", zoneFile);
+                    }
+
                 }
+
             } catch (Exception e) {
                 log.error("Zone file not parsed: {}", zoneFile);
                 //e.printStackTrace();
             }
         }
         return parsedZoneMap;
+    }
+
+    class MultiZone {
+        String name = null;
+        List<String> lines = new ArrayList<>();
+    }
+
+    private List<MultiZone> checkMultipleZones(List<String> lines, String zoneFile) {
+        List<MultiZone> multiZoneList = new ArrayList<>();
+
+        boolean isMultiZone = false;
+
+        for (String line : lines) {
+            if (line.startsWith("%zone:")) {
+                isMultiZone = true;
+            }
+        }
+
+        if (isMultiZone) {
+            MultiZone multiZone = new MultiZone();
+            multiZoneList.add(multiZone);
+            for (String line : lines) {
+                if (line.startsWith("%zone:")) {
+                    if (multiZone.name == null) {
+                        multiZone.name = line.replaceFirst("%zone:", "");
+                    } else {
+                        multiZone = new MultiZone();
+                        multiZone.name = line.replaceFirst("%zone:", "");
+                        multiZoneList.add(multiZone);
+                    }
+                } else {
+                    multiZone.lines.add(line);
+                }
+            }
+        } else {
+            MultiZone multiZone = new MultiZone();
+            multiZone.name = zoneFile.split("\\.")[0];
+            multiZone.lines.addAll(lines);
+            multiZoneList.add(multiZone);
+        }
+
+
+        return multiZoneList;
     }
 
     public Map<String, ParsedZone> parseZoneFiles(Set<String> files) throws IOException {

@@ -32,25 +32,19 @@ public class BootStrap implements CommandLineRunner {
 
         world.init();
 
-        Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
+//        Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
+        Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
         Map<String, CDirtDataParser.ParsedZone> parsedZoneMap = dataParser.parseZoneFiles(files, ZONES_DIR);
         createWorld(parsedZoneMap);
 
-
-/*        Location start = new Location();
-        start.setName("start1");
-        start.setTitle("And so it begins!");
-        start.setDescription("  Starting place of PMud engine\n");
-
-        world.addLocation(start);*/
-
+        log.debug("Locations: {}", world.getLocationCount());
         log.debug("World is created!");
     }
 
     private Set<String> getZoneSet() {
         Set<String> zoneSet = new HashSet<>();
         zoneSet.add("xlimbo.zone");
-//        zoneSet.add("village.zone");
+        zoneSet.add("village.zone");
         return zoneSet;
     }
 
@@ -99,11 +93,12 @@ public class BootStrap implements CommandLineRunner {
                 }
 
             }
-            location.setDescription(description.toString());
+            count++;
 
+            location.setDescription(description.toString());
+            location.setName2(String.format("%s%d", zone.getName().toLowerCase(), count));
             world.addLocation(location);
 
-            count++;
         }
         return count;
     }

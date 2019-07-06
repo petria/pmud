@@ -868,7 +868,7 @@ could get to it without special means.  Looking for exits, you see a way
 back to the beach to the west, and it also seems possible to walk north, 
 following the shallow waters.
 ^
-Point n: CliffTop;
+Point n:CliffTop;
 Altitude = 400
 lflags{Outdoors Peaceful NoSummon}
 Dreamer's Point^

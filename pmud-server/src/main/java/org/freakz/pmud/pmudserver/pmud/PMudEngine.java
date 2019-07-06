@@ -56,7 +56,7 @@ public class PMudEngine {
             pMudPlayer.setPid(message.getPid());
             this.playerMap.put(pMudPlayer.getName(), pMudPlayer);
         }
-        pMudPlayer.setLocation(world.getLocationByName("Green@village"));
+        pMudPlayer.setLocation(world.getLocationByName2("start1"));
         return pMudPlayer;
     }
 

@@ -6,15 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class Location extends PMudObject implements Serializable {
 
     private String title;
+    private String name2;
     private String description;
 
     private Zone zone;
 
     private Map<String, String> rawExistMap = new HashMap<>();
     private List<String> locationFlags = new ArrayList<>();
+
 
     public Location() {
         super();
@@ -51,10 +54,14 @@ public class Location extends PMudObject implements Serializable {
 
     public void addRawExit(String exit) {
         String[] split = exit.split(":");
-        if (split[1].endsWith(";")) {
-            rawExistMap.put(split[0], split[1].replaceFirst(";", ""));
+        if (split.length == 2) {
+            if (split[1].endsWith(";")) {
+                rawExistMap.put(split[0], split[1].replaceFirst(";", ""));
+            } else {
+                rawExistMap.put(split[0], split[1]);
+            }
         } else {
-            rawExistMap.put(split[0], split[1]);
+            int foo = 0;
         }
     }
 
@@ -64,5 +71,13 @@ public class Location extends PMudObject implements Serializable {
 
     public void addRawLFlag(String flagString) {
         this.locationFlags.add(flagString);
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
+
+    public String getName2() {
+        return name2;
     }
 }

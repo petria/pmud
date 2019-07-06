@@ -13,4 +13,7 @@ public interface World {
 
     Location getLocationByName(String name);
 
+    Location getLocationByName2(String name2);
+
+    int getLocationCount();
 }

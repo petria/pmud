@@ -277,7 +277,7 @@ lflags { Dark }
 Dungeon Treasure Room^
 
 ^
-Brookmere28 n:Brookmere32 e:Brookmere29 s:Brookmere12 w: ;
+Brookmere28 n:Brookmere32 e:Brookmere29 s:Brookmere12;
 lflags { }
 Long and Narrow Room^
 

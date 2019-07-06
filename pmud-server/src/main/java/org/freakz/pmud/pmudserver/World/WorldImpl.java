@@ -16,10 +16,13 @@ public class WorldImpl implements World {
 
     private Map<String, Location> nameToLocationMap;
 
+    private Map<String, Location> name2ToLocationMap;
+
     @Override
     public void init() {
         nameToZoneMap = new HashMap<>();
         nameToLocationMap = new HashMap<>();
+        name2ToLocationMap = new HashMap<>();
     }
 
 
@@ -36,6 +39,7 @@ public class WorldImpl implements World {
         String key = location.getNameWithZone();
         log.debug("Add location: {}", key);
         this.nameToLocationMap.put(key, location);
+        this.name2ToLocationMap.put(location.getName2(), location);
     }
 
     @Override
@@ -46,5 +50,15 @@ public class WorldImpl implements World {
     @Override
     public Location getLocationByName(String name) {
         return this.nameToLocationMap.get(name);
+    }
+
+    @Override
+    public Location getLocationByName2(String name2) {
+        return this.name2ToLocationMap.get(name2);
+    }
+
+    @Override
+    public int getLocationCount() {
+        return name2ToLocationMap.size();
     }
 }
