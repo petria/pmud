@@ -63,7 +63,11 @@ public class PMudEngine {
 
     private void handleLook(PMudPlayer player) {
         Location location = player.getLocation();
-        String msg = "\n" + location.getTitle() + "\n";
+        String msg = "\n";
+
+        msg += String.format("%s [%s@%s]\n", location.getName2(), location.getName(), location.getZone().getName());
+
+        msg += location.getTitle() + "\n";
         if (location.getLocationFlags().size() > 0) {
             for (String flag : location.getLocationFlags()) {
                 msg += String.format("[%s] ", flag.toUpperCase());
