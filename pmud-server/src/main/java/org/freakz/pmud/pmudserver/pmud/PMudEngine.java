@@ -63,8 +63,26 @@ public class PMudEngine {
 
     private void handleLook(PMudPlayer player) {
         Location location = player.getLocation();
-        String msg = "\n" + location.getTitle() + "\n\n";
-        msg += location.getDescription() + "\n\n";
+        String msg = "\n" + location.getTitle() + "\n";
+        if (location.getLocationFlags().size() > 0) {
+            for (String flag : location.getLocationFlags()) {
+                msg += String.format("[%s] ", flag.toUpperCase());
+            }
+        }
+        msg += "\n" + location.getDescription() + "\n";
+
+        msg += "Obvious exits are:\n";
+        if (location.getExitsMap().size() > 0) {
+            for (Location.Exits exit : Location.Exits.values()) {
+                Location l = location.getExitsMap().get(exit.getDir());
+                if (l != null) {
+                    msg += String.format(" %6s : %-45s : %s\n", exit.getNice(), l.getTitle(), l.getName2());
+                }
+            }
+
+        } else {
+            msg += "None....\n";
+        }
 
         sender.sendReply(msg, player.getName());
 

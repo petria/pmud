@@ -9,6 +9,31 @@ import java.util.Map;
 
 public class Location extends PMudObject implements Serializable {
 
+    public enum Exits {
+        NORTH("North", "n"),
+        EAST("East", "e"),
+        SOUTH("South", "s"),
+        WEST("West", "w"),
+        UP("Up", "u"),
+        DOWN("Down", "d");
+
+        private final String nice;
+        private final String dir;
+
+        Exits(String nice, String dir) {
+            this.nice = nice;
+            this.dir = dir;
+        }
+
+        public String getNice() {
+            return nice;
+        }
+
+        public String getDir() {
+            return dir;
+        }
+    }
+
     private String title;
     private String name2;
     private String description;
@@ -80,6 +105,10 @@ public class Location extends PMudObject implements Serializable {
 
     public void addRawLFlag(String flagString) {
         this.locationFlags.add(flagString);
+    }
+
+    public List<String> getLocationFlags() {
+        return locationFlags;
     }
 
     public void setName2(String name2) {
