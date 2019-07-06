@@ -65,7 +65,7 @@ public class CDirtDataParser {
                 List<String> lines = Files.readAllLines(Path.of(zoneFilePath));
                 ParsedZone parsedZone = parseOneZone(lines);
                 if (parsedZone != null) {
-                    parsedZone.name = zoneFile.replaceFirst(zonesDir, "");
+                    parsedZone.name = zoneFile.split("\\.")[0];
                     parsedZoneMap.put(parsedZone.name, parsedZone);
                 } else {
                     log.error("Zone file not parsed: {}", zoneFile);

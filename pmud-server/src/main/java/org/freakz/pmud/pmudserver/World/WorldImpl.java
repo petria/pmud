@@ -33,7 +33,9 @@ public class WorldImpl implements World {
 
     @Override
     public void addLocation(Location location) {
-        this.nameToLocationMap.put(location.getName(), location);
+        String key = location.getNameWithZone();
+        log.debug("Add location: {}", key);
+        this.nameToLocationMap.put(key, location);
     }
 
     @Override
