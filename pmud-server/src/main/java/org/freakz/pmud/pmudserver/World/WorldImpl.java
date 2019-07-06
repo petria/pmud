@@ -12,7 +12,7 @@ import java.util.Map;
 @Slf4j
 public class WorldImpl implements World {
 
-    private Map<String, Zone> nameToZoneMap;
+    private Map<String, Zone> zoneNameToZoneMap;
 
     private Map<String, Location> nameToLocationMap;
 
@@ -20,7 +20,7 @@ public class WorldImpl implements World {
 
     @Override
     public void init() {
-        nameToZoneMap = new HashMap<>();
+        zoneNameToZoneMap = new HashMap<>();
         nameToLocationMap = new HashMap<>();
         name2ToLocationMap = new HashMap<>();
     }
@@ -37,14 +37,14 @@ public class WorldImpl implements World {
     @Override
     public void addLocation(Location location) {
         String key = location.getNameWithZone();
-        log.debug("Add location: {}", key);
+//        log.debug("Add location: {}", key);
         this.nameToLocationMap.put(key, location);
         this.name2ToLocationMap.put(location.getName2(), location);
     }
 
     @Override
     public void addZone(Zone zone) {
-        this.nameToZoneMap.put(zone.getName(), zone);
+        this.zoneNameToZoneMap.put(zone.getName(), zone);
     }
 
     @Override
@@ -60,5 +60,22 @@ public class WorldImpl implements World {
     @Override
     public int getLocationCount() {
         return name2ToLocationMap.size();
+    }
+
+    @Override
+    public Map<String, Location> getName2ToLocationMap() {
+        return name2ToLocationMap;
+    }
+
+    @Override
+    public Location findLocationByNameAtZone(String nameAtZone) {
+        String[] split = nameAtZone.split("@");
+        String name = split[0];
+        String zoneName = split[1].toLowerCase();
+        Zone zone = this.zoneNameToZoneMap.get(zoneName);
+        if (zone != null) {
+            return zone.findLocationByName(name);
+        }
+        return null;
     }
 }

@@ -206,7 +206,7 @@ Cloakroom^
    This is were the Goblins store many of there supplies.  There are many
 tattered and rumpled goblin and hobgoblin cloaks and helmets strung about.
 ^
-Brookmere16 n:Broomere17 s:Brookmere14;
+Brookmere16 n:Brookmere17 s:Brookmere14;
 lflags { Dark }
 South End of Corridor^
    This is the beginning of a straight corridor that leads to south to
@@ -220,7 +220,7 @@ the walls have been greatly damaged and that now they are braced with
 wooden beams.  The corridor continues on to the south, and to the north
 it opens up to an enormaous cavern.
 ^
-Brookmere18 s:Broomere17 e:Brookmere19;
+Brookmere18 s:Brookmere17 e:Brookmere19;
 lflags { }
 Enormous Cavern^
    The roof of the cavern flickers in the red light of many torches.
@@ -400,7 +400,7 @@ of dirty orc underwear litter the floor.  Pictures of female orc Beauties
 are on the walls.  A wooden table in the middle of the room is covered with
 torn cards and a set of dice made from real bones.
 ^
-Brookmere49 n:Brookmere50 e:Brookmer51;
+Brookmere49 n:Brookmere50 e:Brookmere51;
 lflags { }
 Long Corridor^
    You hurry along this long corridor.  As you draw closer to the end,

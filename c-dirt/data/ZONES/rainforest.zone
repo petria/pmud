@@ -1,36 +1,6 @@
 #include "undef.h"
 #include "cflags.h"
 
-#if 0
-
-/* RAINFOREST zone written by Arctica (pete@arctica.u-net.com).  Please obtain
-permission before distributing */
-
-/* zone is south from Anc1@ancient */
-DONE: /* you can only go OnWater in the zone if you have a raft.  If you don't have
-a raft but have some other kind of boat, it says "Your craft is unsuitable 
-for a river journey such as this."  If you don't have any boat it says 
-"You will need a raft to travel on the river." */
-/* On river5, river6, river8, river9, river11, river12, river14 and river15 
-DONE: the following randomized messages may appear:
-You hear a shrill 'whizz' as an arrow flies past you.
-An arrow comes out of nowhere and thuds into the side of the raft.
-A rustling in the bushes warns you of the presence of hostile Indians.
-The bushes part.  A brown face appears and stares at you, then vanishes. */
-DONE: /* If the command "get" or "take" is used in city3, it says "The hand of an 
-ancient god strikes from above, crushing you for your insolence! You black 
-out, and when you open your eyes again you find yourself in different 
-surroundings..."
-You are then teleported to heaven1. */
-DONE: /* In city1: if you type "dig with machete" (and if you HAVE machete) :
-                        1) city1 gains new exit w:city2
-                        2) object branches becomes state 0
-             if you type "dig" it says "dig with what?"
-             if you type "dig with <something else>" it says "your <something else> is not equal to the task."
-             (ie you must have the machete to create the new exit) */
-TODO: /* THE QUEST: to pit the object "skull" */
-#endif
-
 %rainfall:3100
 
 %latitude:0
@@ -90,7 +60,7 @@ Aggression      = 0
 Speed           = 1
 Description     = "A chinchilla scurries about on the rocks by your feet."
 Examine         = "
-He is very small but his thick fur gives him ample protection against the cold."
+He is very small but?his thick fur gives him ample protection against the cold."
 End             = Chinchilla
 
 Name            = Condor

@@ -9,6 +9,7 @@ import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +68,11 @@ public class PMudEngine {
 
         sender.sendReply(msg, player.getName());
 
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        sender.sendServerQuit();
     }
 
 }

@@ -48,8 +48,13 @@ public class PMudClient implements CommandLineRunner {
 
     @JmsListener(destination = "pmud-clients.topic")
     public void receiveMessage(PMudMessage message) {
-        System.out.println(message.getMessage());
-        prompt();
+        if (message.getMessage().equals("SERVER_QUIT")) {
+            log.debug("SERVER DID QUIT");
+            System.exit(0);
+        } else {
+            System.out.println(message.getMessage());
+            prompt();
+        }
     }
 
 

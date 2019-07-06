@@ -3,6 +3,8 @@ package org.freakz.pmud.pmudserver.World;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Zone;
 
+import java.util.Map;
+
 public interface World {
 
     void init();
@@ -16,4 +18,10 @@ public interface World {
     Location getLocationByName2(String name2);
 
     int getLocationCount();
+
+    Map<String, Location> getName2ToLocationMap();
+
+    Location findLocationByNameAtZone(String name);
+
+
 }

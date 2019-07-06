@@ -20,4 +20,9 @@ public class MessageSender {
         log.debug("Sent!");
     }
 
+    public void sendServerQuit() {
+        PMudMessage mudMessage = new PMudMessage("SERVER_QUIT", null);
+        jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
+        log.debug("Sent SERVER_QUIT");
+    }
 }

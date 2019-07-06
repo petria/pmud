@@ -15,6 +15,7 @@ public class Location extends PMudObject implements Serializable {
 
     private Zone zone;
 
+    private Map<String, Location> exitsMap = new HashMap<>();
     private Map<String, String> rawExistMap = new HashMap<>();
     private List<String> locationFlags = new ArrayList<>();
 
@@ -63,6 +64,14 @@ public class Location extends PMudObject implements Serializable {
         } else {
             int foo = 0;
         }
+    }
+
+    public Map<String, Location> getExitsMap() {
+        return exitsMap;
+    }
+
+    public Map<String, String> getRawExistMap() {
+        return rawExistMap;
     }
 
     public String getNameWithZone() {
