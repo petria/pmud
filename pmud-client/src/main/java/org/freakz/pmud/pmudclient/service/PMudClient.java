@@ -26,7 +26,7 @@ public class PMudClient implements CommandLineRunner {
 
         sender.sendToServer("CONNECTED", player);
         while (true) {
-            String message = scanner.next();
+            String message = scanner.nextLine();
             if (!message.isEmpty()) {
                 if (message.equals("quit")) {
                     System.out.print("\nBye bye!\n");

@@ -7,6 +7,7 @@ import java.util.List;
 public class Zone extends PMudObject implements Serializable {
 
     private List<Location> locations = new ArrayList<>();
+    private List<Mobile> mobiles = new ArrayList<>();
 
     public Zone() {
         super();
@@ -29,4 +30,11 @@ public class Zone extends PMudObject implements Serializable {
         return null;
     }
 
+    public void addMobile(Mobile mobile) {
+        this.mobiles.add(mobile);
+    }
+
+    public List<Mobile> getMobiles() {
+        return mobiles;
+    }
 }

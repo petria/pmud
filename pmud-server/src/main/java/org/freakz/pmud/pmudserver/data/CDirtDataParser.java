@@ -188,10 +188,10 @@ public class CDirtDataParser {
         Iterator<String> iterator = lines.iterator();
         ParsedZone parsedZone = new ParsedZone();
         if (multiZone.hasMobiles) {
-            parsedZone.mobiles = parseSection(iterator, "%objects");
+            parsedZone.mobiles = parseSection(iterator, "%objects", "end");
         }
         if (multiZone.hasObjects) {
-            parsedZone.objects = parseSection(iterator, "%locations");
+            parsedZone.objects = parseSection(iterator, "%locations", "end");
         }
         if (multiZone.hasLocations) {
             parsedZone.locations = parseLocations(iterator);
@@ -217,7 +217,7 @@ public class CDirtDataParser {
         return sectionLines;
     }
 
-    private List<String> parseSection(Iterator<String> iterator, String until) {
+    private List<String> parseSection(Iterator<String> iterator, String until, String sectionEnd) {
         List<String> sectionLines = new ArrayList<>();
         StringBuffer sb = new StringBuffer();
         boolean inSection = false;
@@ -232,7 +232,8 @@ public class CDirtDataParser {
                     sb.append(line).append("\n");
                 }
             } else {
-                if (line.isEmpty()) {
+                if (line.toLowerCase().startsWith(sectionEnd)) {
+//                if (line.isEmpty()) {
                     inSection = false;
                     sectionLines.add(sb.toString());
                     sb = new StringBuffer();

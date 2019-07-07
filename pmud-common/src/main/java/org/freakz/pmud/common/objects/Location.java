@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class Location extends PMudObject implements Serializable {
 
+
     public enum Exits {
         NORTH("North", "n"),
         EAST("East", "e"),
@@ -44,10 +45,7 @@ public class Location extends PMudObject implements Serializable {
     private Map<String, String> rawExistMap = new HashMap<>();
     private List<String> locationFlags = new ArrayList<>();
 
-
-    public Location() {
-        super();
-    }
+    private Map<String, Mobile> mobiles = new HashMap<>();
 
     public Location(Zone zone) {
         this.zone = zone;
@@ -117,5 +115,17 @@ public class Location extends PMudObject implements Serializable {
 
     public String getName2() {
         return name2;
+    }
+
+    public void addMobile(Mobile mobile) {
+        this.mobiles.put(mobile.getName(), mobile);
+    }
+
+    public void removeMobile(Mobile mobile) {
+        this.mobiles.remove(mobile.getName());
+    }
+
+    public Map<String, Mobile> getMobiles() {
+        return mobiles;
     }
 }

@@ -2,6 +2,50 @@
 #indlude "undef.h"
 #include "exits.h"
 
+%mobiles
+
+Name       = Reaper
+PName      = "Reaper"
+PFlags       {NoExorcise NoZap NoSummon}
+EFlags       {NegFireball NegShock NegMissile NegFrost Shock Fireball Missle Frost}
+MFlags       {Thief StealWeapon StealWorn PickStuff}
+Location   = deathlok11
+Strength   = 5000
+Damage     = 10
+Armor      = 0
+Aggression = 0
+Speed      = 50
+Description= "Death, the Grim Reaper, is here awaiting your soul."
+End        = Reaper
+
+%objects
+
+Name       = soul
+AltName    = gem
+Location   = IN_ROOM:deathlok3
+Oflags       {Wearable lit}
+Damage     = 0
+BValue     = 600
+Size       = 2
+Weight     = 2
+Desc[0]    = "A small red gem has been dropped here."
+Examine    = "In the center of the gem you see the word 'Infinity'."
+End        = soul
+
+Name       = Sickle
+AltName    = Sickle
+Location   = WIELDED_BY:Reaper
+Oflags       {weapon}
+Damage     = 35
+BValue     = 3000
+Size       = 15
+Weight     = 15
+Desc[0]    = "A large viscious looking sickle has been left here."
+Examine    = "
+Examining the sickle you notice the engravings on the staff.                   Slowly, you notice that the blade is stained with blood.  Examining             the sickle more closely, you realize that this weapon belongs to Death."
+End        = Sickle
+
+
 %locations
 
 deathlok1 n:deathlok2 s:bridge@blizzard;
@@ -144,52 +188,4 @@ you see nothing, but everything that you have witnessed in your sad and
 pityful life.  The walls here are just black as well as the floor and
 ceiling.  Exits from this point are to the north and to the east.
 ^
-
-%mobiles
-
-Name       = Reaper
-PName      = "Reaper"
-PFlags       {NoExorcise NoZap NoSummon}
-EFlags       {NegFireball NegShock NegMissile NegFrost Shock Fireball Missle Frost}
-MFlags       {Thief StealWeapon StealWorn PickStuff}
-Location   = deathlok11
-Strength   = 5000
-Damage     = 10
-Armor      = 0
-Aggression = 0
-Speed      = 50
-Description= "Death, the Grim Reaper, is here awaiting your soul."
-End        = Reaper
-
-%objects
-
-Name       = soul
-AltName    = gem
-Location   = IN_ROOM:deathlok3
-Oflags       {Wearable lit}
-Damage     = 0
-BValue     = 600
-Size       = 2
-Weight     = 2
-Desc[0]    = "A small red gem has been dropped here."
-Examine    = "In the center of the gem you see the word 'Infinity'."
-End        = soul
-
-Name       = Sickle
-AltName    = Sickle
-Location   = WIELDED_BY:Reaper
-Oflags       {weapon}
-Damage     = 35
-BValue     = 3000
-Size       = 15
-Weight     = 15
-Desc[0]    = "A large viscious looking sickle has been left here."
-Examine    = "
-Examining the sickle you notice the engravings on the staff.                   Slowly, you notice that the blade is stained with blood.  Examining             the sickle more closely, you realize that this weapon belongs to Death."
-End        = Sickle
-
-
-
-
-
 

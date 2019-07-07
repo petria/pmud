@@ -3,6 +3,7 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.PMudMessage;
 import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.service.MessageSender;
@@ -39,6 +40,8 @@ public class PMudEngine {
             if (player != null) {
                 if (pMudMessage.getMessage().equals("look")) {
                     handleLook(player);
+                } else if (pMudMessage.getMessage().startsWith("goto")) {
+                    handleGoto(player, getParams(pMudMessage.getMessage(), "goto"));
                 } else {
                     log.warn("Unknown command: ");
                 }
@@ -46,6 +49,10 @@ public class PMudEngine {
                 log.error("No player!?");
             }
         }
+    }
+
+    private String getParams(String message, String command) {
+        return message.replaceFirst(command, "").trim();
     }
 
     private PMudPlayer handleConnected(PMudMessage message) {
@@ -57,7 +64,7 @@ public class PMudEngine {
             pMudPlayer.setPid(message.getPid());
             this.playerMap.put(pMudPlayer.getName(), pMudPlayer);
         }
-        pMudPlayer.setLocation(world.getLocationByName2("start1"));
+        pMudPlayer.setLocation(world.getLocationByName2("blizzard70"));
         return pMudPlayer;
     }
 
@@ -65,7 +72,7 @@ public class PMudEngine {
         Location location = player.getLocation();
         String msg = "\n";
 
-        msg += String.format("%s [%s@%s]\n", location.getName2(), location.getName(), location.getZone().getName());
+        msg += String.format("[ID: %05d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
 
         msg += location.getTitle() + "\n";
         if (location.getLocationFlags().size() > 0) {
@@ -73,9 +80,13 @@ public class PMudEngine {
                 msg += String.format("[%s] ", flag.toUpperCase());
             }
         }
-        msg += "\n" + location.getDescription() + "\n";
+        msg += "\n" + location.getDescription();
 
-        msg += "Obvious exits are:\n";
+        for (Mobile mobile : location.getMobiles().values()) {
+            msg += mobile.getDescription() + "\n";
+        }
+
+        msg += "\nObvious exits are:\n";
         if (location.getExitsMap().size() > 0) {
             for (Location.Exits exit : Location.Exits.values()) {
                 Location l = location.getExitsMap().get(exit.getDir());
@@ -91,6 +102,17 @@ public class PMudEngine {
         sender.sendReply(msg, player.getName());
 
     }
+
+    private void handleGoto(PMudPlayer player, String params) {
+        Location newLocation = world.getLocationByName2(params);
+        if (newLocation == null) {
+            sender.sendReply("Unknown player, object or room.", player.getName());
+        } else {
+            player.setLocation(newLocation);
+            handleLook(player);
+        }
+    }
+
 
     @PreDestroy
     public void preDestroy() {

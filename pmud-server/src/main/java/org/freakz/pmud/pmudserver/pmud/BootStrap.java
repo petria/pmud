@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.pmud;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.Zone;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.data.CDirtDataParser;
@@ -26,7 +27,8 @@ public class BootStrap implements CommandLineRunner {
 
     private Set<String> getZoneSet() {
         Set<String> zoneSet = new HashSet<>();
-        zoneSet.add("mithdan.zone");
+        zoneSet.add("xlimbo.zone");
+        zoneSet.add("oaktree.zone");
 //        zoneSet.add("village.zone");
         return zoneSet;
     }
@@ -44,8 +46,10 @@ public class BootStrap implements CommandLineRunner {
             createWorld(parsedZoneMap);
             mapLocationExits();
 
-
+            log.debug("Zones    : {}", world.getZoneCount());
             log.debug("Locations: {}", world.getLocationCount());
+            log.debug("Mobiles  : {}", world.getMobileCount());
+
             log.debug("World is created!");
 
         } catch (Exception e) {
@@ -89,16 +93,129 @@ public class BootStrap implements CommandLineRunner {
         for (CDirtDataParser.ParsedZone parsedZone : parsedZoneMap.values()) {
             Zone zone = createZone(parsedZone);
             world.addZone(zone);
-            int count = createLocations(parsedZone, zone);
-            log.debug("Zone: {} with {} locations", zone.getName(), count);
+
+            int countL = createLocations(parsedZone, zone);
+            log.debug("Zone: {} with {} Locations", zone.getName(), countL);
+
+
         }
 
+        for (CDirtDataParser.ParsedZone parsedZone : parsedZoneMap.values()) {
+            Zone zone = world.getZone(parsedZone.name);
+            int countM = createMobiles(parsedZone, zone);
+            log.debug("Zone: {} with {} Mobiles", zone.getName(), countM);
+        }
+
+    }
+
+    private int createMobiles(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
+        int count = 0;
+        if (parsedZone.mobiles == null) {
+            log.warn("No Mobiles in zone: {}", zone.getName());
+            return count;
+        }
+
+        for (String mobileLines : parsedZone.mobiles) {
+            Iterator<String> iterator = getIterator(mobileLines);
+            Map<String, String> valuesMap = new HashMap<>();
+            while (iterator.hasNext()) {
+                String line = iterator.next().replaceAll("\t", "");
+                String[] split = line.split("=");
+
+                if (split.length == 2 && split[1].trim().equals("\"")) {
+                    String key = split[0].toLowerCase();
+                    String value = "";
+                    while (iterator.hasNext()) {
+                        line = iterator.next();
+                        value += line.replaceAll("\"", "");
+                        if (line.contains("\"")) {
+                            break;
+                        }
+                        value += "\n";
+                    }
+                    valuesMap.put(key, value);
+                } else if (split.length == 2 && split[1].trim().startsWith("\"") && split[1].endsWith("\"")) {
+                    valuesMap.put(split[0].trim().toLowerCase(), split[1].replaceAll("\"", ""));
+                } else if (!line.contains("\"") && line.contains("=")) {
+                    if (split.length == 1) {
+                        log.error("Invalid mobile: {} - {}", zone.getName(), line);
+                        valuesMap.clear();
+                        break;
+                    }
+                    valuesMap.put(split[0].trim().toLowerCase(), split[1].trim());
+                } else if (line.contains("{")) {
+                    String[] strs = line.replaceAll("[{}]", "").split(" ");
+                    String key = null;
+                    String values = "";
+                    for (int i = 0; i < strs.length; i++) {
+                        String trim = strs[i].trim();
+                        if (i == 0) {
+                            key = trim.toLowerCase();
+                        } else {
+                            values += trim + " ";
+                        }
+                    }
+                    if (key != null) {
+                        valuesMap.put(key, values);
+                    }
+                }
+            }
+            if (valuesMap.size() > 0) {
+                Mobile mobile = new Mobile(zone);
+                mobile.setName(parseTrim(valuesMap.get("name")));
+                mobile.setpName(parseTrim(valuesMap.get("pname")));
+                mobile.setDescription(parseTrim(valuesMap.get("description")));
+                mobile.setExamine(parseTrim(valuesMap.get("examine")));
+
+                mobile.setStrength(parseInt(valuesMap.get("strength"), 0));
+                mobile.setDamage(parseInt(valuesMap.get("damage"), 0));
+                mobile.setArmor(parseInt(valuesMap.get("armor"), 0));
+                mobile.setAggression(parseInt(valuesMap.get("aggression"), 0));
+                mobile.setSpeed(parseInt(valuesMap.get("speed"), 0));
+
+                String locationName = valuesMap.get("location");
+                Location location;
+                if (locationName.contains("@")) {
+                    location = world.findLocationByNameAtZone(locationName);
+                } else {
+                    location = zone.findLocationByName(locationName);
+                }
+
+                if (location != null) {
+                    mobile.setLocation(location);
+                    location.addMobile(mobile);
+                    zone.addMobile(mobile);
+                    world.addMobile(mobile);
+                    count++;
+                } else {
+                    log.error("No location for mobile: {} / {} - {}", zone.getName(), mobile.getName(), locationName);
+                }
+
+            }
+
+        }
+        return count;
+    }
+
+    private String parseTrim(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.trim();
+    }
+
+    private int parseInt(String val, int def) {
+        try {
+            return Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            return def;
+        }
     }
 
     private int createLocations(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
         int count = 0;
         if (parsedZone.locations == null) {
-            log.warn("No locations in zone: {}", zone.getName());
+            log.warn("No Locations in zone: {}", zone.getName());
             return count;
         }
         for (String locationLines : parsedZone.locations) {
