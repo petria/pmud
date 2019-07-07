@@ -60,7 +60,7 @@ public class PMudEngine {
         String player = message.getPlayer();
         PMudPlayer pMudPlayer = playerMap.get(player);
         if (pMudPlayer == null) {
-            pMudPlayer = new PMudPlayer();
+            pMudPlayer = new PMudPlayer(world.getZone("start"));
             pMudPlayer.setName(message.getPlayer());
             pMudPlayer.setPid(message.getPid());
             this.playerMap.put(pMudPlayer.getName(), pMudPlayer);

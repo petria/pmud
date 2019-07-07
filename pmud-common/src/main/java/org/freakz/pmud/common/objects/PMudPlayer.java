@@ -2,12 +2,16 @@ package org.freakz.pmud.common.objects;
 
 import java.io.Serializable;
 
-public class PMudPlayer implements Serializable {
+public class PMudPlayer extends Mobile implements Serializable {
 
     private long pid;
 
     private String name;
     private Location location;
+
+    public PMudPlayer(Zone zone) {
+        super(zone);
+    }
 
     public String getName() {
         return name;
