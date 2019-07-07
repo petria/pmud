@@ -1,6 +1,8 @@
 package org.freakz.pmud.common.objects;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Mobile extends PMudObject {
 
@@ -21,6 +23,12 @@ public class Mobile extends PMudObject {
 
     private String description;
     private String examine;
+
+    private Map<Integer, PObject> carried = new HashMap<>();
+
+    private Map<Integer, PObject> worn = new HashMap<>();
+
+    private PObject wielded = null;
 
     public Mobile(Zone zone) {
         this.zone = zone;
@@ -129,4 +137,45 @@ public class Mobile extends PMudObject {
     public void setExamine(String examine) {
         this.examine = examine;
     }
+
+    public void addCarried(PObject object) {
+        this.carried.put(object.getId(), object);
+    }
+
+    public void removeCarried(PObject object) {
+        this.carried.remove(object.getId());
+    }
+
+    public Map<Integer, PObject> getCarried() {
+        return carried;
+    }
+
+    public Map<Integer, PObject> getWorn() {
+        return worn;
+    }
+
+    public void addWorn(PObject object) {
+        this.worn.put(object.getId(), object);
+        this.carried.put(object.getId(), object);
+    }
+
+    public void removeWorn(PObject object) {
+        this.worn.remove(object.getId());
+        this.carried.remove(object.getId());
+    }
+
+    public PObject getWielded() {
+        return wielded;
+    }
+
+    public void setWielded(PObject object) {
+        this.wielded = object;
+        this.carried.put(object.getId(), object);
+    }
+
+    public void removeWielded(PObject object) {
+        this.wielded = null;
+        this.carried.remove(object.getId());
+    }
+
 }

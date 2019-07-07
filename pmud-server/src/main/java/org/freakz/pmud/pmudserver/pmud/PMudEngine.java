@@ -95,6 +95,13 @@ public class PMudEngine {
 
         for (Mobile mobile : location.getMobiles().values()) {
             msg += mobile.getDescription() + "\n";
+            if (mobile.getCarried().values().size() > 0) {
+                msg += "  " + mobile.getName() + " is carrying: ";
+                for (PObject carrying : mobile.getCarried().values()) {
+                    msg += carrying.getName() + " ";
+                }
+                msg += "\n";
+            }
         }
 
         msg += "\nObvious exits are:\n";

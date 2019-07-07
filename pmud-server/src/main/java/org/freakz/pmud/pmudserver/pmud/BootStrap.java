@@ -170,6 +170,56 @@ public class BootStrap implements CommandLineRunner {
                             }
                         }
                     }
+                } else if (locationName.startsWith("BOTH_BY:")) {
+                    locationName = locationName.replaceFirst("BOTH_BY:", "");
+                    Mobile carrier = zone.findMobileByName(locationName);
+                    if (carrier != null) {
+                        carrier.addWorn(object);
+                        carrier.setWielded(object);
+                        location = carrier.getLocation();
+                    } else {
+                        log.error("No wielded_by for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                    }
+                } else if (locationName.startsWith("WIELDED_BY:")) {
+                    locationName = locationName.replaceFirst("WIELDED_BY:", "");
+                    Mobile carrier = zone.findMobileByName(locationName);
+                    if (carrier != null) {
+                        carrier.setWielded(object);
+                        location = carrier.getLocation();
+                    } else {
+                        log.error("No wielded_by for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                    }
+
+                } else if (locationName.startsWith("WORN_BY:")) {
+                    locationName = locationName.replaceFirst("WORN_BY:", "");
+                    Mobile carrier = zone.findMobileByName(locationName);
+                    if (carrier != null) {
+                        carrier.addWorn(object);
+                        location = carrier.getLocation();
+                    } else {
+                        log.error("No worn_by for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                    }
+
+                } else if (locationName.startsWith("CARRIED_BY:")) {
+                    locationName = locationName.replaceFirst("CARRIED_BY:", "");
+                    Mobile carrier = zone.findMobileByName(locationName);
+                    if (carrier != null) {
+                        carrier.addCarried(object);
+                        location = carrier.getLocation();
+                    } else {
+                        log.error("No carrier for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                    }
+
+
+                } else if (locationName.startsWith("IN_CONTAINER:")) {
+                    locationName = locationName.replaceFirst("IN_CONTAINER:", "");
+                    PObject container = zone.findObjectByName(locationName);
+                    if (container != null) {
+                        container.addContains(object);
+                        location = container.getLocation();
+                    } else {
+                        log.error("No container for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                    }
                 }
                 if (location != null) {
                     object.setLocation(location);

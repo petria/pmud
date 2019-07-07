@@ -52,4 +52,13 @@ public class Zone extends PMudObject implements Serializable {
         return null;
 
     }
+
+    public Mobile findMobileByName(String name) {
+        for (Mobile mobile : this.mobiles) {
+            if (mobile.getName().equals(name)) {
+                return mobile;
+            }
+        }
+        return null;
+    }
 }

@@ -24,6 +24,8 @@ public class PObject extends PMudObject {
     private List<String> oFlags = new ArrayList<>();
     private Map<Integer, String> descriptions = new HashMap<>();
 
+    private Map<Integer, PObject> contains = new HashMap<>();
+
     private PObject linkedTo;
 
     public PObject(Zone zone) {
@@ -141,4 +143,17 @@ public class PObject extends PMudObject {
     public void setLinkedTo(PObject linkedTo) {
         this.linkedTo = linkedTo;
     }
+
+    public Map<Integer, PObject> getContains() {
+        return contains;
+    }
+
+    public void addContains(PObject object) {
+        this.contains.put(object.getId(), object);
+    }
+
+    public void removeContains(PObject object) {
+        this.contains.remove((object.getId()));
+    }
+
 }
