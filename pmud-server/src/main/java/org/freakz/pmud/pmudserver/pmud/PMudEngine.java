@@ -5,6 +5,7 @@ import org.freakz.pmud.common.message.PMudMessage;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,16 @@ public class PMudEngine {
             }
         }
         msg += "\n" + location.getDescription();
+
+        for (PObject object : location.getObjects().values()) {
+            String description = object.getDescription(object.getState());
+            if (description == null) {
+                msg += "<marker>" + object.getpName() + "\n";
+
+            } else {
+                msg += object.getDescription(object.getState()) + "\n";
+            }
+        }
 
         for (Mobile mobile : location.getMobiles().values()) {
             msg += mobile.getDescription() + "\n";

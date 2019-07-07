@@ -145,6 +145,7 @@ Examine   = "
 It is a large, black umbrella, somewhat battered.  The initials 'M.Poppins'
 are engraved on the handle.
 "
+End       = Umbrella
 
 Name      = fire
 Location  = IN_ROOM:temple
@@ -154,6 +155,7 @@ A roaring fire burns here.  Its flames make the temple sparkle and glitter."
 Examine   = "
 In the fire you see faint images of the ghosts of dead players.  The sparkles
 fly up and away, disappearing amongst the pillars of the temple."
+End       = fire
 
 Name      = pit
 Location  = IN_ROOM:temple
@@ -161,6 +163,7 @@ Oflags	  {NoGet}
 Desc[0]   = "
    At your feet a huge sacrificial pit allows you to give valuables to the gods
 in the hope of being rewarded."
+End       = pit
 
 Name      = Church_Pit
 Pname	  = pit
@@ -169,7 +172,7 @@ Oflags	  {NoGet}
 Desc[0]   = "
    At your feet a huge sacrificial pit allows you to give valuables to the gods
 in the hope of being rewarded."
-
+End       = Church_Pit
 
 %locations
 temple d:Ftrack@Valley s:Ftrack@Valley u:mrealms@mrealms;

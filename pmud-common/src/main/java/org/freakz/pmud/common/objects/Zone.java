@@ -8,7 +8,7 @@ public class Zone extends PMudObject implements Serializable {
 
     private List<Location> locations = new ArrayList<>();
     private List<Mobile> mobiles = new ArrayList<>();
-    private List<PObject> object = new ArrayList<>();
+    private List<PObject> objects = new ArrayList<>();
 
     public Zone() {
         super();
@@ -40,6 +40,16 @@ public class Zone extends PMudObject implements Serializable {
     }
 
     public void addObject(PObject object) {
-        this.object.add(object);
+        this.objects.add(object);
+    }
+
+    public PObject findObjectByName(String to) {
+        for (PObject pObject : this.objects) {
+            if (pObject.getName().equals(to)) {
+                return pObject;
+            }
+        }
+        return null;
+
     }
 }

@@ -29,7 +29,7 @@ public class BootStrap implements CommandLineRunner {
     private Set<String> getZoneSet() {
         Set<String> zoneSet = new HashSet<>();
         zoneSet.add("xlimbo.zone");
-        zoneSet.add("oaktree.zone");
+//        zoneSet.add("icecave.zone");
 //        zoneSet.add("village.zone");
         return zoneSet;
     }
@@ -41,8 +41,8 @@ public class BootStrap implements CommandLineRunner {
 
             world.init();
 
-            Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
-//            Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
+//            Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
+            Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
             Map<String, CDirtDataParser.ParsedZone> parsedZoneMap = dataParser.parseZoneFiles(files, ZONES_DIR);
             createWorld(parsedZoneMap);
             mapLocationExits();
@@ -111,12 +111,17 @@ public class BootStrap implements CommandLineRunner {
 
     }
 
+    class LinkedObject {
+        String to;
+        PObject from;
+    }
+
     private int createObjects(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
         int count = 0;
         if (parsedZone.objects == null) {
-            log.warn("No Objects in zone: {}", zone.getName());
             return count;
         }
+        Map<String, LinkedObject> linkedObjectMap = new HashMap<>();
 
         for (String objectLines : parsedZone.objects) {
             Iterator<String> iterator = getIterator(objectLines);
@@ -155,6 +160,15 @@ public class BootStrap implements CommandLineRunner {
                     }
                     if (location != null) {
                         location.addObject(object);
+                        String linkedTo = valuesMap.get("linked");
+                        if (linkedTo != null) {
+                            if (linkedObjectMap.get(linkedTo) == null) {
+                                LinkedObject linkedObject = new LinkedObject();
+                                linkedObject.to = linkedTo;
+                                linkedObject.from = object;
+                                linkedObjectMap.put(linkedTo, linkedObject);
+                            }
+                        }
                     }
                 }
                 if (location != null) {
@@ -167,13 +181,22 @@ public class BootStrap implements CommandLineRunner {
                 }
             }
         }
+        for (LinkedObject linkedObject : linkedObjectMap.values()) {
+            PObject linkTarget = zone.findObjectByName(linkedObject.to);
+            if (linkTarget != null) {
+                linkedObject.from.setLinkedTo(linkTarget);
+                linkTarget.setState(linkedObject.from.getState());
+                linkTarget.setMaxState(linkedObject.from.getMaxState());
+            } else {
+                log.error("No link target: {} -> {}", linkedObject.from.getName(), linkedObject.to);
+            }
+        }
         return count;
     }
 
     private int createMobiles(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
         int count = 0;
         if (parsedZone.mobiles == null) {
-            log.warn("No Mobiles in zone: {}", zone.getName());
             return count;
         }
 
@@ -237,7 +260,7 @@ public class BootStrap implements CommandLineRunner {
                     }
                     value += "\n";
                 }
-                valuesMap.put(key, value);
+                valuesMap.put(key.trim(), value);
             } else if (split.length == 2 && split[1].trim().startsWith("\"") && split[1].endsWith("\"")) {
                 valuesMap.put(split[0].trim().toLowerCase(), split[1].replaceAll("\"", ""));
             } else if (!line.contains("\"") && line.contains("=")) {
@@ -285,7 +308,6 @@ public class BootStrap implements CommandLineRunner {
     private int createLocations(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
         int count = 0;
         if (parsedZone.locations == null) {
-            log.warn("No Locations in zone: {}", zone.getName());
             return count;
         }
         for (String locationLines : parsedZone.locations) {

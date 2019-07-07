@@ -71,7 +71,6 @@ public class Location extends PMudObject implements Serializable {
         return zone;
     }
 
-
     public void setZone(Zone zone) {
         this.zone = zone;
     }
