@@ -3,6 +3,7 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
+import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.common.objects.Zone;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.data.CDirtDataParser;
@@ -40,8 +41,8 @@ public class BootStrap implements CommandLineRunner {
 
             world.init();
 
-//            Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
-            Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
+            Set<String> files = getZoneSet(); //dataParser.getFiles(ZONES_DIR, 1, ".zone");
+//            Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
             Map<String, CDirtDataParser.ParsedZone> parsedZoneMap = dataParser.parseZoneFiles(files, ZONES_DIR);
             createWorld(parsedZoneMap);
             mapLocationExits();
@@ -49,6 +50,7 @@ public class BootStrap implements CommandLineRunner {
             log.debug("Zones    : {}", world.getZoneCount());
             log.debug("Locations: {}", world.getLocationCount());
             log.debug("Mobiles  : {}", world.getMobileCount());
+            log.debug("Objects  : {}", world.getObjectCount());
 
             log.debug("World is created!");
 
@@ -96,16 +98,76 @@ public class BootStrap implements CommandLineRunner {
 
             int countL = createLocations(parsedZone, zone);
             log.debug("Zone: {} with {} Locations", zone.getName(), countL);
-
-
         }
 
         for (CDirtDataParser.ParsedZone parsedZone : parsedZoneMap.values()) {
             Zone zone = world.getZone(parsedZone.name);
             int countM = createMobiles(parsedZone, zone);
             log.debug("Zone: {} with {} Mobiles", zone.getName(), countM);
+
+            int countO = createObjects(parsedZone, zone);
+            log.debug("Zone: {} with {} Objects", zone.getName(), countO);
         }
 
+    }
+
+    private int createObjects(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
+        int count = 0;
+        if (parsedZone.objects == null) {
+            log.warn("No Objects in zone: {}", zone.getName());
+            return count;
+        }
+
+        for (String objectLines : parsedZone.objects) {
+            Iterator<String> iterator = getIterator(objectLines);
+            Map<String, String> valuesMap = mapToValues(iterator, zone);
+
+            if (valuesMap.size() > 0) {
+                PObject object = new PObject(zone);
+                object.setName(valuesMap.get("name"));
+                object.setpName(valuesMap.get("pname"));
+                object.setAltName(valuesMap.get("altname"));
+
+                object.setSize(parseInt(valuesMap.get("size"), 0));
+                object.setBaseValue(parseInt(valuesMap.get("bvalue"), 0));
+                object.setWeight(parseInt(valuesMap.get("weight"), 0));
+                object.setDamage(parseInt(valuesMap.get("damage"), 0));
+
+                object.setState(parseInt(valuesMap.get("state"), 0));
+                object.setMaxState(parseInt(valuesMap.get("maxstate"), 0));
+
+                object.getoFlags().add(valuesMap.get("oflags"));
+
+                object.setDescription(0, parseTrim(valuesMap.get("desc[0]")));
+                object.setDescription(1, parseTrim(valuesMap.get("desc[1]")));
+                object.setDescription(2, parseTrim(valuesMap.get("desc[2]")));
+                object.setDescription(3, parseTrim(valuesMap.get("desc[3]")));
+
+                String locationName = valuesMap.get("location");
+                Location location = null;
+                if (locationName.startsWith("IN_ROOM:") || locationName.matches(".?@.?")) {
+                    locationName = locationName.replaceFirst("IN_ROOM:", "");
+
+                    if (locationName.contains("@")) {
+                        location = world.findLocationByNameAtZone(locationName);
+                    } else {
+                        location = zone.findLocationByName(locationName);
+                    }
+                    if (location != null) {
+                        location.addObject(object);
+                    }
+                }
+                if (location != null) {
+                    object.setLocation(location);
+                    zone.addObject(object);
+                    world.addObject(object);
+                    count++;
+                } else {
+                    log.error("No location for Object: {} / {} - {}", zone.getName(), object.getName(), locationName);
+                }
+            }
+        }
+        return count;
     }
 
     private int createMobiles(CDirtDataParser.ParsedZone parsedZone, Zone zone) {
@@ -117,49 +179,9 @@ public class BootStrap implements CommandLineRunner {
 
         for (String mobileLines : parsedZone.mobiles) {
             Iterator<String> iterator = getIterator(mobileLines);
-            Map<String, String> valuesMap = new HashMap<>();
-            while (iterator.hasNext()) {
-                String line = iterator.next().replaceAll("\t", "");
-                String[] split = line.split("=");
 
-                if (split.length == 2 && split[1].trim().equals("\"")) {
-                    String key = split[0].toLowerCase();
-                    String value = "";
-                    while (iterator.hasNext()) {
-                        line = iterator.next();
-                        value += line.replaceAll("\"", "");
-                        if (line.contains("\"")) {
-                            break;
-                        }
-                        value += "\n";
-                    }
-                    valuesMap.put(key, value);
-                } else if (split.length == 2 && split[1].trim().startsWith("\"") && split[1].endsWith("\"")) {
-                    valuesMap.put(split[0].trim().toLowerCase(), split[1].replaceAll("\"", ""));
-                } else if (!line.contains("\"") && line.contains("=")) {
-                    if (split.length == 1) {
-                        log.error("Invalid mobile: {} - {}", zone.getName(), line);
-                        valuesMap.clear();
-                        break;
-                    }
-                    valuesMap.put(split[0].trim().toLowerCase(), split[1].trim());
-                } else if (line.contains("{")) {
-                    String[] strs = line.replaceAll("[{}]", "").split(" ");
-                    String key = null;
-                    String values = "";
-                    for (int i = 0; i < strs.length; i++) {
-                        String trim = strs[i].trim();
-                        if (i == 0) {
-                            key = trim.toLowerCase();
-                        } else {
-                            values += trim + " ";
-                        }
-                    }
-                    if (key != null) {
-                        valuesMap.put(key, values);
-                    }
-                }
-            }
+            Map<String, String> valuesMap = mapToValues(iterator, zone);
+
             if (valuesMap.size() > 0) {
                 Mobile mobile = new Mobile(zone);
                 mobile.setName(parseTrim(valuesMap.get("name")));
@@ -195,6 +217,54 @@ public class BootStrap implements CommandLineRunner {
 
         }
         return count;
+    }
+
+    private Map<String, String> mapToValues(Iterator<String> iterator, Zone zone) {
+        Map<String, String> valuesMap = new HashMap<>();
+
+        while (iterator.hasNext()) {
+            String line = iterator.next().replaceAll("\t", "");
+            String[] split = line.split("=");
+
+            if (split.length == 2 && split[1].trim().equals("\"")) {
+                String key = split[0].toLowerCase();
+                String value = "";
+                while (iterator.hasNext()) {
+                    line = iterator.next();
+                    value += line.replaceAll("\"", "");
+                    if (line.contains("\"")) {
+                        break;
+                    }
+                    value += "\n";
+                }
+                valuesMap.put(key, value);
+            } else if (split.length == 2 && split[1].trim().startsWith("\"") && split[1].endsWith("\"")) {
+                valuesMap.put(split[0].trim().toLowerCase(), split[1].replaceAll("\"", ""));
+            } else if (!line.contains("\"") && line.contains("=")) {
+                if (split.length == 1) {
+                    log.error("Invalid mobile: {} - {}", zone.getName(), line);
+                    valuesMap.clear();
+                    break;
+                }
+                valuesMap.put(split[0].trim().toLowerCase(), split[1].trim());
+            } else if (line.contains("{")) {
+                String[] strs = line.replaceAll("[{}]", "").split(" ");
+                String key = null;
+                String values = "";
+                for (int i = 0; i < strs.length; i++) {
+                    String trim = strs[i].trim();
+                    if (i == 0) {
+                        key = trim.toLowerCase();
+                    } else {
+                        values += trim + " ";
+                    }
+                }
+                if (key != null) {
+                    valuesMap.put(key, values);
+                }
+            }
+        }
+        return valuesMap;
     }
 
     private String parseTrim(String value) {

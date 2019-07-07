@@ -3,7 +3,7 @@ package org.freakz.pmud.common.objects;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PMudObjectTest {
+public class PMudPObjectTest {
 
     @Test
     public void testPMudObjectInstance() {

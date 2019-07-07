@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.World;
 
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
+import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.common.objects.Zone;
 
 import java.util.Map;
@@ -33,5 +34,8 @@ public interface World {
     int getMobileCount();
 
 
+    void addObject(PObject object);
+
+    int getObjectCount();
 
 }

@@ -3,6 +3,7 @@ package org.freakz.pmud.pmudserver.World;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
+import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.common.objects.Zone;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +22,15 @@ public class WorldImpl implements World {
 
     private Map<String, Mobile> nameToMobileMap;
 
+    private Map<String, PObject> nameToObjectMap;
+
     @Override
     public void init() {
         zoneNameToZoneMap = new HashMap<>();
         nameToLocationMap = new HashMap<>();
         name2ToLocationMap = new HashMap<>();
         nameToMobileMap = new HashMap<>();
+        nameToObjectMap = new HashMap<>();
     }
 
 
@@ -89,6 +93,16 @@ public class WorldImpl implements World {
     @Override
     public int getMobileCount() {
         return this.nameToMobileMap.size();
+    }
+
+    @Override
+    public void addObject(PObject object) {
+        this.nameToObjectMap.put(object.getName(), object);
+    }
+
+    @Override
+    public int getObjectCount() {
+        return this.nameToObjectMap.size();
     }
 
     @Override
