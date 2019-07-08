@@ -3,12 +3,10 @@ package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.objects.PObject;
-import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.AcceptVerbs;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbAcceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,9 +14,6 @@ import java.util.List;
 @Component
 @PMudVerbAcceptor
 public class PMudSpellsHandler extends HandlerBase {
-
-    @Autowired
-    private World world;
 
 
     @AcceptVerbs(verbs = {"where"})
@@ -48,7 +43,7 @@ public class PMudSpellsHandler extends HandlerBase {
             return;
         }
 
-        response.setToSender("I don't know what that is.");
+        response.setToSender("I don't know what that is.\n");
     }
 
 }

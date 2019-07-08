@@ -41,6 +41,11 @@ public interface World {
 
     void addPlayer(PMudPlayer player);
 
+    int playerCount();
+
+
+    Map<String, PMudPlayer> getNameToPlayerMap();
+
     PMudPlayer removePlayer(PMudPlayer player);
 
     PMudPlayer removePlayer(String player);
@@ -48,4 +53,5 @@ public interface World {
     List<PObject> findObjects(String toFind);
 
     List<Mobile> findMobiles(String toFind);
+
 }

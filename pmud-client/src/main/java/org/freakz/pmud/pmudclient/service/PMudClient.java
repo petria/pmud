@@ -76,7 +76,7 @@ public class PMudClient implements CommandLineRunner {
                     if (!pressed) {
                         System.out.println();
                     }
-                    System.out.println(message.getMessage());
+                    System.out.print(message.getMessage());
                     prompt();
                 }
             } else {

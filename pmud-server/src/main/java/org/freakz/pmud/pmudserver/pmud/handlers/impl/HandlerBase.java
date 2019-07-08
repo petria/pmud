@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.CommandHandlerService;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
@@ -12,6 +13,9 @@ public abstract class HandlerBase implements PMudVerbHandler {
 
     @Autowired
     protected CommandHandlerService commandHandlerService;
+
+    @Autowired
+    World world;
 
 
     VerbResponse invokeVerb(String verb, PMudPlayer player) {

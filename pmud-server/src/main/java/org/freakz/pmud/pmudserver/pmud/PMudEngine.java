@@ -45,7 +45,7 @@ public class PMudEngine {
                 if (success) {
                     sender.sendReply(response);
                 } else {
-                    sender.sendReply(player, "Pardon?");
+                    sender.sendReply(player, "Pardon?\n");
                 }
 
             } else {
@@ -61,6 +61,8 @@ public class PMudEngine {
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
             player.setName(message.getPlayer());
+            player.setLevel("Soldier");
+            player.setTitle("the Soldier");
             player.setPid(message.getPid());
             world.addPlayer(player);
         } else {

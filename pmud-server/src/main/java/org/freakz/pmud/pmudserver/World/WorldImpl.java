@@ -159,6 +159,16 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public int playerCount() {
+        return nameToPlayerMap.size();
+    }
+
+    @Override
+    public Map<String, PMudPlayer> getNameToPlayerMap() {
+        return nameToPlayerMap;
+    }
+
+    @Override
     public PMudPlayer removePlayer(PMudPlayer player) {
         player.getLocation().removePlayer(player);
         return nameToPlayerMap.remove(player.getName().toLowerCase());
