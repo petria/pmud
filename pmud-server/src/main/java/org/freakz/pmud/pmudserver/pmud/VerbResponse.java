@@ -23,6 +23,14 @@ public class VerbResponse {
         return player;
     }
 
+    public Location getFrom() {
+        return from;
+    }
+
+    public Location getTo() {
+        return to;
+    }
+
     public String getFromRoom() {
         return fromRoom;
     }

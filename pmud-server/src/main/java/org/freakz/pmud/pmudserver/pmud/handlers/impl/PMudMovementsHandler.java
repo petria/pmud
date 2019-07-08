@@ -1,7 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
 import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
@@ -45,7 +44,6 @@ public class PMudMovementsHandler extends HandlerBase {
 
     @AcceptVerbs(verbs = {"goto"})
     public void handleGoto(VerbRequest req, VerbResponse response) {
-        PMudPlayer player = req.getPlayer();
 
         Location toGo = world.getLocationByName2(req.getArgs().getArgs());
         if (toGo == null) {

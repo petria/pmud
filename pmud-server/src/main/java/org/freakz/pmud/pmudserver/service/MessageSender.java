@@ -33,6 +33,23 @@ public class MessageSender {
     public void sendReply(VerbResponse response) {
         PMudMessage mudMessage = new PMudMessage(response.getToSender(), response.getPlayer().getName());
         mudMessage.setReplyToPid(response.getPlayer().getPid());
+
+        if (response.getFromRoom() != null) {
+            for (PMudPlayer inRoom : response.getFrom().getPlayers().values()) {
+                if (inRoom == response.getPlayer()) {
+                    continue;
+                }
+                sendReply(inRoom, response.getFromRoom());
+            }
+        }
+        if (response.getToRoom() != null) {
+            for (PMudPlayer inRoom : response.getTo().getPlayers().values()) {
+                if (inRoom == response.getPlayer()) {
+                    continue;
+                }
+                sendReply(inRoom, response.getToRoom());
+            }
+        }
         jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
 
     }

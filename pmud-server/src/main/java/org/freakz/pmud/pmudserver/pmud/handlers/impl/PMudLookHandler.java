@@ -20,7 +20,7 @@ public class PMudLookHandler extends HandlerBase {
         PMudPlayer player = player(req);
         Location location = location(req);
 
-        String msg = "\n";
+        String msg = "";
 
         msg += String.format("[%5d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
 

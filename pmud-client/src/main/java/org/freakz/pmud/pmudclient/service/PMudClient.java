@@ -47,6 +47,7 @@ public class PMudClient implements CommandLineRunner {
                 } else {
                     prev = last;
                     last = message;
+                    pressed = true;
                     sender.sendToServer(message, player);
                 }
             } else {
@@ -56,7 +57,9 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
+    boolean pressed = false;
     private void prompt() {
+        pressed = false;
         System.out.print("pmud> ");
     }
 
@@ -69,6 +72,9 @@ public class PMudClient implements CommandLineRunner {
                     log.debug("SERVER DID QUIT");
                     System.exit(0);
                 } else {
+                    if (!pressed) {
+                        System.out.println();
+                    }
                     System.out.println(message.getMessage());
                     prompt();
                 }
