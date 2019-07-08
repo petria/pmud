@@ -46,4 +46,6 @@ public interface World {
     PMudPlayer removePlayer(String player);
 
     List<PObject> findObjects(String toFind);
+
+    List<Mobile> findMobiles(String toFind);
 }

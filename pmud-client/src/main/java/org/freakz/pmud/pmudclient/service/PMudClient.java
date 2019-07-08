@@ -49,6 +49,7 @@ public class PMudClient implements CommandLineRunner {
                     last = message;
                     pressed = true;
                     sender.sendToServer(message, player);
+                    Thread.sleep(150L);
                 }
             } else {
                 prompt();

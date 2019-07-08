@@ -98,6 +98,24 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public List<Mobile> findMobiles(String toFind) {
+        List<Mobile> found = new ArrayList<>();
+        for (Mobile o : nameToMobileMap.values()) {
+            if (o.getName() != null) {
+                if (o.getName().equalsIgnoreCase(toFind)) {
+                    found.add(o);
+                }
+            }
+            if (o.getpName() != null) {
+                if (o.getpName().equalsIgnoreCase(toFind)) {
+                    found.add(o);
+                }
+            }
+        }
+        return found;
+    }
+
+    @Override
     public void addObject(PObject object) {
         this.nameToObjectMap.put(object.getName(), object);
     }
