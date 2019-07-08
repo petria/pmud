@@ -6,6 +6,59 @@ import java.util.Map;
 
 public class Mobile extends PMudObject {
 
+    public enum PSex {
+        MALE("male"),
+        FEMALE("female");
+
+        private final String sex;
+
+        PSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public String text() {
+            if (sex.equals("male")) {
+                return "he";
+            } else {
+                return "she";
+            }
+        }
+
+        public String textB() {
+            if (sex.equals("male")) {
+                return "He";
+            } else {
+                return "She";
+            }
+        }
+    }
+
+    public enum PPosition {
+        STANDING("standing", "Standing"),
+        SITTNG("Sitting", "Standing");
+
+        private final String text;
+        private final String textB;
+
+        PPosition(String text, String textB) {
+            this.text = text;
+            this.textB = textB;
+        }
+
+        public String text() {
+            return text;
+        }
+
+        public String textB() {
+            return textB;
+        }
+
+    }
+
     private Zone zone;
     private Location location;
 
@@ -29,6 +82,10 @@ public class Mobile extends PMudObject {
     private Map<Integer, PObject> worn = new HashMap<>();
 
     private PObject wielded = null;
+
+    private PSex sex = PMudPlayer.PSex.MALE;
+
+    private PPosition position = PMudPlayer.PPosition.STANDING;
 
     public Mobile(Zone zone) {
         this.zone = zone;
@@ -176,6 +233,18 @@ public class Mobile extends PMudObject {
     public void removeWielded(PObject object) {
         this.wielded = null;
         this.carried.remove(object.getId());
+    }
+
+    public void setSex(PSex sex) {
+        this.sex = sex;
+    }
+
+    public PSex getSex() {
+        return sex;
+    }
+
+    public PPosition getPosition() {
+        return position;
     }
 
 }

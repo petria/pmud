@@ -18,11 +18,17 @@ public class PMudClient implements CommandLineRunner {
 
     private static String player = "Someone";
 
+
     @Autowired
     private MessageSender sender;
 
     @Override
     public void run(String... args) throws Exception {
+
+        if (args[0] != null) {
+            player = args[0];
+        }
+        log.debug("Connecting player: {}", player);
 
         sender.sendToServer("CONNECTED", player);
         while (true) {
@@ -42,18 +48,20 @@ public class PMudClient implements CommandLineRunner {
     }
 
     private void prompt() {
-        System.out.print("\npmud> ");
+        System.out.print("pmud> ");
     }
 
 
     @JmsListener(destination = "pmud-clients.topic")
     public void receiveMessage(PMudMessage message) {
-        if (message.getMessage().equals("SERVER_QUIT")) {
-            log.debug("SERVER DID QUIT");
-            System.exit(0);
-        } else {
-            System.out.println(message.getMessage());
-            prompt();
+        if (message.getReplyToPid() == ProcessHandle.current().pid()) {
+            if (message.getMessage().equals("SERVER_QUIT")) {
+                log.debug("SERVER DID QUIT");
+                System.exit(0);
+            } else {
+                System.out.println(message.getMessage());
+                prompt();
+            }
         }
     }
 

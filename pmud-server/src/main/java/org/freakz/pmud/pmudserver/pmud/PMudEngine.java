@@ -3,9 +3,7 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.PMudMessage;
 import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
-import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,9 @@ public class PMudEngine {
     private Map<String, PMudPlayer> playerMap = new HashMap<>();
 
     @Autowired
+    private CommandHandlerService commandHandlerService;
+
+    @Autowired
     private MessageSender sender;
 
     @Autowired
@@ -31,103 +32,60 @@ public class PMudEngine {
     public void handlePMudMessage(PMudMessage pMudMessage) {
 
         if (pMudMessage.getMessage().equals("CONNECTED")) {
-            PMudPlayer pMudPlayer = handleConnected(pMudMessage);
-            handleLook(pMudPlayer);
+            PMudPlayer player = handleConnected(pMudMessage);
+            sender.sendReply(player, commandHandlerService.invokeVerb("look", player).getToSender());
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
+
             log.debug("Player disconnected: {}", pMudMessage.getPlayer());
-            playerMap.remove(pMudMessage.getPlayer());
+            PMudPlayer remove = playerMap.remove(pMudMessage.getPlayer());
+            if (remove != null) {
+                remove.getLocation().removePlayer(remove);
+            }
+
         } else {
             PMudPlayer player = playerMap.get(pMudMessage.getPlayer());
             if (player != null) {
-                if (pMudMessage.getMessage().equals("look")) {
-                    handleLook(player);
-                } else if (pMudMessage.getMessage().startsWith("goto")) {
-                    handleGoto(player, getParams(pMudMessage.getMessage(), "goto"));
+                VerbRequest request = new VerbRequest(pMudMessage.getMessage(), player);
+                VerbResponse response = new VerbResponse(player);
+                boolean success = commandHandlerService.invokeVerbHandler(request, response);
+                if (success) {
+                    sender.sendReply(response);
                 } else {
-                    log.warn("Unknown command: ");
+                    sender.sendReply(player, "Pardon?");
                 }
+
             } else {
                 log.error("No player!?");
             }
         }
     }
 
-    private String getParams(String message, String command) {
-        return message.replaceFirst(command, "").trim();
-    }
 
     private PMudPlayer handleConnected(PMudMessage message) {
-        String player = message.getPlayer();
-        PMudPlayer pMudPlayer = playerMap.get(player);
-        if (pMudPlayer == null) {
-            pMudPlayer = new PMudPlayer(world.getZone("start"));
-            pMudPlayer.setName(message.getPlayer());
-            pMudPlayer.setPid(message.getPid());
-            this.playerMap.put(pMudPlayer.getName(), pMudPlayer);
+        String playerName = message.getPlayer();
+        PMudPlayer player = playerMap.get(playerName);
+        if (player == null) {
+            player = new PMudPlayer(world.getZone("start"));
+            player.setName(message.getPlayer());
+            player.setPid(message.getPid());
+            this.playerMap.put(player.getName(), player);
+        } else {
+            player.getLocation().removePlayer(player);
         }
-        pMudPlayer.setLocation(world.getLocationByName2("blizzard70"));
-        return pMudPlayer;
+
+        Location start = world.getLocationByName2("blizzard70");
+        player.setLocation(start);
+
+        sendMessageToRoom(player, start, playerName + " entered game");
+
+        start.addPlayer(player);
+
+        return player;
     }
 
-    private void handleLook(PMudPlayer player) {
-        Location location = player.getLocation();
-        String msg = "\n";
-
-        msg += String.format("[ID: %05d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
-
-        msg += location.getTitle() + "\n";
-        if (location.getLocationFlags().size() > 0) {
-            for (String flag : location.getLocationFlags()) {
-                msg += String.format("[%s] ", flag.toUpperCase());
-            }
-        }
-        msg += "\n" + location.getDescription();
-
-        for (PObject object : location.getObjects().values()) {
-            String description = object.getDescription(object.getState());
-            if (description == null) {
-                msg += "<marker>" + object.getpName() + "\n";
-
-            } else {
-                msg += object.getDescription(object.getState()) + "\n";
-            }
-        }
-
-        for (Mobile mobile : location.getMobiles().values()) {
-            msg += mobile.getDescription() + "\n";
-            if (mobile.getCarried().values().size() > 0) {
-                msg += "  " + mobile.getName() + " is carrying: ";
-                for (PObject carrying : mobile.getCarried().values()) {
-                    msg += carrying.getName() + " ";
-                }
-                msg += "\n";
-            }
-        }
-
-        msg += "\nObvious exits are:\n";
-        if (location.getExitsMap().size() > 0) {
-            for (Location.Exits exit : Location.Exits.values()) {
-                Location l = location.getExitsMap().get(exit.getDir());
-                if (l != null) {
-                    msg += String.format(" %6s : %-45s : %s\n", exit.getNice(), l.getTitle(), l.getName2());
-                }
-            }
-
-        } else {
-            msg += "None....\n";
-        }
-
-        sender.sendReply(msg, player.getName());
-
-    }
-
-    private void handleGoto(PMudPlayer player, String params) {
-        Location newLocation = world.getLocationByName2(params);
-        if (newLocation == null) {
-            sender.sendReply("Unknown player, object or room.", player.getName());
-        } else {
-            player.setLocation(newLocation);
-            handleLook(player);
+    private void sendMessageToRoom(PMudPlayer player, Location start, String message) {
+        for (PMudPlayer inRoom : start.getPlayers().values()) {
+            sender.sendReply(message, "dd", inRoom.getPid());
         }
     }
 

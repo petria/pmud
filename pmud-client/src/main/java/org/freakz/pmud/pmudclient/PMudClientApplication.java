@@ -14,18 +14,13 @@ public class PMudClientApplication {
 
     public static void main(String[] args) {
 
-        log.debug("Start ...");
+        System.out.print(">> Start ...\n");
+
         ConfigurableApplicationContext ctx = new
                 SpringApplicationBuilder(PMudClientApplication.class).web(WebApplicationType.NONE).run(args);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.debug("Shutdown Hook is running !");
-            ctx.close();
-            System.exit(0);
-        }
-        ));
+        System.out.print(">> Main done!\n");
 
-        log.debug("... Hooking done!");
 
     }
 

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static org.freakz.pmud.common.objects.Mobile.PSex.FEMALE;
+
 @Service
 @Slf4j
 public class BootStrap implements CommandLineRunner {
@@ -267,7 +269,12 @@ public class BootStrap implements CommandLineRunner {
                 mobile.setArmor(parseInt(valuesMap.get("armor"), 0));
                 mobile.setAggression(parseInt(valuesMap.get("aggression"), 0));
                 mobile.setSpeed(parseInt(valuesMap.get("speed"), 0));
-
+                String sflags = valuesMap.get("sflags");
+                if (sflags != null) {
+                    if (sflags.toLowerCase().contains("female")) {
+                        mobile.setSex(FEMALE);
+                    }
+                }
                 String locationName = valuesMap.get("location");
                 Location location;
                 if (locationName.contains("@")) {
@@ -437,16 +444,6 @@ public class BootStrap implements CommandLineRunner {
             location.setName(line.trim());
         }
         return location;
-    }
-
-
-    private Map<String, String> mapLinesToKeyValues(String locationLines) {
-        Iterator<String> iter = getIterator(locationLines);
-        Map<String, String> map = new HashMap<>();
-        for (String line : locationLines.split("\n")) {
-            int foo = 0;
-        }
-        return map;
     }
 
     private Iterator<String> getIterator(String locationLines) {

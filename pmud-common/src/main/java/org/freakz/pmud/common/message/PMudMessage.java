@@ -7,7 +7,7 @@ public class PMudMessage implements Serializable {
     private final long pid;
     private String message;
     private String player;
-
+    private long replyToPid;
 
     public PMudMessage(String message, String player) {
         this.pid = ProcessHandle.current().pid();
@@ -40,4 +40,11 @@ public class PMudMessage implements Serializable {
         this.player = player;
     }
 
+    public long getReplyToPid() {
+        return replyToPid;
+    }
+
+    public void setReplyToPid(long replyToPid) {
+        this.replyToPid = replyToPid;
+    }
 }

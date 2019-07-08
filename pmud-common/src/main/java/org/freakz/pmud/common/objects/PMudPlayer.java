@@ -36,4 +36,10 @@ public class PMudPlayer extends Mobile implements Serializable {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        PMudPlayer other = (PMudPlayer) obj;
+        return other.getName().equals(this.name);
+    }
 }

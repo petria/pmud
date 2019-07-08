@@ -47,6 +47,8 @@ public class Location extends PMudObject implements Serializable {
     private Map<Integer, Mobile> mobiles = new HashMap<>();
     private Map<Integer, PObject> objects = new HashMap<>();
 
+    private Map<Long, PMudPlayer> players = new HashMap<>();
+
     public Location(Zone zone) {
         this.zone = zone;
     }
@@ -138,6 +140,19 @@ public class Location extends PMudObject implements Serializable {
 
     public void removeObject(PObject object) {
         this.objects.remove(object.getId());
+    }
+
+
+    public Map<Long, PMudPlayer> getPlayers() {
+        return players;
+    }
+
+    public void addPlayer(PMudPlayer player) {
+        this.players.put(player.getPid(), player);
+    }
+
+    public void removePlayer(PMudPlayer player) {
+        this.players.remove(player.getPid());
     }
 
 }
