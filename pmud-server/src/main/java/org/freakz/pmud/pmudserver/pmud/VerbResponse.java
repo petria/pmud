@@ -14,6 +14,7 @@ public class VerbResponse {
     private String toRoom = null;
 
     private String toSender = null;
+    private String toWorld = null;
 
     public VerbResponse(PMudPlayer player) {
         this.player = player;
@@ -55,5 +56,14 @@ public class VerbResponse {
 
     public void setToSender(String toSender) {
         this.toSender = toSender;
+    }
+
+
+    public String getToWorld() {
+        return toWorld;
+    }
+
+    public void setToWorld(String toWorld) {
+        this.toWorld = toWorld;
     }
 }

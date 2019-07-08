@@ -26,6 +26,10 @@ public abstract class HandlerBase implements PMudVerbHandler {
         return req.getArgs().getArgs();
     }
 
+    boolean hasArgs(VerbRequest req) {
+        return req.getArgs().hasArgs();
+    }
+
     String playerName(VerbRequest request) {
         return request.getPlayer().getName();
     }
