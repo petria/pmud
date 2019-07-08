@@ -30,6 +30,9 @@ public class PMudClient implements CommandLineRunner {
         }
         log.debug("Connecting player: {}", player);
 
+        String prev = "";
+        String last = "";
+
         sender.sendToServer("CONNECTED", player);
         while (true) {
             String message = scanner.nextLine();
@@ -37,7 +40,13 @@ public class PMudClient implements CommandLineRunner {
                 if (message.equals("quit")) {
                     System.out.print("\nBye bye!\n");
                     System.exit(0);
+                } else if (message.equals("!!")) {
+                    sender.sendToServer(prev, player);
+                } else if (message.equals("!")) {
+                    sender.sendToServer(last, player);
                 } else {
+                    prev = last;
+                    last = message;
                     sender.sendToServer(message, player);
                 }
             } else {

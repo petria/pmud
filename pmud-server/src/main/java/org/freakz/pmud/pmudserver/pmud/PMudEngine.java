@@ -10,14 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
 public class PMudEngine {
 
-    private Map<String, PMudPlayer> playerMap = new HashMap<>();
 
     @Autowired
     private CommandHandlerService commandHandlerService;
@@ -37,13 +34,10 @@ public class PMudEngine {
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
 
             log.debug("Player disconnected: {}", pMudMessage.getPlayer());
-            PMudPlayer remove = playerMap.remove(pMudMessage.getPlayer());
-            if (remove != null) {
-                remove.getLocation().removePlayer(remove);
-            }
+            world.removePlayer(pMudMessage.getPlayer());
 
         } else {
-            PMudPlayer player = playerMap.get(pMudMessage.getPlayer());
+            PMudPlayer player = world.findPlayer(pMudMessage.getPlayer());
             if (player != null) {
                 VerbRequest request = new VerbRequest(pMudMessage.getMessage(), player);
                 VerbResponse response = new VerbResponse(player);
@@ -63,12 +57,12 @@ public class PMudEngine {
 
     private PMudPlayer handleConnected(PMudMessage message) {
         String playerName = message.getPlayer();
-        PMudPlayer player = playerMap.get(playerName);
+        PMudPlayer player = world.findPlayer(playerName);
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
             player.setName(message.getPlayer());
             player.setPid(message.getPid());
-            this.playerMap.put(player.getName(), player);
+            world.addPlayer(player);
         } else {
             player.getLocation().removePlayer(player);
         }

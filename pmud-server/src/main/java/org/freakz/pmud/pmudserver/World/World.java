@@ -30,10 +30,18 @@ public interface World {
 
     int getMobileCount();
 
-
     void addObject(PObject object);
 
     int getObjectCount();
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
+
+    PMudPlayer findPlayer(String toFind);
+
+    void addPlayer(PMudPlayer player);
+
+    PMudPlayer removePlayer(PMudPlayer player);
+
+    PMudPlayer removePlayer(String player);
+
 }

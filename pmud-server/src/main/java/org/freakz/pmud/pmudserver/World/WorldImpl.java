@@ -21,6 +21,9 @@ public class WorldImpl implements World {
 
     private Map<String, PObject> nameToObjectMap;
 
+    private Map<String, PMudPlayer> nameToPlayerMap = new HashMap<>();
+
+
     @Override
     public void init() {
         zoneNameToZoneMap = new HashMap<>();
@@ -100,6 +103,31 @@ public class WorldImpl implements World {
     @Override
     public int getObjectCount() {
         return this.nameToObjectMap.size();
+    }
+
+    @Override
+    public PMudPlayer findPlayer(String toFind) {
+        return nameToPlayerMap.get(toFind.toLowerCase());
+    }
+
+    @Override
+    public void addPlayer(PMudPlayer player) {
+        nameToPlayerMap.put(player.getName().toLowerCase(), player);
+    }
+
+    @Override
+    public PMudPlayer removePlayer(PMudPlayer player) {
+        player.getLocation().removePlayer(player);
+        return nameToPlayerMap.remove(player.getName().toLowerCase());
+    }
+
+    @Override
+    public PMudPlayer removePlayer(String playerName) {
+        PMudPlayer player = findPlayer(playerName);
+        if (player != null) {
+            return removePlayer(player);
+        }
+        return null;
     }
 
     @Override

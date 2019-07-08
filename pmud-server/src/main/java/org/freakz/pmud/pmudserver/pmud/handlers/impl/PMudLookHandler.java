@@ -22,7 +22,7 @@ public class PMudLookHandler extends HandlerBase {
 
         String msg = "\n";
 
-        msg += String.format("[ID: %05d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
+        msg += String.format("[%5d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
 
         msg += location.getTitle() + "\n";
         if (location.getLocationFlags().size() > 0) {

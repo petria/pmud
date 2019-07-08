@@ -18,6 +18,10 @@ public abstract class HandlerBase implements PMudVerbHandler {
         return commandHandlerService.invokeVerb(verb, player);
     }
 
+    String args(VerbRequest req) {
+        return req.getArgs().getArgs();
+    }
+
     String playerName(VerbRequest request) {
         return request.getPlayer().getName();
     }
