@@ -1,9 +1,6 @@
 package org.freakz.pmud.pmudserver.World;
 
-import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.Mobile;
-import org.freakz.pmud.common.objects.PObject;
-import org.freakz.pmud.common.objects.Zone;
+import org.freakz.pmud.common.objects.*;
 
 import java.util.Map;
 
@@ -38,4 +35,5 @@ public interface World {
 
     int getObjectCount();
 
+    void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 }

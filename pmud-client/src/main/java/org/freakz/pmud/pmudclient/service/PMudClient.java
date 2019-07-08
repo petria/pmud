@@ -14,7 +14,7 @@ import java.util.Scanner;
 @Slf4j
 public class PMudClient implements CommandLineRunner {
 
-    private Scanner  scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     private static String player = "Someone";
 
@@ -55,11 +55,16 @@ public class PMudClient implements CommandLineRunner {
     @JmsListener(destination = "pmud-clients.topic")
     public void receiveMessage(PMudMessage message) {
         if (message.getReplyToPid() == ProcessHandle.current().pid()) {
-            if (message.getMessage().equals("SERVER_QUIT")) {
-                log.debug("SERVER DID QUIT");
-                System.exit(0);
+            if (message.getMessage() != null) {
+                if (message.getMessage().equals("SERVER_QUIT")) {
+                    log.debug("SERVER DID QUIT");
+                    System.exit(0);
+                } else {
+                    System.out.println(message.getMessage());
+                    prompt();
+                }
             } else {
-                System.out.println(message.getMessage());
+                log.error("Null response");
                 prompt();
             }
         }

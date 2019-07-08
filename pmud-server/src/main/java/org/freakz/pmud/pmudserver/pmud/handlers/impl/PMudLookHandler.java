@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PMudVerbAcceptor
-public class PMudLookHandler {
+public class PMudLookHandler extends HandlerBase {
 
     @AcceptVerbs(verbs = {"look", "l"})
-    public void handleLook(VerbRequest request, VerbResponse response) {
-        PMudPlayer player = request.getPlayer();
-        Location location = player.getLocation();
+    public void handleLook(VerbRequest req, VerbResponse response) {
+
+        PMudPlayer player = player(req);
+        Location location = location(req);
+
         String msg = "\n";
 
         msg += String.format("[ID: %05d] %s [%s@%s]\n", location.getId(), location.getName2(), location.getName(), location.getZone().getName());
@@ -58,7 +60,14 @@ public class PMudLookHandler {
             msg += plr.getName() + " is " + plr.getPosition().text() + " here. \n";
         }
 
-        msg += "\nObvious exits are:\n";
+        msg += "\n" + getObivousExits(location);
+
+        response.setToSender(msg);
+
+    }
+
+    public static String getObivousExits(Location location) {
+        String msg = "\nObvious exits are:\n";
         if (location.getExitsMap().size() > 0) {
             for (Location.Exits exit : Location.Exits.values()) {
                 Location l = location.getExitsMap().get(exit.getDir());
@@ -70,8 +79,14 @@ public class PMudLookHandler {
         } else {
             msg += "None....\n";
         }
-        response.setToSender(msg);
+        return msg;
+    }
 
+    @AcceptVerbs(verbs = {"exits"})
+    public void handleExits(VerbRequest request, VerbResponse response) {
+        Location location = request.getPlayer().getLocation();
+        String msg = getObivousExits(location);
+        response.setToSender(msg);
     }
 
 }

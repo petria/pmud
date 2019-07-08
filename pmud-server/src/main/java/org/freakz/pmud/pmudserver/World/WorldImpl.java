@@ -1,10 +1,7 @@
 package org.freakz.pmud.pmudserver.World;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.Mobile;
-import org.freakz.pmud.common.objects.PObject;
-import org.freakz.pmud.common.objects.Zone;
+import org.freakz.pmud.common.objects.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -103,6 +100,13 @@ public class WorldImpl implements World {
     @Override
     public int getObjectCount() {
         return this.nameToObjectMap.size();
+    }
+
+    @Override
+    public void playerToNewLocation(PMudPlayer mover, Location old, Location toGo) {
+        old.removePlayer(mover);
+        toGo.addPlayer(mover);
+        mover.setLocation(toGo);
     }
 
     @Override

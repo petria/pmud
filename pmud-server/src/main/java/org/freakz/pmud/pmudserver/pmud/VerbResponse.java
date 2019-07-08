@@ -1,14 +1,19 @@
 package org.freakz.pmud.pmudserver.pmud;
 
+import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.PMudPlayer;
 
 public class VerbResponse {
 
     private final PMudPlayer player;
 
-    private String fromRoom;
-    private String toRoom;
-    private String toSender;
+    private Location from;
+    private String fromRoom = null;
+
+    private Location to;
+    private String toRoom = null;
+
+    private String toSender = null;
 
     public VerbResponse(PMudPlayer player) {
         this.player = player;
@@ -22,7 +27,8 @@ public class VerbResponse {
         return fromRoom;
     }
 
-    public void setFromRoom(String fromRoom) {
+    public void setFromRoom(Location location, String fromRoom) {
+        this.from = location;
         this.fromRoom = fromRoom;
     }
 
@@ -30,7 +36,8 @@ public class VerbResponse {
         return toRoom;
     }
 
-    public void setToRoom(String toRoom) {
+    public void setToRoom(Location location, String toRoom) {
+        this.to = location;
         this.toRoom = toRoom;
     }
 

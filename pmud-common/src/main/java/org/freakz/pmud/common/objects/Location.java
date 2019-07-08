@@ -9,13 +9,16 @@ import java.util.Map;
 
 public class Location extends PMudObject implements Serializable {
 
+
     public enum Exits {
         NORTH("North", "n"),
         EAST("East", "e"),
         SOUTH("South", "s"),
         WEST("West", "w"),
         UP("Up", "u"),
-        DOWN("Down", "d");
+        DOWN("Down", "d"),
+
+        NONE("None", "none");
 
         private final String nice;
         private final String dir;
@@ -23,6 +26,28 @@ public class Location extends PMudObject implements Serializable {
         Exits(String nice, String dir) {
             this.nice = nice;
             this.dir = dir;
+        }
+
+        public static Exits getExit(String dir) {
+            if (dir.matches("north|n")) {
+                return NORTH;
+            }
+            if (dir.matches("east|e")) {
+                return EAST;
+            }
+            if (dir.matches("south|s")) {
+                return SOUTH;
+            }
+            if (dir.matches("west|w")) {
+                return WEST;
+            }
+            if (dir.matches("up|u")) {
+                return UP;
+            }
+            if (dir.matches("down|d")) {
+                return DOWN;
+            }
+            return NONE;
         }
 
         public String getNice() {
@@ -75,6 +100,10 @@ public class Location extends PMudObject implements Serializable {
 
     public void setZone(Zone zone) {
         this.zone = zone;
+    }
+
+    public Location getExit(Exits exit) {
+        return this.exitsMap.get(exit.getDir());
     }
 
     public void addRawExit(String exit) {
