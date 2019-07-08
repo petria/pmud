@@ -65,6 +65,18 @@ public class CommandHandlerService {
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
+        } else {
+            for (String key : handlers.keySet()) {
+                if (key.startsWith(request.getArgs().getCmd())) {
+                    try {
+                        handler = handlers.get(key);
+                        handler.method.invoke(handler.clazz, request, response);
+                        return true;
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         return false;
     }
