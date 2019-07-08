@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -103,6 +105,29 @@ public class WorldImpl implements World {
     @Override
     public int getObjectCount() {
         return this.nameToObjectMap.size();
+    }
+
+    @Override
+    public List<PObject> findObjects(String toFind) {
+        List<PObject> found = new ArrayList<>();
+        for (PObject o : nameToObjectMap.values()) {
+            if (o.getName() != null) {
+                if (o.getName().equalsIgnoreCase(toFind)) {
+                    found.add(o);
+                }
+            }
+            if (o.getpName() != null) {
+                if (o.getpName().equalsIgnoreCase(toFind)) {
+                    found.add(o);
+                }
+            }
+            if (o.getAltName() != null) {
+                if (o.getAltName().equalsIgnoreCase(toFind)) {
+                    found.add(o);
+                }
+            }
+        }
+        return found;
     }
 
     @Override

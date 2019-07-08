@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.World;
 
 import org.freakz.pmud.common.objects.*;
 
+import java.util.List;
 import java.util.Map;
 
 public interface World {
@@ -44,4 +45,5 @@ public interface World {
 
     PMudPlayer removePlayer(String player);
 
+    List<PObject> findObjects(String toFind);
 }

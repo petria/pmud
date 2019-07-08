@@ -48,7 +48,7 @@ public class CommandHandlerService {
     }
 
     public VerbResponse invokeVerb(String verb, PMudPlayer player) {
-        VerbRequest request = new VerbRequest("look", player);
+        VerbRequest request = new VerbRequest(verb, player);
         VerbResponse response = new VerbResponse(player);
         if (invokeVerbHandler(request, response)) {
             return response;
