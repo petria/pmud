@@ -13,6 +13,8 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     private Location location;
 
+    private int score;
+
     public PMudPlayer(Zone zone) {
         super(zone);
     }

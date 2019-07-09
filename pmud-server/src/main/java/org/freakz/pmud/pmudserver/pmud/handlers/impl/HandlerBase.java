@@ -7,6 +7,7 @@ import org.freakz.pmud.pmudserver.pmud.CommandHandlerService;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbHandler;
+import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class HandlerBase implements PMudVerbHandler {
@@ -17,6 +18,8 @@ public abstract class HandlerBase implements PMudVerbHandler {
     @Autowired
     World world;
 
+    @Autowired
+    ScoreAndLevelsService levelsService;
 
     VerbResponse invokeVerb(String verb, PMudPlayer player) {
         return commandHandlerService.invokeVerb(verb, player);
