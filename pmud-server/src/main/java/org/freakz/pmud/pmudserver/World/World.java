@@ -43,6 +43,7 @@ public interface World {
 
     int playerCount();
 
+    void addPlayerScore(PMudPlayer player, int score);
 
     Map<String, PMudPlayer> getNameToPlayerMap();
 

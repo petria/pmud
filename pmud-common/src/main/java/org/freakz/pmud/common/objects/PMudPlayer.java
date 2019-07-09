@@ -15,10 +15,12 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     private Location location;
 
-    private String level;
+    private int levelNum;
     private int score = 0;
     private int strength = 0;
+    private int maxStrength = 0;
     private int mana = 0;
+    private int maxMana = 0;
     private int kills = 0;
     private int deaths = 0;
     private int wimpy = 0;
@@ -26,8 +28,6 @@ public class PMudPlayer extends Mobile implements Serializable {
     private int age = 20;
     private int coins = 0;
     private int acAvg = 0;
-
-
 
     public PMudPlayer(Zone zone) {
         super(zone);
@@ -71,13 +71,12 @@ public class PMudPlayer extends Mobile implements Serializable {
         this.title = title;
     }
 
-
-    public String getLevel() {
-        return level;
+    public int getLevelNum() {
+        return levelNum;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
     }
 
     public PClass getpClass() {
@@ -168,5 +167,21 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     public void setAcAvg(int acAvg) {
         this.acAvg = acAvg;
+    }
+
+    public int getMaxStrength() {
+        return maxStrength;
+    }
+
+    public void setMaxStrength(int maxStrength) {
+        this.maxStrength = maxStrength;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
     }
 }

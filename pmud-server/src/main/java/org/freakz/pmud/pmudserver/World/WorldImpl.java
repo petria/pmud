@@ -2,6 +2,8 @@ package org.freakz.pmud.pmudserver.World;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
+import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,6 +14,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class WorldImpl implements World {
+
+    @Autowired
+    private ScoreAndLevelsService levelsService;
 
     private Map<String, Zone> zoneNameToZoneMap;
 
@@ -161,6 +166,14 @@ public class WorldImpl implements World {
     @Override
     public int playerCount() {
         return nameToPlayerMap.size();
+    }
+
+
+    @Override
+    public void addPlayerScore(PMudPlayer player, int score) {
+        int scr = player.getScore() + score;
+        player.setScore(scr);
+        levelsService.setLevels(player);
     }
 
     @Override

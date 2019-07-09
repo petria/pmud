@@ -2,52 +2,24 @@ package org.freakz.pmud.pmudserver.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.enums.PClass;
+import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.common.player.Level;
+import org.freakz.pmud.common.player.Levels;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
 public class ScoreAndLevelsService {
 
-
-    public class Level {
-        public int level;
-        public int minScore;
-        public Map<PClass, String> classTitle = new HashMap<>();
-
-        public String title(int num) {
-            return classTitle.get(PClass.values()[num]);
-        }
-    }
-
-    public class Levels {
-        List<Level> levels = new ArrayList<>();
-
-        void addLevel(int levelNum, int minScore, String... titles) {
-            Level level = new Level();
-            level.level = levelNum;
-            level.minScore = minScore;
-            for (int i = 0; i < titles.length; i++) {
-                level.classTitle.put(PClass.values()[i], titles[i]);
-            }
-            levels.add(level);
-        }
-
-        public List<Level> getLevels() {
-            return levels;
-        }
-    }
+    private static final int MAX_LEVEL = 21;
 
     private Levels levels = new Levels();
 
     public ScoreAndLevelsService() {
         initLevels();
     }
-
 
     private void initLevels() {
         levels.addLevel(1, 0, "Private", "Novice", "Footpad", "Acolyte");
@@ -77,4 +49,37 @@ public class ScoreAndLevelsService {
     public List<Level> getLevels() {
         return levels.getLevels();
     }
+
+    public void setLevels(PMudPlayer player) {
+        int oldLevel = player.getLevelNum();
+
+        Level level = findLevel(player.getScore());
+        player.setLevelNum(level.getLevel());
+        PClass pClass = player.getpClass();
+        String name = level.getClassTitle().get(pClass);
+        player.setTitle("the " + name);
+
+        int newLevel = player.getLevelNum();
+        if (newLevel == oldLevel + 1) {
+            log.debug("{} level {} -> {}", player.getName(), oldLevel, newLevel);
+        }
+        int maxStrength = 75 + ((newLevel - 1) * 8);
+        int maxMana = 15 + ((newLevel - 1) * 3);
+
+        player.setMaxStrength(maxStrength);
+        ;
+        player.setMana(maxMana);
+
+    }
+
+    private Level findLevel(int score) {
+        for (Level level : getLevels()) {
+            if (score > level.getMinScore()) {
+                continue;
+            }
+            return level;
+        }
+        return getLevels().get(MAX_LEVEL);
+    }
+
 }

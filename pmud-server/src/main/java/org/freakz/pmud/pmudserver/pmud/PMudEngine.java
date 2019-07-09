@@ -1,6 +1,7 @@
 package org.freakz.pmud.pmudserver.pmud;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.message.PMudMessage;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.PMudPlayer;
@@ -60,12 +61,16 @@ public class PMudEngine {
         PMudPlayer player = world.findPlayer(playerName);
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
+            player.setLevelNum(1);
+            player.setMaxStrength(75);
+            player.setMana(15);
             player.setName(message.getPlayer());
-            player.setLevel("Soldier");
-            player.setScore(12435);
-            player.setTitle("the Soldier");
+            player.setpClass(PClass.THIEF);
+            player.setScore(0);
+            player.setTitle("the Newbie");
             player.setPid(message.getPid());
             world.addPlayer(player);
+            world.addPlayerScore(player, 100000);
         } else {
             player.getLocation().removePlayer(player);
         }
