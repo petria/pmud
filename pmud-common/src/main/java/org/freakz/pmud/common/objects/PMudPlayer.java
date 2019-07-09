@@ -1,5 +1,7 @@
 package org.freakz.pmud.common.objects;
 
+import org.freakz.pmud.common.enums.PClass;
+
 import java.io.Serializable;
 
 public class PMudPlayer extends Mobile implements Serializable {
@@ -9,11 +11,23 @@ public class PMudPlayer extends Mobile implements Serializable {
     private String name;
     private String title;
 
-    private String level;
+    private PClass pClass;
 
     private Location location;
 
-    private int score;
+    private String level;
+    private int score = 0;
+    private int strength = 0;
+    private int mana = 0;
+    private int kills = 0;
+    private int deaths = 0;
+    private int wimpy = 0;
+    private int qPoints = 0;
+    private int age = 20;
+    private int coins = 0;
+    private int acAvg = 0;
+
+
 
     public PMudPlayer(Zone zone) {
         super(zone);
@@ -64,5 +78,95 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public PClass getpClass() {
+        return pClass;
+    }
+
+    public void setpClass(PClass pClass) {
+        this.pClass = pClass;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    @Override
+    public int getStrength() {
+        return strength;
+    }
+
+    @Override
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public int getWimpy() {
+        return wimpy;
+    }
+
+    public void setWimpy(int wimpy) {
+        this.wimpy = wimpy;
+    }
+
+    public int getqPoints() {
+        return qPoints;
+    }
+
+    public void setqPoints(int qPoints) {
+        this.qPoints = qPoints;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public int getAcAvg() {
+        return acAvg;
+    }
+
+    public void setAcAvg(int acAvg) {
+        this.acAvg = acAvg;
     }
 }

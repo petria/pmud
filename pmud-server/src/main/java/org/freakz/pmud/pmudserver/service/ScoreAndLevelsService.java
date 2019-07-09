@@ -1,6 +1,7 @@
 package org.freakz.pmud.pmudserver.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freakz.pmud.common.enums.PClass;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +13,6 @@ import java.util.Map;
 @Slf4j
 public class ScoreAndLevelsService {
 
-    public enum PClass {
-        WARRIOR,
-        MAGE,
-        THIEF,
-        PRIEST
-    }
 
     public class Level {
         public int level;

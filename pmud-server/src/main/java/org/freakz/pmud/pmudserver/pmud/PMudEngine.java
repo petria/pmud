@@ -62,6 +62,7 @@ public class PMudEngine {
             player = new PMudPlayer(world.getZone("start"));
             player.setName(message.getPlayer());
             player.setLevel("Soldier");
+            player.setScore(12435);
             player.setTitle("the Soldier");
             player.setPid(message.getPid());
             world.addPlayer(player);
