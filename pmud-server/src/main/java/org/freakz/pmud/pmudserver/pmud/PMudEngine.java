@@ -75,10 +75,10 @@ public class PMudEngine {
             player.getLocation().removePlayer(player);
         }
 
-        Location start = world.getLocationByName2("blizzard70");
+        Location start = world.getLocationByName2("start1");
         player.setLocation(start);
 
-        sendMessageToRoom(player, start, playerName + " entered game");
+        sendMessageToRoom(player, start, playerName + " entered game\n");
 
         start.addPlayer(player);
 

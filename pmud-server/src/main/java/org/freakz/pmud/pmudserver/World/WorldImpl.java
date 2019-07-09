@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.World;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
+import org.freakz.pmud.common.util.PHelpers;
 import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -131,23 +132,17 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void playerTakeObject(PMudPlayer player, Location l, PObject o) {
+        l.removeObject(o);
+        player.addCarried(o);
+    }
+
+    @Override
     public List<PObject> findObjects(String toFind) {
         List<PObject> found = new ArrayList<>();
         for (PObject o : nameToObjectMap.values()) {
-            if (o.getName() != null) {
-                if (o.getName().equalsIgnoreCase(toFind)) {
-                    found.add(o);
-                }
-            }
-            if (o.getpName() != null) {
-                if (o.getpName().equalsIgnoreCase(toFind)) {
-                    found.add(o);
-                }
-            }
-            if (o.getAltName() != null) {
-                if (o.getAltName().equalsIgnoreCase(toFind)) {
-                    found.add(o);
-                }
+            if (PHelpers.matchToObject(o, toFind)) {
+                found.add(o);
             }
         }
         return found;

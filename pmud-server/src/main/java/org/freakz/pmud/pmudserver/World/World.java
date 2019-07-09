@@ -35,6 +35,9 @@ public interface World {
 
     int getObjectCount();
 
+    void playerTakeObject(PMudPlayer player, Location l, PObject o);
+
+
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 
     PMudPlayer findPlayer(String toFind);

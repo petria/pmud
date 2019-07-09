@@ -1,5 +1,7 @@
 package org.freakz.pmud.common.objects;
 
+import org.freakz.pmud.common.util.PHelpers;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,6 +171,15 @@ public class Location extends PMudObject implements Serializable {
 
     public void removeObject(PObject object) {
         this.objects.remove(object.getId());
+    }
+
+    public PObject getObject(String name) {
+        for (PObject o : this.objects.values()) {
+            if (PHelpers.matchToObject(o, name)) {
+                return o;
+            }
+        }
+        return null;
     }
 
 

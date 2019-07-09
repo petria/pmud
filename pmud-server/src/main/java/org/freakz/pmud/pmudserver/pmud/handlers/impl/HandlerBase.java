@@ -49,5 +49,4 @@ public abstract class HandlerBase implements PMudVerbHandler {
         return invokeVerb("look", player(req)).getToSender();
     }
 
-
 }
