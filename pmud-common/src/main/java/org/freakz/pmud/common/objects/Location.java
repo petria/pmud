@@ -12,6 +12,10 @@ import java.util.Map;
 public class Location extends PMudObject implements Serializable {
 
 
+    public boolean hasPit() {
+        return false; // TODO
+    }
+
     public enum Exits {
         NORTH("North", "n"),
         EAST("East", "e"),

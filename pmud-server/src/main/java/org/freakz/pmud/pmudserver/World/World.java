@@ -37,6 +37,7 @@ public interface World {
 
     void playerTakeObject(PMudPlayer player, Location l, PObject o);
 
+    void playerDropObject(PMudPlayer p, Location l, PObject o);
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 

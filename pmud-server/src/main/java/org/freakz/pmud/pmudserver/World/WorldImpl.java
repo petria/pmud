@@ -138,10 +138,16 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public List<PObject> findObjects(String toFind) {
+    public void playerDropObject(PMudPlayer player, Location location, PObject o) {
+        player.removeCarried(o);
+        location.addObject(o);
+    }
+
+    @Override
+    public List<PObject> findObjects(String name) {
         List<PObject> found = new ArrayList<>();
         for (PObject o : nameToObjectMap.values()) {
-            if (PHelpers.matchToObject(o, toFind)) {
+            if (PHelpers.matchToObject(o, name)) {
                 found.add(o);
             }
         }

@@ -130,7 +130,7 @@ Description     = "Bob is here, looking eager to answer your questions."
 End             = Bob
 
 %objects
-Name      = Umbrella
+Name      = umbrella
 Location  = IN_ROOM:temple
 Oflags    {Weapon}
 State     = 1
@@ -158,6 +158,7 @@ fly up and away, disappearing amongst the pillars of the temple."
 End       = fire
 
 Name      = pit
+Pname	  = pit
 Location  = IN_ROOM:temple
 Oflags	  {NoGet}
 Desc[0]   = "

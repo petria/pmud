@@ -28,7 +28,7 @@ public class PMudSpellsHandler extends HandlerBase {
         if (f2.size() > 0) {
             String msg = "";
             for (PObject o : f2) {
-                msg += String.format("[%5d]%25s - %-30s| %s\n", o.getId(), "key", o.getLocation().getTitle(), o.getLocation().getName2());
+                msg += String.format("[%5d]%25s - %-30s| %s\n", o.getId(), o.getpName(), o.getLocation().getTitle(), o.getLocation().getName2());
             }
             response.setToSender(msg);
             return;

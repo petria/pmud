@@ -1,6 +1,7 @@
 package org.freakz.pmud.common.objects;
 
 import org.freakz.pmud.common.enums.PClass;
+import org.freakz.pmud.common.util.PHelpers;
 
 import java.io.Serializable;
 
@@ -183,5 +184,14 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
+    }
+
+    public PObject isCarrying(String name) {
+        for (PObject o : getCarried().values()) {
+            if (PHelpers.matchToObject(o, name)) {
+                return o;
+            }
+        }
+        return null;
     }
 }
