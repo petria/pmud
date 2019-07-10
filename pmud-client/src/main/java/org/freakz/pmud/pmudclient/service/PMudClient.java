@@ -34,7 +34,12 @@ public class PMudClient implements CommandLineRunner {
         } else {
             player = getPlayerName();
         }
-        System.out.printf(">>Player name: %s\n", player);
+        System.out.print("\033[H\033[2J");
+        System.out.print("\n\n\n");
+
+        System.out.print(">>> ---------      M O T D     ------------- <<<\n\n");
+        System.out.print(">>> USE commands TO SEE WHAT IS IMPLEMENTED! <<<\n\n");
+        System.out.print(">>> ---------                  ------------- <<<\n\n");
 
         log.debug("Connecting player: {}", player);
 
