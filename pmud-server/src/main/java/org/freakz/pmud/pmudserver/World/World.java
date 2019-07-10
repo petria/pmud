@@ -37,6 +37,8 @@ public interface World {
 
     int getObjectCount();
 
+    void playerSummonObject(PMudPlayer player, PObject o);
+
     void playerTakeObject(PMudPlayer player, Location l, PObject o);
 
     void playerDropObject(PMudPlayer p, Location l, PObject o);
@@ -44,6 +46,8 @@ public interface World {
     void playerDropObjectPit(PMudPlayer player, Location location, PObject o);
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
+
+    PObject findClosestObject(PMudPlayer p, String name);
 
     PMudPlayer findPlayer(String toFind);
 

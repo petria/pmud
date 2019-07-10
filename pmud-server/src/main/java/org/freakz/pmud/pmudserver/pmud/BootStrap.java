@@ -176,6 +176,7 @@ public class BootStrap implements CommandLineRunner {
                     locationName = locationName.replaceFirst("BOTH_BY:", "");
                     Mobile carrier = zone.findMobileByName(locationName);
                     if (carrier != null) {
+                        carrier.addCarried(object);
                         carrier.addWorn(object);
                         carrier.setWielded(object);
                         location = carrier.getLocation();
@@ -186,6 +187,7 @@ public class BootStrap implements CommandLineRunner {
                     locationName = locationName.replaceFirst("WIELDED_BY:", "");
                     Mobile carrier = zone.findMobileByName(locationName);
                     if (carrier != null) {
+                        carrier.addCarried(object);
                         carrier.setWielded(object);
                         location = carrier.getLocation();
                     } else {
@@ -196,6 +198,7 @@ public class BootStrap implements CommandLineRunner {
                     locationName = locationName.replaceFirst("WORN_BY:", "");
                     Mobile carrier = zone.findMobileByName(locationName);
                     if (carrier != null) {
+                        carrier.addCarried(object);
                         carrier.addWorn(object);
                         location = carrier.getLocation();
                     } else {

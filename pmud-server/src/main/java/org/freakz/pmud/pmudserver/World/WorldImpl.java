@@ -148,6 +148,24 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void playerSummonObject(PMudPlayer player, PObject o) {
+        if (o.isInRoom()) {
+            o.getInRoom().removeObject(o);
+        }
+        if (o.isInContainer()) {
+            o.getContainer().removeContains(o);
+        }
+        if (o.isWielded()) {
+            o.getWieldedBy().removeWielded(o);
+        }
+        if (o.isCarried()) {
+            o.getCarrier().removeCarried(o);
+        }
+        player.addCarried(o);
+        o.setLocation(player.getLocation());
+    }
+
+    @Override
     public void playerTakeObject(PMudPlayer player, Location l, PObject o) {
         l.removeObject(o);
         player.addCarried(o);
@@ -175,6 +193,21 @@ public class WorldImpl implements World {
             }
         }
         return found;
+    }
+
+    @Override
+    public PObject findClosestObject(PMudPlayer p, String name) {
+
+        List<PObject> objs = findObjects(name);
+        if (objs.size() > 0) {
+            for (PObject o : objs) {
+                if (o.getLocation() == p.getLocation()) {
+                    return o;
+                }
+            }
+            return objs.get(0);
+        }
+        return null;
     }
 
     @Override

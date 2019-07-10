@@ -30,7 +30,7 @@ public class PMudEngine {
     public void handlePMudMessage(PMudMessage pMudMessage) {
 
         if (pMudMessage.getMessage().equals("CONNECTED")) {
-            PMudPlayer player = handleConnected(pMudMessage);
+            PMudPlayer player = reloadPlayer(pMudMessage);
             sender.sendReply(player, commandHandlerService.invokeVerb("look", player).getToSender());
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
 
@@ -39,24 +39,25 @@ public class PMudEngine {
 
         } else {
             PMudPlayer player = world.findPlayer(pMudMessage.getPlayer());
-            if (player != null) {
-                VerbRequest request = new VerbRequest(pMudMessage.getMessage(), player);
-                VerbResponse response = new VerbResponse(player);
-                boolean success = commandHandlerService.invokeVerbHandler(request, response);
-                if (success) {
-                    sender.sendReply(response);
-                } else {
-                    sender.sendReply(player, "Pardon?\n");
-                }
-
-            } else {
-                log.error("No player!?");
+            if (player == null) {
+                player = reloadPlayer(pMudMessage);
+                log.debug("Reloaded: {}", player.getName());
             }
+
+            VerbRequest request = new VerbRequest(pMudMessage.getMessage(), player);
+            VerbResponse response = new VerbResponse(player);
+            boolean success = commandHandlerService.invokeVerbHandler(request, response);
+            if (success) {
+                sender.sendReply(response);
+            } else {
+                sender.sendReply(player, "Pardon?\n");
+            }
+
         }
     }
 
 
-    private PMudPlayer handleConnected(PMudMessage message) {
+    private PMudPlayer reloadPlayer(PMudMessage message) {
         String playerName = message.getPlayer();
         PMudPlayer player = world.findPlayer(playerName);
         if (player == null) {

@@ -196,10 +196,14 @@ public class Mobile extends PMudObject {
     }
 
     public void addCarried(PObject object) {
+        object.setCarried(true);
+        object.setCarrier(this);
         this.carried.put(object.getId(), object);
     }
 
     public void removeCarried(PObject object) {
+        object.setCarried(false);
+        object.setCarrier(null);
         this.carried.remove(object.getId());
     }
 
@@ -212,13 +216,15 @@ public class Mobile extends PMudObject {
     }
 
     public void addWorn(PObject object) {
+        object.setWorn(true);
+        object.setWornBy(this);
         this.worn.put(object.getId(), object);
-        this.carried.put(object.getId(), object);
     }
 
     public void removeWorn(PObject object) {
+        object.setWorn(false);
+        object.setWornBy(null);
         this.worn.remove(object.getId());
-        this.carried.remove(object.getId());
     }
 
     public PObject getWielded() {
@@ -226,13 +232,15 @@ public class Mobile extends PMudObject {
     }
 
     public void setWielded(PObject object) {
+        object.setWielded(true);
+        object.setWieldedBy(this);
         this.wielded = object;
-        this.carried.put(object.getId(), object);
     }
 
     public void removeWielded(PObject object) {
+        object.setWielded(false);
+        object.setWieldedBy(null);
         this.wielded = null;
-        this.carried.remove(object.getId());
     }
 
     public void setSex(PSex sex) {

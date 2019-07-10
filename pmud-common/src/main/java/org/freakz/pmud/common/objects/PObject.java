@@ -26,6 +26,26 @@ public class PObject extends PMudObject {
 
     private Map<Integer, PObject> contains = new HashMap<>();
 
+    private PObject container;
+
+    private boolean isInContainer;
+
+    private Mobile carrier;
+
+    private boolean isCarried;
+
+    private Mobile wornBy;
+
+    private boolean isWorn;
+
+    private Mobile wieldedBy;
+
+    private boolean isWielded;
+
+    private Location inRoom;
+
+    private boolean isInRoom;
+
     private PObject linkedTo;
 
     public PObject(Zone zone) {
@@ -43,6 +63,14 @@ public class PObject extends PMudObject {
     public Location getLocation() {
         return location;
     }
+
+    public Location location() {
+        if (isInRoom) {
+            return location;
+        }
+        return carrier.getLocation();
+    }
+
 
     public void setLocation(Location location) {
         this.location = location;
@@ -149,11 +177,104 @@ public class PObject extends PMudObject {
     }
 
     public void addContains(PObject object) {
+        object.setInContainer(true);
+        object.setContainer(this);
         this.contains.put(object.getId(), object);
     }
 
     public void removeContains(PObject object) {
+        object.setInContainer(false);
+        object.setContainer(null);
         this.contains.remove((object.getId()));
     }
 
+    public String name() {
+        if (pName != null) {
+            return pName;
+        }
+        if (altName != null) {
+            return altName;
+        }
+        return getName().toLowerCase();
+    }
+
+    public PObject getContainer() {
+        return container;
+    }
+
+    public void setContainer(PObject container) {
+        this.container = container;
+    }
+
+    public boolean isInContainer() {
+        return isInContainer;
+    }
+
+    public void setInContainer(boolean inContainer) {
+        isInContainer = inContainer;
+    }
+
+    public Mobile getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(Mobile carrier) {
+        this.carrier = carrier;
+    }
+
+    public boolean isCarried() {
+        return isCarried;
+    }
+
+    public void setCarried(boolean carried) {
+        isCarried = carried;
+    }
+
+    public Mobile getWornBy() {
+        return wornBy;
+    }
+
+    public void setWornBy(Mobile wornBy) {
+        this.wornBy = wornBy;
+    }
+
+    public boolean isWorn() {
+        return isWorn;
+    }
+
+    public void setWorn(boolean worn) {
+        isWorn = worn;
+    }
+
+    public Mobile getWieldedBy() {
+        return wieldedBy;
+    }
+
+    public void setWieldedBy(Mobile wieldedBy) {
+        this.wieldedBy = wieldedBy;
+    }
+
+    public boolean isWielded() {
+        return isWielded;
+    }
+
+    public void setWielded(boolean wielded) {
+        isWielded = wielded;
+    }
+
+    public Location getInRoom() {
+        return inRoom;
+    }
+
+    public void setInRoom(Location inRoom) {
+        this.inRoom = inRoom;
+    }
+
+    public boolean isInRoom() {
+        return isInRoom;
+    }
+
+    public void setIsInRoom(boolean inRoom) {
+        isInRoom = inRoom;
+    }
 }

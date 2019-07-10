@@ -117,10 +117,14 @@ public class Location extends PMudObject implements Serializable {
     }
 
     public void addObject(PObject object) {
+        object.setIsInRoom(true);
+        object.setInRoom(this);
         this.objects.put(object.getId(), object);
     }
 
     public void removeObject(PObject object) {
+        object.setIsInRoom(false);
+        object.setInRoom(null);
         this.objects.remove(object.getId());
     }
 
