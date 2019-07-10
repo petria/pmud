@@ -71,9 +71,28 @@ public class PObject extends PMudObject {
         return carrier.getLocation();
     }
 
-
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String where() {
+        if (isInRoom) {
+            return location.getTitle();
+        } else {
+            if (!isWielded && !isWorn) {
+                return "carried by " + carrier.getName();
+            } else {
+                if (isWielded && isWorn) {
+                    return "wielded and worn by " + carrier.getName();
+                } else {
+                    if (isWorn) {
+                        return "worn by " + carrier.getName();
+                    }
+                    return "wielded by " + carrier.getName();
+                }
+
+            }
+        }
     }
 
     public String getpName() {
