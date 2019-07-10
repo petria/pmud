@@ -15,15 +15,15 @@ public class PMudInfoHandler extends HandlerBase {
     @AcceptVerbs(verbs = {"who"})
     public void handleWho(VerbRequest req, VerbResponse resp) {
         String msg = "";
-        msg += "+-------------+---------------------------------------------------------------+\n";
-        msg += "| Level       | Title                                                         |\n";
-        msg += "I-------------I---------------------------------------------------------------I\n";
+        msg += "+----------------+---------------------------------------------------------------+\n";
+        msg += "| Level          | Title                                                         |\n";
+        msg += "I----------------I---------------------------------------------------------------I\n";
         for (PMudPlayer p : world.getNameToPlayerMap().values()) {
-            msg += String.format("| %10s  | %-61s |\n", p.getTitle(), p.getName() + " " + p.getTitle());
+            msg += String.format("| %13s  | %-61s |\n", p.getTitle(), p.getName() + " " + p.getTitle());
         }
-        msg += "I-------------+---------------------------------------------------------------I\n";
-        msg += String.format("| There are currently %2s visible players on PMud                              |\n", world.playerCount());
-        msg += "+-----------------------------------------------------------------------------+\n";
+        msg += "I----------------+---------------------------------------------------------------I\n";
+        msg += String.format("| There are currently %2s visible players on PMud                                 |\n", world.playerCount());
+        msg += "+--------------------------------------------------------------------------------+\n";
 
         resp.setToSender(msg);
 

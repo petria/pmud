@@ -2,7 +2,9 @@ package org.freakz.pmud.pmudserver.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.PMudMessage;
+import org.freakz.pmud.common.message.PMudMessageToAll;
 import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -14,6 +16,9 @@ public class MessageSender {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private World world;
 
     public void sendReply(String message, String player, long replyToPid) {
 //        log.debug("Start send");
@@ -50,8 +55,15 @@ public class MessageSender {
                 sendReply(inRoom, response.getToRoom());
             }
         }
+        if (response.getToWorld() != null) {
+            sendReplyToAll(response.getToWorld(), response.getPlayer().getPid());
+        }
         jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
 
+    }
+
+    private void sendReplyToAll(String toWorld, long pid) {
+        jmsTemplate.convertAndSend("pmud-clients-all.topic", new PMudMessageToAll(toWorld, pid));
     }
 
     public void sendReply(PMudPlayer player, String message) {

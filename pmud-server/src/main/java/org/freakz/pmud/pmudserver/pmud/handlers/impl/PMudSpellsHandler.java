@@ -29,7 +29,7 @@ public class PMudSpellsHandler extends HandlerBase {
             String oldW = o.where();
             resp.setFromRoomF(o.getLocation(), "The %s umbrella vanishes!\n", o.name());
             world.playerSummonObject(player(req), o);
-            resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.", playerName(req));
+            resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.\n", playerName(req));
 
             resp.setToSenderF("The %s flies into your hand.\nIt was: %-25s | %s\n", o.name(), oldW, oldL.getName2());
         }

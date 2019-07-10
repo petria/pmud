@@ -2,6 +2,8 @@ package org.freakz.pmud.pmudclient.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.PMudMessage;
+import org.freakz.pmud.common.message.PMudMessageToAll;
+import org.freakz.pmud.common.util.PHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jms.annotation.JmsListener;
@@ -25,9 +27,15 @@ public class PMudClient implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (args[0] != null) {
+        System.out.printf(">> %d\n", args.length);
+
+        if (args.length == 1) {
             player = args[0];
+        } else {
+            player = getPlayerName();
         }
+        System.out.printf(">>Player name: %s\n", player);
+
         log.debug("Connecting player: {}", player);
 
         String prev = "";
@@ -58,7 +66,14 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
+    private String getPlayerName() {
+        System.out.print("By what name should I call you? ");
+        String name = scanner.nextLine();
+        return PHelpers.capitalize(name);
+    }
+
     boolean pressed = false;
+
     private void prompt() {
         pressed = false;
         System.out.print("pmud> ");
@@ -83,6 +98,17 @@ public class PMudClient implements CommandLineRunner {
                 log.error("Null response");
                 prompt();
             }
+        }
+    }
+
+    @JmsListener(destination = "pmud-clients-all.topic")
+    public void receiveMessageAll(PMudMessageToAll message) {
+        if (message.getMessage() != null && message.getExceptPid() != ProcessHandle.current().pid()) {
+            if (!pressed) {
+                System.out.println();
+            }
+            System.out.print(message.getMessage());
+            prompt();
         }
     }
 

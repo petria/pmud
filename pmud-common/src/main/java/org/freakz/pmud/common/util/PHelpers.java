@@ -24,4 +24,17 @@ public class PHelpers {
         return false;
     }
 
+    public static String capitalize(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (i == 0) {
+                sb.append(Character.toUpperCase(ch));
+            } else {
+                sb.append(Character.toLowerCase(ch));
+            }
+        }
+        return sb.toString();
+    }
+
 }
