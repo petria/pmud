@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import org.freakz.pmud.common.enums.Exits;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
@@ -7,8 +8,8 @@ import org.freakz.pmud.pmudserver.pmud.handlers.AcceptVerbs;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbAcceptor;
 import org.springframework.stereotype.Component;
 
-import static org.freakz.pmud.common.objects.Location.Exits.NONE;
-import static org.freakz.pmud.common.objects.Location.Exits.getExit;
+import static org.freakz.pmud.common.enums.Exits.NONE;
+import static org.freakz.pmud.common.enums.Exits.getExit;
 
 @Component
 @PMudVerbAcceptor
@@ -20,7 +21,7 @@ public class PMudMovementsHandler extends HandlerBase {
         if (dir.equals("go")) {
             dir = req.getArgs().getArgs();
         }
-        Location.Exits exit = getExit(dir);
+        Exits exit = getExit(dir);
         Location toGo = req.getPlayer().getLocation().getExit(exit);
         if (exit == NONE || toGo == null) {
             response.setToSender("You can't go that way.");

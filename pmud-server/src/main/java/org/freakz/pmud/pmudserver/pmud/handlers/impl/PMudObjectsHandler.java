@@ -40,7 +40,11 @@ public class PMudObjectsHandler extends HandlerBase {
         PObject o = p.isCarrying(args(req));
         if (o != null) {
             if (l.hasPit()) {
-                // TODO
+                world.playerDropObjectPit(p, l, o);
+                resp.setToRoomF(l, "%s drops the %s into the pit.\n", playerName(req), o.getName());
+                resp.setToSenderF("The %s disappears into the bottomless pit.....\n", o.getName());
+                int value = world.getObjectValue(o);
+                world.addPlayerScore(p, value);
             } else {
                 world.playerDropObject(p, l, o);
                 resp.setToRoomF(l, "%s drops %s\n", playerName(req), o.getName());
@@ -61,8 +65,8 @@ public class PMudObjectsHandler extends HandlerBase {
         PObject o = l.getObject(args(req));
         if (o != null) {
             world.playerTakeObject(player(req), l, o);
-            resp.setToRoomF(l, "%s takes %s\n", playerName(req), o.getName());
-            resp.setToSenderF("You take %s\n", o.getName());
+            resp.setToRoomF(l, "%s takes %s.\n", playerName(req), o.getName());
+            resp.setToSenderF("You take %s.\n", o.getName());
         } else {
             resp.setToSender("What's a " + args(req) + "?\n");
         }

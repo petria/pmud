@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import org.freakz.pmud.common.enums.Exits;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
@@ -69,7 +70,7 @@ public class PMudLookHandler extends HandlerBase {
     public static String getObivousExits(Location location) {
         String msg = "\nObvious exits are:\n";
         if (location.getExitsMap().size() > 0) {
-            for (Location.Exits exit : Location.Exits.values()) {
+            for (Exits exit : Exits.values()) {
                 Location l = location.getExitsMap().get(exit.getDir());
                 if (l != null) {
                     msg += String.format(" %6s : %-45s : %s\n", exit.getNice(), l.getTitle(), l.getName2());

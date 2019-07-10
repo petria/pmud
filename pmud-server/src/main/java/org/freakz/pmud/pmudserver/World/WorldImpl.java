@@ -127,6 +127,22 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public int getObjectValue(PObject o) {
+        int visible = getVisiblePlayersCount();
+        if (visible == 0) {
+            visible = 1;
+        }
+        if (visible > 9) {
+            visible = 9;
+        }
+        return (visible * o.getBaseValue() / 9);
+    }
+
+    private int getVisiblePlayersCount() {
+        return this.playerCount();
+    }
+
+    @Override
     public int getObjectCount() {
         return this.nameToObjectMap.size();
     }
@@ -141,6 +157,13 @@ public class WorldImpl implements World {
     public void playerDropObject(PMudPlayer player, Location location, PObject o) {
         player.removeCarried(o);
         location.addObject(o);
+    }
+
+    @Override
+    public void playerDropObjectPit(PMudPlayer player, Location location, PObject o) {
+        player.removeCarried(o);
+        Location pit = getLocationByName2("pit1");
+        pit.addObject(o);
     }
 
     @Override

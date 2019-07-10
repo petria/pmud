@@ -33,11 +33,15 @@ public interface World {
 
     void addObject(PObject object);
 
+    int getObjectValue(PObject o);
+
     int getObjectCount();
 
     void playerTakeObject(PMudPlayer player, Location l, PObject o);
 
     void playerDropObject(PMudPlayer p, Location l, PObject o);
+
+    void playerDropObjectPit(PMudPlayer player, Location location, PObject o);
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 
