@@ -23,9 +23,9 @@ public class CommandHandlerService {
 
     private Map<String, Handler> handlers = new HashMap<>();
 
-    class Handler {
-        Object clazz;
-        Method method;
+    public class Handler {
+        public Object clazz;
+        public Method method;
     }
 
 
@@ -81,4 +81,7 @@ public class CommandHandlerService {
         return false;
     }
 
+    public Map<String, Handler> getHandlers() {
+        return handlers;
+    }
 }
