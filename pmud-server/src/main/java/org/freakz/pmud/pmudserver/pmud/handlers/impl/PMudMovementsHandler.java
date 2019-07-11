@@ -24,14 +24,14 @@ public class PMudMovementsHandler extends HandlerBase {
         Exits exit = getExit(dir);
         Location toGo = req.getPlayer().getLocation().getExit(exit);
         if (exit == NONE || toGo == null) {
-            response.setToSender("You can't go that way.");
+            response.setToSender("You can't go that way.\n");
             return;
         }
 
-        response.setFromRoom(location(req), playerName(req) + " goes to " + exit.getNice());
+        response.setFromRoom(location(req), playerName(req) + " goes to " + exit.getNice() + "\n");
         world.playerToNewLocation(player(req), location(req), toGo);
 
-        response.setToRoom(toGo, playerName(req) + " has arrived.");
+        response.setToRoom(toGo, playerName(req) + " has arrived.\n");
         response.setToSender(look(req));
 
     }
