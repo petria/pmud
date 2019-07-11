@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 @Slf4j
@@ -21,7 +21,7 @@ public class CommandHandlerService {
     @Autowired
     private ApplicationContext context;
 
-    private Map<String, Handler> handlers = new HashMap<>();
+    private Map<String, Handler> handlers = new TreeMap<>();
 
     public class Handler {
         public Object clazz;

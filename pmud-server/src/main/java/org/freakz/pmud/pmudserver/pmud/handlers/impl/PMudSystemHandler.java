@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @PMudVerbAcceptor
@@ -24,19 +25,20 @@ public class PMudSystemHandler {
 
     @AcceptVerbs(verbs = {"commands"})
     public void handleCommands(VerbRequest req, VerbResponse resp) {
-        String msg = "";
-        msg += "+------------------+---------------------------------------------------------------------------------------------------------------I\n";
-        msg += "|      Keyword     | method()                handler class name\n";
-        msg += "I------------------I---------------------------------------------------------------------------------------------------------------I\n";
         Map<String, CommandHandlerService.Handler> map = commands.getHandlers();
+        Set<String> set = map.keySet();
+        String msg = "";
+        msg += "+------------------+----------------------------------------------------------------------------------------------------------I\n";
+        msg += "|      Keyword     | method()                handler class name\n";
+        msg += "I------------------I----------------------------------------------------------------------------------------------------------I\n";
         for (String key : map.keySet()) {
 
             CommandHandlerService.Handler handler = map.get(key);
             msg += String.format("|  %15s | %-20s :: %s\n", key, handler.method.getName(), handler.clazz.getClass().getName());
         }
-        msg += "+-----------------+---------------------------------------------------------------------------------------------------------------I\n";
+        msg += "+-----------------+----------------------------------------------------------------------------------------------------------I\n";
         msg += "+                 |  Total " + map.keySet().size() + " of implemented commands / verbs in system!\n";
-        msg += "+-----------------+---------------------------------------------------------------------------------------------------------------I\n";
+        msg += "+-----------------+----------------------------------------------------------------------------------------------------------I\n";
 
         resp.setToSender(msg);
     }
