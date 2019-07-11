@@ -25,12 +25,16 @@ public class PMudClient implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.printf(">> %d\n", args.length);
         String player;
         if (args.length == 1) {
             player = args[0];
         } else {
             player = getPlayerName();
+            if (player == null) {
+                System.out.print("\nBye then!\n");
+                doKill();
+                System.exit((0));
+            }
         }
 
         sendLoginMessage(player, "passwrd");
@@ -79,7 +83,11 @@ public class PMudClient implements CommandLineRunner {
             }
 
         }
+        doKill();
+        System.out.print(">> Exit Client main loop!");
+    }
 
+    private void doKill() {
         String[] cmd = {"kill", "-9", "" + MY_PID, "&>/dev/null"};
         try {
             Thread.sleep(1000L);
@@ -87,7 +95,6 @@ public class PMudClient implements CommandLineRunner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.print(">> Exit Client main loop!");
     }
 
     private void sendLoginMessage(String player, String password) {
@@ -96,9 +103,20 @@ public class PMudClient implements CommandLineRunner {
     }
 
     private String getPlayerName() {
-        System.out.print("By what name should I call you? ");
-        String name = scanner.nextLine();
-        return PHelpers.capitalize(name);
+        System.out.print("\033[H\033[2J");
+        while (true) {
+            System.out.print("\n\nBy what name should I call you? ");
+            String name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                return null;
+            }
+            if (name.length() < 5) {
+                System.out.print("\nToo short, must be min 5 chars!\n\n");
+            } else {
+                return PHelpers.capitalize(name);
+            }
+        }
+
     }
 
     boolean pressed = false;
