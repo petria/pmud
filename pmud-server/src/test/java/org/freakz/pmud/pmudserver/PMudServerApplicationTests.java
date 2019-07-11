@@ -2,19 +2,15 @@ package org.freakz.pmud.pmudserver;
 
 import org.freakz.pmud.pmudserver.data.CDirtDataParser;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class PMudServerApplicationTests {
 
     private static final String ZONES_DIR = "../c-dirt/data/ZONES/";
@@ -22,13 +18,13 @@ public class PMudServerApplicationTests {
     @Autowired
     CDirtDataParser dataParser;
 
-    @Test
+    //    @Test
     public void testCDirtDataParserGetZoneFiles() throws IOException {
         Set<String> files = dataParser.getFiles(ZONES_DIR, 1, ".zone");
         Assert.assertEquals(75, files.size());
     }
 
-    @Test
+    //    @Test
     public void testCDirtDataParserParseZoneFiles() throws IOException {
 
         dataParser.setZonesDir(ZONES_DIR);
