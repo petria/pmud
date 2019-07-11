@@ -16,6 +16,8 @@ public class VerbResponse {
     private String toSender = null;
     private String toWorld = null;
 
+    boolean doQuit = false;
+
     public VerbResponse(PMudPlayer player) {
         this.player = player;
     }
@@ -81,4 +83,11 @@ public class VerbResponse {
         this.toWorld = toWorld;
     }
 
+    public boolean isDoQuit() {
+        return doQuit;
+    }
+
+    public void setDoQuit(boolean doQuit) {
+        this.doQuit = doQuit;
+    }
 }

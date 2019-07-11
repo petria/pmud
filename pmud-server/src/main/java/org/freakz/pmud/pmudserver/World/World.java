@@ -59,6 +59,8 @@ public interface World {
 
     Map<String, PMudPlayer> getNameToPlayerMap();
 
+    void quitPlayer(PMudPlayer player);
+
     PMudPlayer removePlayer(PMudPlayer player);
 
     PMudPlayer removePlayer(String player);

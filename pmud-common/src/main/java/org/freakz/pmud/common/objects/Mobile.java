@@ -1,10 +1,11 @@
 package org.freakz.pmud.common.objects;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mobile extends PMudObject {
+public class Mobile extends PMudObject implements Serializable {
 
     public enum PSex {
         MALE("male"),

@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
 
 @Component
 @PMudVerbAcceptor
-public class PMudSystemHandler {
+public class PMudSystemHandler extends HandlerBase {
 
     @Autowired
     private CommandHandlerService commands;
@@ -26,13 +25,11 @@ public class PMudSystemHandler {
     @AcceptVerbs(verbs = {"commands"})
     public void handleCommands(VerbRequest req, VerbResponse resp) {
         Map<String, CommandHandlerService.Handler> map = commands.getHandlers();
-        Set<String> set = map.keySet();
         String msg = "";
         msg += "+------------------+----------------------------------------------------------------------------------------------------------I\n";
-        msg += "|      Keyword     | method()                handler class name\n";
+        msg += "|      Keyword     | method()                Java handler class\n";
         msg += "I------------------I----------------------------------------------------------------------------------------------------------I\n";
         for (String key : map.keySet()) {
-
             CommandHandlerService.Handler handler = map.get(key);
             msg += String.format("|  %15s | %-20s :: %s\n", key, handler.method.getName(), handler.clazz.getClass().getName());
         }
@@ -45,4 +42,17 @@ public class PMudSystemHandler {
 
         resp.setToSender(msg);
     }
+
+    @AcceptVerbs(verbs = {"quit"})
+    public void handleQuit(VerbRequest req, VerbResponse resp) {
+        world.quitPlayer(player(req));
+        resp.setDoQuit(true);
+        String msg = "";
+        msg += "---PMudMUD-------------------------------------------------------------------\n\n";
+        msg += "Thank you for playing PMudMUD!\n\n";
+        msg += "-----------------------------------------------------------------------------\n";
+        resp.setToWorld("*** QUIT: " + playerName(req));
+        resp.setToSender(msg);
+    }
+
 }

@@ -1,8 +1,10 @@
 package org.freakz.pmud.pmudserver.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freakz.pmud.common.message.PMudLoginReplyMessage;
 import org.freakz.pmud.common.message.PMudMessage;
-import org.freakz.pmud.common.message.PMudMessageToAll;
+import org.freakz.pmud.common.message.PMudMessageToAllClients;
+import org.freakz.pmud.common.message.PMudQuitClientMessage;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
@@ -63,7 +65,7 @@ public class MessageSender {
     }
 
     private void sendReplyToAll(String toWorld, long pid) {
-        jmsTemplate.convertAndSend("pmud-clients-all.topic", new PMudMessageToAll(toWorld, pid));
+        jmsTemplate.convertAndSend("pmud-clients-all.topic", new PMudMessageToAllClients(toWorld, pid));
     }
 
     public void sendReply(PMudPlayer player, String message) {
@@ -71,5 +73,13 @@ public class MessageSender {
         mudMessage.setReplyToPid(player.getPid());
         jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
 
+    }
+
+    public void sendLoginReply(PMudLoginReplyMessage reply) {
+        jmsTemplate.convertAndSend("pmud-clients-login-reply.topic", reply);
+    }
+
+    public void sendQuitClientMessage(long pid) {
+        jmsTemplate.convertAndSend("pmud-clients-quit.topic", new PMudQuitClientMessage(pid));
     }
 }

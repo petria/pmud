@@ -175,6 +175,7 @@ public class WorldImpl implements World {
     public void playerDropObject(PMudPlayer player, Location location, PObject o) {
         player.removeCarried(o);
         location.addObject(o);
+        o.setLocation(location);
     }
 
     @Override
@@ -242,6 +243,14 @@ public class WorldImpl implements World {
     public PMudPlayer removePlayer(PMudPlayer player) {
         player.getLocation().removePlayer(player);
         return nameToPlayerMap.remove(player.getName().toLowerCase());
+    }
+
+    @Override
+    public void quitPlayer(PMudPlayer player) {
+        for (PObject o : player.getCarried().values()) {
+            playerDropObject(player, player.getLocation(), o);
+        }
+        removePlayer(player);
     }
 
     @Override

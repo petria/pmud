@@ -2,6 +2,8 @@ package org.freakz.pmud.pmudserver.pmud;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.enums.PClass;
+import org.freakz.pmud.common.message.PMudLoginMessage;
+import org.freakz.pmud.common.message.PMudLoginReplyMessage;
 import org.freakz.pmud.common.message.PMudMessage;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.PMudPlayer;
@@ -30,7 +32,7 @@ public class PMudEngine {
     public void handlePMudMessage(PMudMessage pMudMessage) {
 
         if (pMudMessage.getMessage().equals("CONNECTED")) {
-            PMudPlayer player = reloadPlayer(pMudMessage);
+            PMudPlayer player = reloadPlayer(pMudMessage.getPlayer(), pMudMessage.getPid());
             sender.sendReply(player, commandHandlerService.invokeVerb("look", player).getToSender());
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
 
@@ -40,7 +42,7 @@ public class PMudEngine {
         } else {
             PMudPlayer player = world.findPlayer(pMudMessage.getPlayer());
             if (player == null) {
-                player = reloadPlayer(pMudMessage);
+                player = reloadPlayer(pMudMessage.getPlayer(), pMudMessage.getPid());
                 log.debug("Reloaded: {}", player.getName());
             }
 
@@ -49,6 +51,9 @@ public class PMudEngine {
             boolean success = commandHandlerService.invokeVerbHandler(request, response);
             if (success) {
                 sender.sendReply(response);
+                if (response.doQuit) {
+                    sender.sendQuitClientMessage(player.getPid());
+                }
             } else {
                 sender.sendReply(player, "Pardon?\n");
             }
@@ -57,23 +62,26 @@ public class PMudEngine {
     }
 
 
-    private PMudPlayer reloadPlayer(PMudMessage message) {
-        String playerName = message.getPlayer();
+    private PMudPlayer reloadPlayer(String playerName, long pid) {
+//        String playerName = login.getPlayer();
         PMudPlayer player = world.findPlayer(playerName);
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
             player.setLevelNum(1);
-            player.setMaxStrength(75);
+            player.setStrength(75);
             player.setMana(15);
-            player.setName(message.getPlayer());
+            player.setName(playerName);
             player.setpClass(PClass.THIEF);
             player.setScore(0);
             player.setTitle("the Newbie");
-            player.setPid(message.getPid());
+            player.setPid(pid);
             world.addPlayer(player);
-            world.addPlayerScore(player, 100000);
+            world.addPlayerScore(player, 0);
         } else {
-            player.getLocation().removePlayer(player);
+            log.debug("Existing player, old pid: {} - new pid: {}", player.getPid(), pid);
+            world.quitPlayer(player);
+            sender.sendQuitClientMessage(player.getPid());
+            player.setPid(pid);
         }
 
         Location start = world.getLocationByName2("start1");
@@ -98,4 +106,15 @@ public class PMudEngine {
         sender.sendServerQuit();
     }
 
+
+    public void handlePMudLoginMessage(PMudLoginMessage login) {
+        log.debug("Login: pid {} / player: {}", login.getPid(), login.getPlayer());
+
+        PMudPlayer player = reloadPlayer(login.getPlayer(), login.getPid());
+//        sender.sendReply(player, commandHandlerService.invokeVerb("look", player).getToSender());
+        PMudLoginReplyMessage reply = new PMudLoginReplyMessage(player.getName());
+        reply.setReplyToPid(login.getPid());
+        reply.setResult(PMudLoginReplyMessage.Result.OK);
+        sender.sendLoginReply(reply);
+    }
 }

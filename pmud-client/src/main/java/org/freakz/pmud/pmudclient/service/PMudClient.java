@@ -1,8 +1,7 @@
 package org.freakz.pmud.pmudclient.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.pmud.common.message.PMudMessage;
-import org.freakz.pmud.common.message.PMudMessageToAll;
+import org.freakz.pmud.common.message.*;
 import org.freakz.pmud.common.util.PHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,44 +15,45 @@ import java.util.Scanner;
 @Slf4j
 public class PMudClient implements CommandLineRunner {
 
+    private static final long MY_PID = ProcessHandle.current().pid();
     private Scanner scanner = new Scanner(System.in);
-
-    private static String player = "Someone";
-
 
     @Autowired
     private MessageSender sender;
+    private boolean doMainLoop = true;
 
     @Override
     public void run(String... args) throws Exception {
 
         System.out.printf(">> %d\n", args.length);
-
+        String player;
         if (args.length == 1) {
             player = args[0];
         } else {
             player = getPlayerName();
         }
+
+        sendLoginMessage(player, "passwrd");
+
+    }
+
+    private void mainLoop(String player) {
         System.out.print("\033[H\033[2J");
         System.out.print("\n\n\n");
 
-        System.out.print(">>> ---------      M O T D     ------------- <<<\n\n");
-        System.out.print(">>> USE commands TO SEE WHAT IS IMPLEMENTED! <<<\n\n");
-        System.out.print(">>> ---------                  ------------- <<<\n\n");
-
-        log.debug("Connecting player: {}", player);
+        System.out.print(">>> -------------    W E L C O M E  to  PMUD     ------------- <<<\n\n");
+        System.out.print(">>>           USE commands TO SEE WHAT IS IMPLEMENTED! <<<\n\n");
+        System.out.print(">>> ------------------                  ---------------------- <<<\n\n");
 
         String prev = "";
         String last = "";
 
-        sender.sendToServer("CONNECTED", player);
-        while (true) {
+        sender.sendToServer("look", player);
+
+        while (doMainLoop) {
             String message = scanner.nextLine();
             if (!message.isEmpty()) {
-                if (message.equals("quit")) {
-                    System.out.print("\nBye bye!\n");
-                    System.exit(0);
-                } else if (message.equals("!!")) {
+                if (message.equals("!!")) {
                     sender.sendToServer(prev, player);
                 } else if (message.equals("!")) {
                     sender.sendToServer(last, player);
@@ -61,14 +61,35 @@ public class PMudClient implements CommandLineRunner {
                     prev = last;
                     last = message;
                     pressed = true;
-                    sender.sendToServer(message, player);
-                    Thread.sleep(150L);
+                    if (doMainLoop) {
+                        sender.sendToServer(message, player);
+                        try {
+                            Thread.sleep(150L);
+                        } catch (InterruptedException e) {
+                            //
+                        }
+
+                    }
                 }
             } else {
                 prompt();
             }
 
         }
+
+        String[] cmd = {"kill", "-9", "" + MY_PID, "&>/dev/null"};
+        try {
+            Thread.sleep(1000L);
+            Runtime.getRuntime().exec(cmd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.print(">> Exit Client main loop!");
+    }
+
+    private void sendLoginMessage(String player, String password) {
+        PMudLoginMessage login = new PMudLoginMessage(player, password, MY_PID);
+        sender.sendLogin(login);
     }
 
     private String getPlayerName() {
@@ -87,7 +108,8 @@ public class PMudClient implements CommandLineRunner {
 
     @JmsListener(destination = "pmud-clients.topic")
     public void receiveMessage(PMudMessage message) {
-        if (message.getReplyToPid() == ProcessHandle.current().pid()) {
+//        log.debug("MY_PID: {} <-> replyToPID: {}", MY_PID, message.getReplyToPid());
+        if (message.getReplyToPid() == MY_PID) {
             if (message.getMessage() != null) {
                 if (message.getMessage().equals("SERVER_QUIT")) {
                     log.debug("SERVER DID QUIT");
@@ -106,8 +128,38 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
+    private boolean loggedIn = false;
+
+    @JmsListener(destination = "pmud-clients-login-reply.topic")
+    public void receiveMessageLoginReply(PMudLoginReplyMessage message) {
+        if (message.getReplyToPid() == MY_PID) {
+            if (message.getPlayer() != null) {
+                loggedIn = true;
+                doMainLoop = true;
+                log.debug("{} login ok!", message.getPlayer());
+                Thread t = new Thread(() -> mainLoop(message.getPlayer()));
+                t.setName("PMud client: " + message.getPlayer());
+                t.start();
+            } else {
+                System.out.print("Login failed!\n");
+                System.exit(0);
+            }
+        }
+
+    }
+
+    //
+    @JmsListener(destination = "pmud-clients-quit.topic")
+    public void receiveClientQuit(PMudQuitClientMessage quit) {
+        if (quit.getReplyToPid() == MY_PID) {
+            doMainLoop = false;
+//            System.out.print("Got quit message, exiting...");
+            System.exit(0);
+        }
+    }
+
     @JmsListener(destination = "pmud-clients-all.topic")
-    public void receiveMessageAll(PMudMessageToAll message) {
+    public void receiveMessageAll(PMudMessageToAllClients message) {
         if (message.getMessage() != null && message.getExceptPid() != ProcessHandle.current().pid()) {
             if (!pressed) {
                 System.out.println();
@@ -121,7 +173,7 @@ public class PMudClient implements CommandLineRunner {
     @PreDestroy
     public void shutdown() {
         log.debug("Shutting down!");
-        sender.sendToServer("DISCONNECTED", player);
+//        sender.sendToServer("DISCONNECTED", player);
     }
 
 

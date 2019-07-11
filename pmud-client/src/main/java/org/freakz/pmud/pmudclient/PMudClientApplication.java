@@ -14,13 +14,8 @@ public class PMudClientApplication {
 
     public static void main(String[] args) {
 
-        System.out.print(">> Start ...\n");
-
         ConfigurableApplicationContext ctx = new
                 SpringApplicationBuilder(PMudClientApplication.class).web(WebApplicationType.NONE).run(args);
-
-        System.out.print(">> Main done!\n");
-
 
     }
 

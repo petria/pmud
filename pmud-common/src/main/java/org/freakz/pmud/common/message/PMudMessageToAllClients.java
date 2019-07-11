@@ -2,13 +2,13 @@ package org.freakz.pmud.common.message;
 
 import java.io.Serializable;
 
-public class PMudMessageToAll implements Serializable {
+public class PMudMessageToAllClients implements Serializable {
 
     private String message;
 
     private long exceptPid;
 
-    public PMudMessageToAll(String message, long exceptPid) {
+    public PMudMessageToAllClients(String message, long exceptPid) {
         this.message = message;
         this.exceptPid = exceptPid;
     }
