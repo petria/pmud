@@ -51,7 +51,7 @@ public class PMudSystemHandler extends HandlerBase {
         msg += "---PMudMUD-------------------------------------------------------------------\n\n";
         msg += "Thank you for playing PMudMUD!\n\n";
         msg += "-----------------------------------------------------------------------------\n";
-        resp.setToWorld("*** QUIT: " + playerName(req));
+        resp.setToWorld("*** QUIT: " + playerName(req) + "\n");
         resp.setToSender(msg);
     }
 
