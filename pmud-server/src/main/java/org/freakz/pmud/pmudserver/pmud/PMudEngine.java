@@ -33,7 +33,15 @@ public class PMudEngine {
 
         if (pMudMessage.getMessage().equals("CONNECTED")) {
             PMudPlayer player = reloadPlayer(pMudMessage.getPlayer(), pMudMessage.getPid());
-            sender.sendReply(player, commandHandlerService.invokeVerb("look", player).getToSender());
+            VerbResponse response = new VerbResponse(player);
+
+            response.setToRoomF(player.getLocation(), "%s entered game.\n", player.getName());
+            response.setToSender(commandHandlerService.invokeVerb("look", player).getToSender());
+            response.setToWorld("** Player entered game: " + player.getName() + "\n");
+
+            sender.sendReply(response);
+
+
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
 
             log.debug("Player disconnected: {}", pMudMessage.getPlayer());

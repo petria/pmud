@@ -63,12 +63,15 @@ public class PMudClient implements CommandLineRunner {
                     pressed = true;
                     if (doMainLoop) {
                         sender.sendToServer(message, player);
-                        try {
-                            Thread.sleep(150L);
-                        } catch (InterruptedException e) {
-                            //
+                        if (message.equals("quit")) {
+                            doMainLoop = false;
+                        } else {
+                            try {
+                                Thread.sleep(150L);
+                            } catch (InterruptedException e) {
+                                //
+                            }
                         }
-
                     }
                 }
             } else {
@@ -101,8 +104,10 @@ public class PMudClient implements CommandLineRunner {
     boolean pressed = false;
 
     private void prompt() {
-        pressed = false;
-        System.out.print("pmud> ");
+        if (doMainLoop) {
+            pressed = false;
+            System.out.print("pmud> ");
+        }
     }
 
 
