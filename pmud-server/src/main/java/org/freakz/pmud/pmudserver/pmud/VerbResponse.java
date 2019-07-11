@@ -45,7 +45,7 @@ public class VerbResponse {
 
     public void setFromRoomF(Location location, String format, String... args) {
         this.from = location;
-        this.fromRoom = String.format(format, args);
+        this.fromRoom = String.format(format, (Object[]) args);
     }
 
     public String getToRoom() {
@@ -59,7 +59,7 @@ public class VerbResponse {
 
     public void setToRoomF(Location location, String format, String... args) {
         this.to = location;
-        this.toRoom = String.format(format, args);
+        this.toRoom = String.format(format, (Object[]) args);
     }
 
     public String getToSender() {
@@ -71,7 +71,7 @@ public class VerbResponse {
     }
 
     public void setToSenderF(String format, String... args) {
-        this.toSender = String.format(format, args);
+        this.toSender = String.format(format, (Object[]) args);
     }
 
 
@@ -82,6 +82,11 @@ public class VerbResponse {
     public void setToWorld(String toWorld) {
         this.toWorld = toWorld;
     }
+
+    public void setToWorldF(String format, String... args) {
+        this.toWorld = String.format(format, (Object[]) args);
+    }
+
 
     public boolean isDoQuit() {
         return doQuit;
