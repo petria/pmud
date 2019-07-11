@@ -16,6 +16,8 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     private Location location;
 
+    private Location homeLocation;
+
     private int levelNum;
     private int score = 0;
     private int strength = 0;
@@ -56,6 +58,14 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Location getHomeLocation() {
+        return homeLocation;
+    }
+
+    public void setHomeLocation(Location homeLocation) {
+        this.homeLocation = homeLocation;
     }
 
     @Override

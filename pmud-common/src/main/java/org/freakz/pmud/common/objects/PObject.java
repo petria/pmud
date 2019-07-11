@@ -208,13 +208,13 @@ public class PObject extends PMudObject {
     }
 
     public String name() {
+        if (name != null) {
+            return name.toLowerCase();
+        }
         if (pName != null) {
-            return pName;
+            return pName.toLowerCase();
         }
-        if (altName != null) {
-            return altName;
-        }
-        return getName().toLowerCase();
+        return altName.toLowerCase();
     }
 
     public PObject getContainer() {

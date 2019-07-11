@@ -21,6 +21,8 @@ public interface World {
 
     Location getLocationByName2(String name2);
 
+    Location getLocationById(int objId);
+
     int getLocationCount();
 
     Map<String, Location> getName2ToLocationMap();
@@ -68,5 +70,6 @@ public interface World {
     List<PObject> findObjects(String toFind);
 
     List<Mobile> findMobiles(String toFind);
+
 
 }

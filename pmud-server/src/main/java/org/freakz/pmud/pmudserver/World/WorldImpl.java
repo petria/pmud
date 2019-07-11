@@ -27,7 +27,9 @@ public class WorldImpl implements World {
 
     private Map<String, Mobile> nameToMobileMap;
 
-    private Map<String, PObject> nameToObjectMap;
+    private List<PObject> allPObjects;
+
+    private Map<Integer, PMudObject> idToLocationAndMobileAndObjectMap;
 
     private Map<String, PMudPlayer> nameToPlayerMap = new HashMap<>();
 
@@ -38,7 +40,8 @@ public class WorldImpl implements World {
         nameToLocationMap = new HashMap<>();
         name2ToLocationMap = new HashMap<>();
         nameToMobileMap = new HashMap<>();
-        nameToObjectMap = new HashMap<>();
+        idToLocationAndMobileAndObjectMap = new HashMap<>();
+        allPObjects = new ArrayList<>();
     }
 
 
@@ -56,6 +59,7 @@ public class WorldImpl implements World {
 //        log.debug("Add location: {}", key);
         this.nameToLocationMap.put(key, location);
         this.name2ToLocationMap.put(location.getName2(), location);
+        this.idToLocationAndMobileAndObjectMap.put(location.getId(), location);
     }
 
     @Override
@@ -84,6 +88,21 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public Location getLocationById(int objId) {
+        PMudObject pMudObject = idToLocationAndMobileAndObjectMap.get(objId);
+        if (pMudObject != null) {
+            if (pMudObject instanceof Location) {
+                return (Location) pMudObject;
+            } else if (pMudObject instanceof PObject) {
+                return ((PObject) pMudObject).getLocation();
+            } else {
+                return ((Mobile) pMudObject).getLocation();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public int getLocationCount() {
         return name2ToLocationMap.size();
     }
@@ -96,6 +115,7 @@ public class WorldImpl implements World {
     @Override
     public void addMobile(Mobile mobile) {
         this.nameToMobileMap.put(mobile.getName().toLowerCase(), mobile);
+        this.idToLocationAndMobileAndObjectMap.put(mobile.getId(), mobile);
     }
 
     @Override
@@ -123,7 +143,9 @@ public class WorldImpl implements World {
 
     @Override
     public void addObject(PObject object) {
-        this.nameToObjectMap.put(object.getName(), object);
+        this.idToLocationAndMobileAndObjectMap.put(object.getId(), object);
+        this.allPObjects.add(object);
+//        this.nameToObjectMap.put(object.name(), object);
     }
 
     @Override
@@ -144,7 +166,7 @@ public class WorldImpl implements World {
 
     @Override
     public int getObjectCount() {
-        return this.nameToObjectMap.size();
+        return this.allPObjects.size();
     }
 
     @Override
@@ -188,7 +210,7 @@ public class WorldImpl implements World {
     @Override
     public List<PObject> findObjects(String name) {
         List<PObject> found = new ArrayList<>();
-        for (PObject o : nameToObjectMap.values()) {
+        for (PObject o : allPObjects) {
             if (PHelpers.matchToObject(o, name)) {
                 found.add(o);
             }

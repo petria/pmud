@@ -37,22 +37,33 @@ public class PMudMovementsHandler extends HandlerBase {
     }
 
 
-
     @AcceptVerbs(verbs = {"goto"})
-    public void handleGoto(VerbRequest req, VerbResponse response) {
+    public void handleGoto(VerbRequest req, VerbResponse resp) {
+        Location toGo;
+        if (hasArgs(req)) {
+            if (isNumericArg(req)) {
+                int objId = Integer.parseInt(args(req));
+                toGo = world.getLocationById(objId);
+            } else {
+                toGo = world.getLocationByName2(args(req));
+            }
 
-        Location toGo = world.getLocationByName2(req.getArgs().getArgs());
-        if (toGo == null) {
-            response.setToSender("Unknown player, object or room.\n");
         } else {
+            toGo = req.getPlayer().getHomeLocation();
+        }
 
-            response.setFromRoom(location(req), playerName(req) + " vanishes in a puff of smoke.\n");
+        if (toGo == null) {
+            resp.setToSender("Unknown player, object or room.\n");
+        } else {
+            resp.setFromRoom(location(req), playerName(req) + " vanishes in a puff of smoke.\n");
             world.playerToNewLocation(player(req), location(req), toGo);
 
-            response.setToSender(look(req));
-            response.setToRoom(location(req), playerName(req) + " appears with an ear-splitting bang.\n");
+            resp.setToSender(look(req));
+            resp.setToRoom(location(req), playerName(req) + " appears with an ear-splitting bang.\n");
 
         }
+
+
     }
 
 

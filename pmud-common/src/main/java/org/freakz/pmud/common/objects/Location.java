@@ -158,4 +158,8 @@ public class Location extends PMudObject implements Serializable {
         this.players.remove(player.getPid());
     }
 
+    @Override
+    public String toString() {
+        return name2;
+    }
 }

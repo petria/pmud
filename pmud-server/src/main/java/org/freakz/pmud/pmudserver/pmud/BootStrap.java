@@ -30,7 +30,7 @@ public class BootStrap implements CommandLineRunner {
 
     private Set<String> getZoneSet() {
         Set<String> zoneSet = new HashSet<>();
-//        zoneSet.add("xlimbo.zone");
+        zoneSet.add("xlimbo.zone");
         zoneSet.add("icecave.zone");
 //        zoneSet.add("village.zone");
         return zoneSet;

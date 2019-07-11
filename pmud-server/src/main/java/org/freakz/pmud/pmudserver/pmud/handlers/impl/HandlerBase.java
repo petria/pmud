@@ -29,6 +29,15 @@ public abstract class HandlerBase implements PMudVerbHandler {
         return req.getArgs().getArgs();
     }
 
+    boolean isNumericArg(VerbRequest req) {
+        String args = args(req);
+        return args.matches("\\d*?");
+    }
+
+    int getNumericArg(VerbRequest req) {
+        return Integer.parseInt(args(req));
+    }
+
     boolean hasArgs(VerbRequest req) {
         return req.getArgs().hasArgs();
     }

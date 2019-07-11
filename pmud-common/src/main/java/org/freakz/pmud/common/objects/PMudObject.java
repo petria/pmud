@@ -8,7 +8,7 @@ public abstract class PMudObject implements Serializable {
 
     private final int id;
 
-    private String name;
+    protected String name;
 
 
     public PMudObject() {
