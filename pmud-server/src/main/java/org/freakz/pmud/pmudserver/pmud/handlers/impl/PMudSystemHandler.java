@@ -36,9 +36,12 @@ public class PMudSystemHandler {
             CommandHandlerService.Handler handler = map.get(key);
             msg += String.format("|  %15s | %-20s :: %s\n", key, handler.method.getName(), handler.clazz.getClass().getName());
         }
-        msg += "+-----------------+----------------------------------------------------------------------------------------------------------I\n";
-        msg += "+                 |  Total " + map.keySet().size() + " of implemented commands / verbs in system!\n";
-        msg += "+-----------------+----------------------------------------------------------------------------------------------------------I\n";
+        msg += String.format("|  %15s |\n", "");
+        msg += String.format("|  %15s | %-20s \n", "quit", "exit boring game!");
+
+        msg += "+------------------+----------------------------------------------------------------------------------------------------------I\n";
+        msg += "+                  |  Total " + map.keySet().size() + " of implemented commands / verbs in system!\n";
+        msg += "+------------------+----------------------------------------------------------------------------------------------------------I\n";
 
         resp.setToSender(msg);
     }
