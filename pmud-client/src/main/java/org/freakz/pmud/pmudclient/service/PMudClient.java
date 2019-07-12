@@ -24,6 +24,12 @@ public class PMudClient implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        String remoteHost = System.getenv("REMOTE_HOST");
+        if (remoteHost == null) {
+            remoteHost = "localhost";
+        }
+        System.out.printf("REMOTE_HOST: " + remoteHost);
+        sendNewConnection(remoteHost);
 
         String player;
         if (args.length == 1) {
@@ -116,9 +122,15 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
-    private boolean serverResponsedToLogin = false;
+    private boolean serverRespondedToLogin = false;
+
+    private void sendNewConnection(String remoteHost) {
+        PMudNewConnection connection = new PMudNewConnection(remoteHost, MY_PID);
+        sender.newConnection(connection);
+    }
 
     private void sendLoginMessage(String player, String password) {
+
         PMudLoginMessage login = new PMudLoginMessage(player, password, MY_PID);
         sender.sendLogin(login);
         Thread t = new Thread(this::checkLoginResponse);
@@ -129,7 +141,7 @@ public class PMudClient implements CommandLineRunner {
     private void checkLoginResponse() {
         try {
             Thread.sleep(2 * 1000L);
-            if (!serverResponsedToLogin) {
+            if (!serverRespondedToLogin) {
                 System.out.print("\nServer did not response to login!\n\nBye Bye!\n");
                 doKill();
             }
@@ -192,7 +204,7 @@ public class PMudClient implements CommandLineRunner {
 
     @JmsListener(destination = "pmud-clients-login-reply.topic")
     public void receiveMessageLoginReply(PMudLoginReplyMessage message) {
-        serverResponsedToLogin = true;
+        serverRespondedToLogin = true;
         if (message.getReplyToPid() == MY_PID) {
             if (message.getPlayer() != null) {
                 doMainLoop = true;

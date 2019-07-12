@@ -5,6 +5,7 @@ import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.message.PMudLoginMessage;
 import org.freakz.pmud.common.message.PMudLoginReplyMessage;
 import org.freakz.pmud.common.message.PMudMessage;
+import org.freakz.pmud.common.message.PMudNewConnection;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
@@ -123,5 +124,10 @@ public class PMudEngine {
         reply.setReplyToPid(login.getPid());
         reply.setResult(PMudLoginReplyMessage.Result.OK);
         sender.sendLoginReply(reply);
+    }
+
+    public void handlePMudNewConnection(PMudNewConnection connection) {
+        log.debug("New connection: {}", connection.getRemoteHost());
+        sender.sendReplyToAll("*** NEW CONNECTION: " + connection.getRemoteHost() + "\n", connection.getPid());
     }
 }

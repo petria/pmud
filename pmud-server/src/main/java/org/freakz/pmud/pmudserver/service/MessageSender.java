@@ -59,7 +59,7 @@ public class MessageSender {
 
     }
 
-    private void sendReplyToAll(String toWorld, long pid) {
+    public void sendReplyToAll(String toWorld, long pid) {
         jmsTemplate.convertAndSend("pmud-clients-all.topic", new PMudMessageToAllClients(toWorld, pid));
     }
 

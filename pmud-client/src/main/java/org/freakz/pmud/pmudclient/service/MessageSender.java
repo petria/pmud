@@ -3,6 +3,7 @@ package org.freakz.pmud.pmudclient.service;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.PMudLoginMessage;
 import org.freakz.pmud.common.message.PMudMessage;
+import org.freakz.pmud.common.message.PMudNewConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,9 @@ public class MessageSender  {
         jmsTemplate.convertAndSend("pmud-server-login.topic", login);
 
     }
+
+    public void newConnection(PMudNewConnection connection) {
+        jmsTemplate.convertAndSend("pmud-server-new-connection.topic", connection);
+    }
+
 }
