@@ -40,7 +40,7 @@ public class PMudSpellsHandler extends HandlerBase {
         String toFind = args(req);
         PMudPlayer f = world.findPlayer(toFind);
         if (f != null) {
-            resp.setToSender(String.format("[%5d]%25s - %-30s| %s", f.getId(), f.getName(), f.getLocation().getTitle(), f.getLocation().getName2()));
+            resp.setToSender(String.format("[%5d]%25s - %-30s| %s\n", f.getId(), f.getName(), f.getLocation().getTitle(), f.getLocation().getName2()));
             return;
         }
         List<PObject> f2 = world.findObjects(toFind);

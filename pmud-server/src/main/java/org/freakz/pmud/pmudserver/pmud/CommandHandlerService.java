@@ -76,6 +76,17 @@ public class CommandHandlerService {
                         e.printStackTrace();
                     }
                 }
+                if (key.contains("*")) {
+                    if (request.getArgs().getCmd().matches(key)) {
+                        try {
+                            handler = handlers.get(key);
+                            handler.method.invoke(handler.clazz, request, response);
+                            return true;
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
         return false;

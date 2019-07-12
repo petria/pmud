@@ -62,6 +62,7 @@ public class PMudLookHandler extends HandlerBase {
         }
 
         msg += "\n" + getObivousExits(location);
+        msg += "\n";
 
         response.setToSender(msg);
 
