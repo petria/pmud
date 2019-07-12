@@ -51,6 +51,8 @@ public interface World {
 
     PObject findClosestObject(PMudPlayer p, String name);
 
+    Location isPlayerLocation(String args);
+
     PMudPlayer findPlayer(String toFind);
 
     void addPlayer(PMudPlayer player);
@@ -70,6 +72,5 @@ public interface World {
     List<PObject> findObjects(String toFind);
 
     List<Mobile> findMobiles(String toFind);
-
 
 }

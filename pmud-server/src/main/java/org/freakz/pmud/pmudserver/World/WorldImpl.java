@@ -234,6 +234,16 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public Location isPlayerLocation(String args) {
+        for (PMudPlayer p : this.nameToPlayerMap.values()) {
+            if (p.getName().toLowerCase().startsWith(args)) {
+                return p.getLocation();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public PMudPlayer findPlayer(String toFind) {
         return nameToPlayerMap.get(toFind.toLowerCase());
     }

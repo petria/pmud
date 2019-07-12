@@ -45,6 +45,10 @@ public class PMudMovementsHandler extends HandlerBase {
                 int objId = Integer.parseInt(args(req));
                 toGo = world.getLocationById(objId);
             } else {
+
+                toGo = world.isPlayerLocation(args(req));
+
+
                 toGo = world.getLocationByName2(args(req));
             }
 
@@ -55,9 +59,9 @@ public class PMudMovementsHandler extends HandlerBase {
         if (toGo == null) {
             resp.setToSender("Unknown player, object or room.\n");
         } else {
+
             resp.setFromRoom(location(req), playerName(req) + " vanishes in a puff of smoke.\n");
             world.playerToNewLocation(player(req), location(req), toGo);
-
             resp.setToSender(look(req));
             resp.setToRoom(location(req), playerName(req) + " appears with an ear-splitting bang.\n");
 

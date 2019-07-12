@@ -41,6 +41,25 @@ public class PMudClient implements CommandLineRunner {
 
     }
 
+    private String getPreLoginBanner() {
+        String msg = "\n\n";
+        msg += "Welcome to PMUD! - http://pmud.airiot.fi/\n" +
+                "          _\n" +
+                "         / \\   o    ____\n" +
+                "        /  |  /  /\\  /    ReMAKE\n" +
+                "       /__/  /  /   /      \n" +
+                "                            \n" +
+                "    o-------------------------------------------------------o\n" +
+                "     Version         : 0.0.1\n" +
+                "     Implementor     : Petri Airio (petri.j.airio.gmail@com)\n" +
+                "     Up at           : pdirt.airiot.fi 6715 \n" +
+                "     Server type     : x86_64 GNU/Linux\n" +
+                "     Last code build : most likely today!\n" +
+                "    o-------------------------------------------------------o\n" +
+                "\n";
+        return msg;
+    }
+
     private void mainLoop(String player) {
         System.out.print("\033[H\033[2J");
         System.out.print("\n\n\n");
@@ -97,13 +116,31 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
+    private boolean serverResponsedToLogin = false;
+
     private void sendLoginMessage(String player, String password) {
         PMudLoginMessage login = new PMudLoginMessage(player, password, MY_PID);
         sender.sendLogin(login);
+        Thread t = new Thread(this::checkLoginResponse);
+        t.start();
+
+    }
+
+    private void checkLoginResponse() {
+        try {
+            Thread.sleep(2 * 1000L);
+            if (!serverResponsedToLogin) {
+                System.out.print("\nServer did not response to login!\n\nBye Bye!\n");
+                doKill();
+            }
+        } catch (InterruptedException e) {
+            // ignore;
+        }
     }
 
     private String getPlayerName() {
         System.out.print("\033[H\033[2J");
+        System.out.print(getPreLoginBanner());
         while (true) {
             System.out.print("\n\nBy what name should I call you? ");
             String name = scanner.nextLine().trim();
@@ -128,36 +165,36 @@ public class PMudClient implements CommandLineRunner {
         }
     }
 
+    @JmsListener(destination = "pmud-clients-server-quit.topic")
+    public void receiveServerQuitMessage(PMudServerQuitMessage quit) {
+        System.out.print("\n** [SERVER DID SHUTDOWN, EXITING CLIENT!]\n");
+        doKill();
+    }
+
 
     @JmsListener(destination = "pmud-clients.topic")
     public void receiveMessage(PMudMessage message) {
-//        log.debug("MY_PID: {} <-> replyToPID: {}", MY_PID, message.getReplyToPid());
         if (message.getReplyToPid() == MY_PID) {
             if (message.getMessage() != null) {
-                if (message.getMessage().equals("SERVER_QUIT")) {
-                    log.debug("SERVER DID QUIT");
-                    System.exit(0);
-                } else {
-                    if (!pressed) {
-                        System.out.println();
-                    }
-                    System.out.print(message.getMessage());
-                    prompt();
+                if (!pressed) {
+                    System.out.println();
                 }
+                System.out.print(message.getMessage());
+                prompt();
+
             } else {
                 log.error("Null response");
                 prompt();
             }
+
         }
     }
 
-    private boolean loggedIn = false;
-
     @JmsListener(destination = "pmud-clients-login-reply.topic")
     public void receiveMessageLoginReply(PMudLoginReplyMessage message) {
+        serverResponsedToLogin = true;
         if (message.getReplyToPid() == MY_PID) {
             if (message.getPlayer() != null) {
-                loggedIn = true;
                 doMainLoop = true;
                 log.debug("{} login ok!", message.getPlayer());
                 Thread t = new Thread(() -> mainLoop(message.getPlayer()));

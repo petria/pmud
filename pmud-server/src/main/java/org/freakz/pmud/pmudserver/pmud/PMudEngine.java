@@ -18,7 +18,6 @@ import javax.annotation.PreDestroy;
 @Slf4j
 public class PMudEngine {
 
-
     @Autowired
     private CommandHandlerService commandHandlerService;
 
@@ -27,7 +26,6 @@ public class PMudEngine {
 
     @Autowired
     private World world;
-
 
     public void handlePMudMessage(PMudMessage pMudMessage) {
 
@@ -41,25 +39,25 @@ public class PMudEngine {
 
             sender.sendReply(response);
 
-
         } else if (pMudMessage.getMessage().equals("DISCONNECTED")) {
 
             log.debug("Player disconnected: {}", pMudMessage.getPlayer());
             world.removePlayer(pMudMessage.getPlayer());
 
         } else {
+
             PMudPlayer player = world.findPlayer(pMudMessage.getPlayer());
             if (player == null) {
                 player = reloadPlayer(pMudMessage.getPlayer(), pMudMessage.getPid());
                 log.debug("Reloaded: {}", player.getName());
             }
 
-            VerbRequest request = new VerbRequest(pMudMessage.getMessage(), player);
-            VerbResponse response = new VerbResponse(player);
-            boolean success = commandHandlerService.invokeVerbHandler(request, response);
+            VerbRequest req = new VerbRequest(pMudMessage.getMessage(), player);
+            VerbResponse resp = new VerbResponse(player);
+            boolean success = commandHandlerService.invokeVerbHandler(req, resp);
             if (success) {
-                sender.sendReply(response);
-                if (response.doQuit) {
+                sender.sendReply(resp);
+                if (resp.doQuit) {
                     sender.sendQuitClientMessage(player.getPid());
                 }
             } else {

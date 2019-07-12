@@ -1,10 +1,7 @@
 package org.freakz.pmud.pmudserver.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.pmud.common.message.PMudLoginReplyMessage;
-import org.freakz.pmud.common.message.PMudMessage;
-import org.freakz.pmud.common.message.PMudMessageToAllClients;
-import org.freakz.pmud.common.message.PMudQuitClientMessage;
+import org.freakz.pmud.common.message.*;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
@@ -31,9 +28,7 @@ public class MessageSender {
     }
 
     public void sendServerQuit() {
-        PMudMessage mudMessage = new PMudMessage("SERVER_QUIT", null);
-        mudMessage.setReplyToPid(Long.MIN_VALUE);
-        jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
+        jmsTemplate.convertAndSend("pmud-clients-server-quit.topic", new PMudServerQuitMessage());
         log.debug("Sent SERVER_QUIT");
     }
 
