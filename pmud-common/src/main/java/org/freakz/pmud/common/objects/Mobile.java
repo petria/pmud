@@ -256,4 +256,16 @@ public class Mobile extends PMudObject implements Serializable {
         return position;
     }
 
+    public void setPosition(PPosition position) {
+        this.position = position;
+    }
+
+    public boolean isSitting() {
+        return position == PPosition.SITTNG;
+    }
+
+    public boolean isStanding() {
+        return position == PPosition.STANDING;
+    }
+
 }

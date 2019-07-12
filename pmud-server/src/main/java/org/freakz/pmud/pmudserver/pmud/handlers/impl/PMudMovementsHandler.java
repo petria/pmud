@@ -2,6 +2,8 @@ package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
 import org.freakz.pmud.common.enums.Exits;
 import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Mobile;
+import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.AcceptVerbs;
@@ -25,6 +27,11 @@ public class PMudMovementsHandler extends HandlerBase {
         Location toGo = req.getPlayer().getLocation().getExit(exit);
         if (exit == NONE || toGo == null) {
             response.setToSender("You can't go that way.\n");
+            return;
+        }
+
+        if (player(req).isSitting()) {
+            response.setToSender("You'll have to stand up, first.\n");
             return;
         }
 
@@ -66,7 +73,33 @@ public class PMudMovementsHandler extends HandlerBase {
             resp.setToRoom(location(req), playerName(req) + " appears with an ear-splitting bang.\n");
 
         }
+    }
 
+    @AcceptVerbs(verbs = {"sit"})
+    public void handleSit(VerbRequest req, VerbResponse resp) {
+        PMudPlayer p = player(req);
+        if (p.getPosition() == Mobile.PPosition.SITTNG) {
+            resp.setToSender("You're already sitting.\n");
+            return;
+        }
+        p.setPosition(Mobile.PPosition.SITTNG);
+
+        resp.setToSender("You assume the lotus position.\n");
+        resp.setToRoomF(p.getLocation(), "%s sits down.\n", p.getName());
+
+    }
+
+    @AcceptVerbs(verbs = {"stand"})
+    public void handleStand(VerbRequest req, VerbResponse resp) {
+        PMudPlayer p = player(req);
+        if (p.getPosition() == Mobile.PPosition.STANDING) {
+            resp.setToSender("You're already standing.\n");
+            return;
+        }
+        p.setPosition(Mobile.PPosition.STANDING);
+
+        resp.setToSender("You clamber to your feet.\n");
+        resp.setToRoomF(p.getLocation(), "%s clambers to %s feet.\n", p.getName(), hisOrHer(p));
 
     }
 

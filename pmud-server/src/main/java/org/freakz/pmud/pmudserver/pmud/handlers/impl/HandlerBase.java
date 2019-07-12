@@ -1,6 +1,7 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
 import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.CommandHandlerService;
@@ -56,6 +57,14 @@ public abstract class HandlerBase implements PMudVerbHandler {
 
     String look(VerbRequest req) {
         return invokeVerb("look", player(req)).getToSender();
+    }
+
+    String hisOrHer(PMudPlayer p) {
+        if (p.getSex() == Mobile.PSex.MALE) {
+            return "his";
+        } else {
+            return "her";
+        }
     }
 
 }
