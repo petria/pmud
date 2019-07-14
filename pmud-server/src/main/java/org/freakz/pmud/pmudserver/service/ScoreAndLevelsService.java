@@ -50,7 +50,7 @@ public class ScoreAndLevelsService {
         return levels.getLevels();
     }
 
-    public void setLevels(PMudPlayer player) {
+    public Level setLevels(PMudPlayer player) {
         int oldLevel = player.getLevelNum();
 
         Level level = findLevel(player.getScore());
@@ -60,16 +60,17 @@ public class ScoreAndLevelsService {
         player.setTitle("the " + name);
 
         int newLevel = player.getLevelNum();
-        if (newLevel == oldLevel + 1) {
-            log.debug("{} level {} -> {}", player.getName(), oldLevel, newLevel);
-        }
         int maxStrength = 75 + ((newLevel - 1) * 8);
         int maxMana = 15 + ((newLevel - 1) * 3);
 
         player.setMaxStrength(maxStrength);
-        ;
         player.setMana(maxMana);
+        if (newLevel != oldLevel) {
+            log.debug("{} level {} -> {}", player.getName(), oldLevel, newLevel);
+            return level;
+        }
 
+        return null;
     }
 
     private Level findLevel(int score) {

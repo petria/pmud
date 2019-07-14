@@ -1,6 +1,7 @@
 package org.freakz.pmud.pmudserver.World;
 
 import org.freakz.pmud.common.objects.*;
+import org.freakz.pmud.common.player.Level;
 
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public interface World {
 
     int playerCount();
 
-    void addPlayerScore(PMudPlayer player, int score);
+    Level addPlayerScore(PMudPlayer player, int score);
 
     Map<String, PMudPlayer> getNameToPlayerMap();
 

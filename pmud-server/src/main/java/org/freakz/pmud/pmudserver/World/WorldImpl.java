@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudserver.World;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
+import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.common.util.PHelpers;
 import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -278,10 +279,10 @@ public class WorldImpl implements World {
 
 
     @Override
-    public void addPlayerScore(PMudPlayer player, int score) {
+    public Level addPlayerScore(PMudPlayer player, int score) {
         int scr = player.getScore() + score;
         player.setScore(scr);
-        levelsService.setLevels(player);
+        return levelsService.setLevels(player);
     }
 
     @Override
