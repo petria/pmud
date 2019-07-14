@@ -8,6 +8,8 @@ public abstract class PMudObject implements Serializable {
 
     private final int id;
 
+    private int visibilityLevel = 0;
+
     protected String name;
 
 
@@ -36,4 +38,11 @@ public abstract class PMudObject implements Serializable {
         return String.format("[%06d] %s", id, this.getClass().getCanonicalName());
     }
 
+    public int getVisibilityLevel() {
+        return this.visibilityLevel;
+    }
+
+    public void setVisibilityLevel(int visibilityLevel) {
+        this.visibilityLevel = visibilityLevel;
+    }
 }

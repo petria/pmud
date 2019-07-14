@@ -143,7 +143,8 @@ public class BootStrap implements CommandLineRunner {
                 object.setState(parseInt(valuesMap.get("state"), 0));
                 object.setMaxState(parseInt(valuesMap.get("maxstate"), 0));
 
-                object.getoFlags().add(valuesMap.get("oflags"));
+                object.setoFlags(valuesMap.get("oflags"));
+                object.flagsToProperties();
 
                 object.setDescription(0, parseTrim(valuesMap.get("desc[0]")));
                 object.setDescription(1, parseTrim(valuesMap.get("desc[1]")));

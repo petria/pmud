@@ -1,8 +1,6 @@
 package org.freakz.pmud.common.objects;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PObject extends PMudObject {
@@ -17,11 +15,12 @@ public class PObject extends PMudObject {
     private int baseValue;
     private int weight;
     private int damage;
+    private int armorClass;
 
     private int state = 0;
     private int maxState = 0;
 
-    private List<String> oFlags = new ArrayList<>();
+    private String oFlags;
     private Map<Integer, String> descriptions = new HashMap<>();
 
     private Map<Integer, PObject> contains = new HashMap<>();
@@ -47,6 +46,20 @@ public class PObject extends PMudObject {
     private boolean isInRoom;
 
     private PObject linkedTo;
+
+    //
+
+
+    // PFlags
+    private boolean isContainer = false;
+
+    private boolean isExtinguish = false;
+
+    private boolean isLit = false;
+
+    private boolean isNoGet = false;
+
+    private boolean isOpenable = false;
 
     public PObject(Zone zone) {
         this.zone = zone;
@@ -143,6 +156,14 @@ public class PObject extends PMudObject {
         this.damage = damage;
     }
 
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
+    }
+
     public int getState() {
         return state;
     }
@@ -159,13 +180,41 @@ public class PObject extends PMudObject {
         this.maxState = maxState;
     }
 
-    public List<String> getoFlags() {
+    public String getoFlags() {
         return oFlags;
     }
 
-    public void setoFlags(List<String> oFlags) {
-        this.oFlags = oFlags;
+    public void setoFlags(String oFlags) {
+        if (oFlags != null) {
+            this.oFlags = oFlags.trim();
+        } else {
+            this.oFlags = "";
+        }
     }
+
+    public void flagsToProperties() {
+        for (String flag : oFlags.split(" ")) {
+            if (flag != null) {
+                flag = flag.trim();
+                if (flag.equalsIgnoreCase("Container")) {
+                    isContainer = true;
+                }
+                if (flag.equalsIgnoreCase("Extinguish")) {
+                    isExtinguish = true;
+                }
+                if (flag.equalsIgnoreCase("Lit")) {
+                    isLit = true;
+                }
+                if (flag.equalsIgnoreCase("Openable")) {
+                    isOpenable = true;
+                }
+                if (flag.equalsIgnoreCase("NoGet")) {
+                    isNoGet = true;
+                }
+            }
+        }
+    }
+
 
     public Map<Integer, String> getDescriptions() {
         return descriptions;
@@ -180,7 +229,11 @@ public class PObject extends PMudObject {
     }
 
     public String getDescription(int state) {
-        return this.descriptions.get(state);
+        String desc = this.descriptions.get(state);
+        if (desc == null) {
+            return "";
+        }
+        return desc;
     }
 
     public PObject getLinkedTo() {
@@ -295,5 +348,45 @@ public class PObject extends PMudObject {
 
     public void setIsInRoom(boolean inRoom) {
         isInRoom = inRoom;
+    }
+
+    public boolean isOpenable() {
+        return isOpenable;
+    }
+
+    public void setOpenable(boolean openable) {
+        isOpenable = openable;
+    }
+
+    public boolean isContainer() {
+        return isContainer;
+    }
+
+    public void setContainer(boolean container) {
+        isContainer = container;
+    }
+
+    public boolean isNoGet() {
+        return isNoGet;
+    }
+
+    public void setNoGet(boolean noGet) {
+        isNoGet = noGet;
+    }
+
+    public boolean isExtinguish() {
+        return isExtinguish;
+    }
+
+    public void setExtinguish(boolean extinguish) {
+        isExtinguish = extinguish;
+    }
+
+    public boolean isLit() {
+        return isLit;
+    }
+
+    public void setLit(boolean lit) {
+        isLit = lit;
     }
 }

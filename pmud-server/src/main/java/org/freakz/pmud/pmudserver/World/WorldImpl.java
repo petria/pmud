@@ -170,6 +170,24 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void playerCloseObject(PMudPlayer player, PObject o) {
+        o.setState(1);
+        if (o.getLinkedTo() != null) {
+            PObject o2 = o.getLinkedTo();
+            o2.setState(1);
+        }
+    }
+
+    @Override
+    public void playerOpenObject(PMudPlayer player, PObject o) {
+        o.setState(0);
+        if (o.getLinkedTo() != null) {
+            PObject o2 = o.getLinkedTo();
+            o2.setState(0);
+        }
+    }
+
+    @Override
     public void playerSummonObject(PMudPlayer player, PObject o) {
         if (o.isInRoom()) {
             o.getInRoom().removeObject(o);

@@ -39,6 +39,10 @@ public interface World {
 
     int getObjectCount();
 
+    void playerCloseObject(PMudPlayer player, PObject o);
+
+    void playerOpenObject(PMudPlayer player, PObject o);
+
     void playerSummonObject(PMudPlayer player, PObject o);
 
     void playerTakeObject(PMudPlayer player, Location l, PObject o);
@@ -72,5 +76,6 @@ public interface World {
     List<PObject> findObjects(String toFind);
 
     List<Mobile> findMobiles(String toFind);
+
 
 }
