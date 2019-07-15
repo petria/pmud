@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Mobile extends PMudObject implements Serializable {
 
+
     public enum PSex {
         MALE("male"),
         FEMALE("female");
@@ -77,6 +78,8 @@ public class Mobile extends PMudObject implements Serializable {
 
     private String description;
     private String examine;
+
+    private boolean isFighting = false;
 
     private Map<Integer, PObject> carried = new HashMap<>();
 
@@ -267,5 +270,11 @@ public class Mobile extends PMudObject implements Serializable {
     public boolean isStanding() {
         return position == PPosition.STANDING;
     }
+
+
+    public boolean isFighting() {
+        return this.isFighting;
+    }
+
 
 }

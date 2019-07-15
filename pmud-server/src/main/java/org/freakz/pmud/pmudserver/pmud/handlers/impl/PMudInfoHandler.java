@@ -45,8 +45,8 @@ public class PMudInfoHandler extends HandlerBase {
     public void handleScore(VerbRequest req, VerbResponse resp) {
         PMudPlayer p = player(req);
 
-        int maxStrength = 99;
-        int maxMana = 42;
+        int maxStrength = p.getMaxStrength();
+        int maxMana = p.getMaxMana();
 
         String str1 = String.format("%d/%d", p.getStrength(), maxStrength);
         String str2 = String.format("%d/%d", p.getMana(), maxMana);

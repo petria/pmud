@@ -64,7 +64,7 @@ public class ScoreAndLevelsService {
         int maxMana = 15 + ((newLevel - 1) * 3);
 
         player.setMaxStrength(maxStrength);
-        player.setMana(maxMana);
+        player.setMaxMana(maxMana);
         if (newLevel != oldLevel) {
             log.debug("{} level {} -> {}", player.getName(), oldLevel, newLevel);
             return level;

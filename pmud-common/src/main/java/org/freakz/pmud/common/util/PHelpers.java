@@ -2,6 +2,8 @@ package org.freakz.pmud.common.util;
 
 import org.freakz.pmud.common.objects.PObject;
 
+import java.util.Random;
+
 public class PHelpers {
 
     public static boolean matchToObject(PObject o, String toFind) {
@@ -35,6 +37,13 @@ public class PHelpers {
             }
         }
         return sb.toString();
+    }
+
+    public static int randperc() {
+        int min = 0;
+        int max = 100;
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
     }
 
 }

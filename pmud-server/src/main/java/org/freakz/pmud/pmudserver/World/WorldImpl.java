@@ -4,14 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
 import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.common.util.PHelpers;
+import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +33,9 @@ public class WorldImpl implements World {
     private Map<Integer, PMudObject> idToLocationAndMobileAndObjectMap;
 
     private Map<String, PMudPlayer> nameToPlayerMap = new HashMap<>();
+
+    @Autowired
+    private MessageSender sender;
 
 
     @Override
@@ -310,6 +311,11 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public Collection<PMudPlayer> getPlayers() {
+        return nameToPlayerMap.values();
+    }
+
+    @Override
     public PMudPlayer removePlayer(PMudPlayer player) {
         player.getLocation().removePlayer(player);
         return nameToPlayerMap.remove(player.getName().toLowerCase());
@@ -350,4 +356,10 @@ public class WorldImpl implements World {
         }
         return null;
     }
+
+    @Override
+    public void sendToPlayerF(PMudPlayer p, String format, String... params) {
+        sender.sendReply(p, String.format(format, (Object[]) params));
+    }
+
 }

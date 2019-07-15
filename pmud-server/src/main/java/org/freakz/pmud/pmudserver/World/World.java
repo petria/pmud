@@ -3,6 +3,7 @@ package org.freakz.pmud.pmudserver.World;
 import org.freakz.pmud.common.objects.*;
 import org.freakz.pmud.common.player.Level;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,8 @@ public interface World {
 
     Map<String, PMudPlayer> getNameToPlayerMap();
 
+    Collection<PMudPlayer> getPlayers();
+
     void quitPlayer(PMudPlayer player);
 
     PMudPlayer removePlayer(PMudPlayer player);
@@ -80,5 +83,6 @@ public interface World {
 
     List<Mobile> findMobiles(String toFind);
 
+    void sendToPlayerF(PMudPlayer p, String format, String... params);
 
 }
