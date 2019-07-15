@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @Slf4j
@@ -86,6 +88,23 @@ public class WorldImpl implements World {
     @Override
     public Location getLocationByName2(String name2) {
         return this.name2ToLocationMap.get(name2);
+    }
+
+    @Override
+    public Location getLocationByZoneAndNum(String name) {
+        Pattern p = Pattern.compile("(\\D*?)(\\d*?)");
+        Matcher m = p.matcher(name);
+        if (m.matches()) {
+            String zonePart = m.group(1);
+            String num = m.group(2);
+            for (Zone zone : zoneNameToZoneMap.values()) {
+                if (zone.getName().startsWith(zonePart)) {
+                    Location locationByNumber = zone.findLocationByNumber(num);
+                    return locationByNumber;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

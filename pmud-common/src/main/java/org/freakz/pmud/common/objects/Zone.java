@@ -31,6 +31,20 @@ public class Zone extends PMudObject implements Serializable {
         return null;
     }
 
+    public Location findLocationByName2(String name2) {
+        for (Location location : locations) {
+            if (location.getName2().equalsIgnoreCase(name2)) {
+                return location;
+            }
+        }
+        return null;
+    }
+
+    public Location findLocationByNumber(String num) {
+        String nameNumber = getName().toLowerCase() + num;
+        return findLocationByName2(nameNumber);
+    }
+
     public void addMobile(Mobile mobile) {
         this.mobiles.add(mobile);
     }
@@ -61,4 +75,5 @@ public class Zone extends PMudObject implements Serializable {
         }
         return null;
     }
+
 }

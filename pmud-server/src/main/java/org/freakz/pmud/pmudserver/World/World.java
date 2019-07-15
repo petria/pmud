@@ -22,6 +22,8 @@ public interface World {
 
     Location getLocationByName2(String name2);
 
+    Location getLocationByZoneAndNum(String name);
+
     Location getLocationById(int objId);
 
     int getLocationCount();

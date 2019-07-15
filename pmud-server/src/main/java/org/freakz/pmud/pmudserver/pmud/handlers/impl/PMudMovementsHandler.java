@@ -53,10 +53,13 @@ public class PMudMovementsHandler extends HandlerBase {
                 toGo = world.getLocationById(objId);
             } else {
 
-                toGo = world.isPlayerLocation(args(req));
-
-
-                toGo = world.getLocationByName2(args(req));
+                toGo = world.getLocationByZoneAndNum(args(req));
+                if (toGo == null) {
+                    toGo = world.isPlayerLocation(args(req));
+                    if (toGo == null) {
+                        toGo = world.getLocationByName2(args(req));
+                    }
+                }
             }
 
         } else {
