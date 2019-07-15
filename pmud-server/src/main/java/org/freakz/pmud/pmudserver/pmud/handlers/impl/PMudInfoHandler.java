@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
@@ -38,6 +39,20 @@ public class PMudInfoHandler extends HandlerBase {
             msg += String.format("%-2d %11d %14s     %-11s %-11s %-14s\n", l.getLevel(), l.getMinScore(), l.title(0), l.title(1), l.title(2), l.title(3));
         }
 
+        resp.setToSender(msg);
+    }
+
+    @AcceptVerbs(verbs = {"fights"})
+    public void handleFights(VerbRequest req, VerbResponse resp) {
+        String msg = "";
+        msg += "+---- Currently fighting\n";
+        if (world.getFighterMap().values().size() > 0) {
+            for (Mobile m : world.getFighterMap().values()) {
+                msg += String.format("  %10s -> %-10s\n", m.getName(), m.getFightingTo().getName());
+            }
+        } else {
+            msg += "  none!\n";
+        }
         resp.setToSender(msg);
     }
 

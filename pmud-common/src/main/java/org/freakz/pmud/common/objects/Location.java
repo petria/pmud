@@ -162,4 +162,13 @@ public class Location extends PMudObject implements Serializable {
     public String toString() {
         return name2;
     }
+
+    public Mobile getMobile(String name) {
+        for (Mobile m : this.mobiles.values()) {
+            if (PHelpers.matchToMobile(m, name)) {
+                return m;
+            }
+        }
+        return null;
+    }
 }

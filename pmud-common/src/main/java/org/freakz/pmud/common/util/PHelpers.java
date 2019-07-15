@@ -1,5 +1,6 @@
 package org.freakz.pmud.common.util;
 
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PObject;
 
 import java.util.Random;
@@ -46,4 +47,17 @@ public class PHelpers {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    public static boolean matchToMobile(Mobile m, String name) {
+        if (m.getName() != null) {
+            if (m.getName().equalsIgnoreCase(name) || m.getName().startsWith(name)) {
+                return true;
+            }
+        }
+        if (m.getpName() != null) {
+            if (m.getpName().equalsIgnoreCase(name) || m.getpName().startsWith(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

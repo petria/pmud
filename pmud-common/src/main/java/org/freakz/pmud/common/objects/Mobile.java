@@ -80,6 +80,7 @@ public class Mobile extends PMudObject implements Serializable {
     private String examine;
 
     private boolean isFighting = false;
+    private Mobile fightingTo;
 
     private Map<Integer, PObject> carried = new HashMap<>();
 
@@ -276,5 +277,17 @@ public class Mobile extends PMudObject implements Serializable {
         return this.isFighting;
     }
 
+    public void setFightingTo(Mobile other) {
+        this.fightingTo = other;
+        this.isFighting = true;
+    }
 
+    public void removeFightingTo() {
+        this.fightingTo = null;
+        this.isFighting = false;
+    }
+
+    public Mobile getFightingTo() {
+        return this.fightingTo;
+    }
 }

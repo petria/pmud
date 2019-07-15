@@ -17,6 +17,12 @@ import java.util.regex.Pattern;
 @Slf4j
 public class WorldImpl implements World {
 
+    class Fight {
+        Mobile f1;
+        Mobile f2;
+    }
+
+
     @Autowired
     private ScoreAndLevelsService levelsService;
 
@@ -34,6 +40,8 @@ public class WorldImpl implements World {
 
     private Map<String, PMudPlayer> nameToPlayerMap = new HashMap<>();
 
+    private Map<Integer, Mobile> fighterMap;
+
     @Autowired
     private MessageSender sender;
 
@@ -46,6 +54,7 @@ public class WorldImpl implements World {
         nameToMobileMap = new HashMap<>();
         idToLocationAndMobileAndObjectMap = new HashMap<>();
         allPObjects = new ArrayList<>();
+        fighterMap = new HashMap<>();
     }
 
 
@@ -362,4 +371,28 @@ public class WorldImpl implements World {
         sender.sendReply(p, String.format(format, (Object[]) params));
     }
 
+    @Override
+    public void startFight(PMudPlayer p, Mobile m) {
+        p.setFightingTo(m);
+        m.setFightingTo(p);
+        this.fighterMap.put(p.getId(), p);
+        this.fighterMap.put(m.getId(), m);
+    }
+
+    @Override
+    public void stopFight(Mobile m) {
+        Mobile other = m.getFightingTo();
+
+        this.fighterMap.remove(m.getId());
+        this.fighterMap.remove(other.getId());
+
+        m.removeFightingTo();
+        other.removeFightingTo();
+
+    }
+
+    @Override
+    public Map<Integer, Mobile> getFighterMap() {
+        return fighterMap;
+    }
 }

@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.common.player.Level;
@@ -39,4 +40,42 @@ public class PMudPlayerHandler extends HandlerBase {
             }
         }
     }
+
+    @AcceptVerbs(verbs = {"flee"})
+    public void handleFlee(VerbRequest req, VerbResponse resp) {
+
+        world.stopFight(player(req));
+        resp.setToSenderF("You flee from fight!\n");
+
+    }
+
+    @AcceptVerbs(verbs = {"kill", "k"})
+    public void handleKill(VerbRequest req, VerbResponse resp) {
+        PMudPlayer p = player(req);
+        if (p.isFighting()) {
+            resp.setToSender("You are already fighting!\n");
+            return;
+        }
+
+        if (!hasArgs(req)) {
+            resp.setToSender("Kill who?\n");
+            return;
+        }
+
+        Mobile m = p.getLocation().getMobile(args(req));
+        if (m != null) {
+            if (m.isFighting()) {
+                resp.setToSenderF("%s are already fighting!\n", m.getName());
+                return;
+
+            }
+            world.startFight(p, m);
+            resp.setToSenderF("You charge into battle with %s.\n", m.getName());
+
+        } else {
+            resp.setToSenderF("%s is not here!\n", args(req));
+        }
+
+    }
+
 }

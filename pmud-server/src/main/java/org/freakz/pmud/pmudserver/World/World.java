@@ -85,4 +85,9 @@ public interface World {
 
     void sendToPlayerF(PMudPlayer p, String format, String... params);
 
+    void startFight(PMudPlayer p, Mobile m);
+
+    void stopFight(Mobile m);
+
+    Map<Integer, Mobile> getFighterMap();
 }
