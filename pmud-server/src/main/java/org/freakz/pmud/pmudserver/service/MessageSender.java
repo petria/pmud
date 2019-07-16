@@ -63,11 +63,16 @@ public class MessageSender {
         jmsTemplate.convertAndSend("pmud-clients-all.topic", new PMudMessageToAllClients(toWorld, pid));
     }
 
-    public void sendReply(PMudPlayer player, String message) {
+    public void sendReply(PMudPlayer player, String message, String prompt) {
         PMudMessage mudMessage = new PMudMessage(message, player.getName());
         mudMessage.setReplyToPid(player.getPid());
+        mudMessage.setPrompt(prompt);
         jmsTemplate.convertAndSend("pmud-clients.topic", mudMessage);
 
+    }
+
+    public void sendReply(PMudPlayer player, String message) {
+        sendReply(player, message, null);
     }
 
     public void sendLoginReply(PMudLoginReplyMessage reply) {

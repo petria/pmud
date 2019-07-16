@@ -3,8 +3,10 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
+import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.util.PHelpers;
 import org.freakz.pmud.pmudserver.World.World;
+import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +33,12 @@ public class FightService {
     /* base chance to hit */
     private static final int CTH_BASE = 30;
 
+    @Autowired
+    private MessageSender sender;
 
     @Autowired
     private World world;
+
 
     public void handleFightTick() {
         if (world.getFighterMap() != null) {
@@ -44,7 +49,7 @@ public class FightService {
 
                 HitResult h = hitPlayer(attacker, victim);
                 if (h.hitloc != BodyPart.NONE) {
-                    log.debug("Attack {} -> {} :: HIT TO: {} / {}", attacker.getName(), victim.getName(), h.hitloc.name, h.damage);
+//                    log.debug("Attack {} -> {} :: HIT TO: {} / {}", attacker.getName(), victim.getName(), h.hitloc.name, h.damage);
 
                     if (h.missed == true) {
                         if (!weapon) {
@@ -56,6 +61,9 @@ public class FightService {
                     }
 
                 }
+                int s = victim.getStrength();
+                s -= h.damage;
+                victim.setStrength(s);
 
                 if (!weapon) {
                     if (h.damage == 0) {
@@ -78,9 +86,17 @@ public class FightService {
                     else
                         fightmsg(attacker, victim, h.hitloc, hit3);
                 }
-
+                if (s < 0) {
+                    fightmsg(attacker, victim, h.hitloc, death);
+                    playerDied(attacker, victim, -1);
+                }
             }
         }
+    }
+
+    private void playerDied(Mobile attacker, Mobile victim, int type) {
+        log.debug("{} Killed: {}", attacker.getName(), victim.getName());
+        world.stopFight(attacker);
     }
 
     void fightmsg(Mobile attacker, Mobile victim,
@@ -93,13 +109,26 @@ public class FightService {
 
     void generalmsg(Mobile attacker, Mobile victim, BodyPart area, String msg) {
 
-        String toAttacker = addCodes(attacker, victim, area, null, ATTACKER, msg);
+        String toAttacker = addCodes(attacker, victim, area, null, ATTACKER, msg) + "\n";
 
-        String toVictim = addCodes(attacker, victim, area, null, VICTIM, msg);
+        String toVictim = addCodes(attacker, victim, area, null, VICTIM, msg) + "\n";
 
-        String toOther = addCodes(attacker, victim, area, null, OTHER, msg);
+        String toOther = addCodes(attacker, victim, area, null, OTHER, msg) + "\n";
 
-        log.debug("{}", toAttacker);
+        if (attacker instanceof PMudPlayer) {
+            String prompt = String.format("[Your strength is now %d/%d]\n", attacker.getStrength(), ((PMudPlayer) attacker).getMaxStrength());
+            sender.sendReply((PMudPlayer) attacker, toAttacker, prompt);
+        }
+
+        if (victim instanceof PMudPlayer) {
+            String prompt = String.format("[Your strength is now %d/%d]\n", attacker.getStrength(), ((PMudPlayer) victim).getMaxStrength());
+            sender.sendReply((PMudPlayer) victim, toVictim, "FIGHT!");
+        }
+
+        world.sendToLocationF(attacker.getLocation(), attacker, victim, toOther);
+
+
+//        log.debug("{}", toAttacker);
 
     }
 
@@ -108,17 +137,105 @@ public class FightService {
     private final static int OTHER = 2;
 
 
+    /*
+   %b ... body part
+   %w ... weapon
+   %a ... attacker's name
+   %e ... attacker's name : posessive
+   %g ... gender of attacker : his/her
+   %q ... gender of defender : he/she
+   %d ... defender's name
+   %p ... defender's name : posessive
+   %r ... armor or body part
+   %s ... add an 's' if attacker
+   %S ... same but capital
+   %t ... add an 's' if victim
+   %T ... same but capital
+*/
+
     String addCodes(Mobile attacker, Mobile victim, BodyPart area,
                     String deststr, int type, String msg) {
 
+        String weapon = "";
+        if (attacker.getWielded() != null) {
+            weapon = attacker.getWielded().name();
+        }
+
         String buff = msg;
 
+        buff = buff.replaceAll("%b", area.name);
+        buff = buff.replaceAll("%w", weapon);
+        if (type == ATTACKER) {
+            buff = buff.replaceAll("%a", "you");
+        } else {
+            buff = buff.replaceAll("%a", attacker.getName());
+        }
+        if (type == ATTACKER) {
+            buff = buff.replaceAll("%g", "your");
+        } else {
+            if (attacker.getSex() == Mobile.PSex.FEMALE) {
+                buff = buff.replaceAll("%g", "her");
+            } else {
+                buff = buff.replaceAll("%g", "his");
+            }
+        }
+        if (type == VICTIM) {
+            buff = buff.replaceAll("%d", "you");
+        } else {
+            buff = buff.replaceAll("%d", victim.getName());
+        }
+        if (type == VICTIM) {
+            buff = buff.replaceAll("%p", "your");
+        } else {
+            buff = buff.replaceAll("%p", victim.getName());
+        }
+        if (type == ATTACKER) {
+            buff = buff.replaceAll("%e", "your");
+        } else {
+            buff = buff.replaceAll("%e", attacker.getName());
+        }
+        // %r
+        if (type == VICTIM) {
+            buff = buff.replaceAll("%r", String.format("your %s", area.name));
+        } else {
+            buff = buff.replaceAll("%r", String.format("%s %s", victim.getSex().herHis(), area.name));
+        }
+        // %s
+        if (type == ATTACKER) {
+            buff = buff.replaceAll("%s", "");
+        } else {
+            buff = buff.replaceAll("%s", "s");
+        }
+        // %t
+        if (type == ATTACKER || type == OTHER) {
+            buff = buff.replaceAll("%t", "s");
+        } else {
+            buff = buff.replaceAll("%t", "");
+        }
+        // %S
+        if (type == ATTACKER) {
+            buff = buff.replaceAll("%S", "");
+        } else {
+            buff = buff.replaceAll("%S", "S");
+        }
+        // %T
+        if (type == ATTACKER || type == OTHER) {
+            buff = buff.replaceAll("%T", "S");
+        } else {
+            buff = buff.replaceAll("%T", "");
+        }
+        // %q
+        if (type == VICTIM) {
+            buff = buff.replaceAll("%q", "you");
+        } else {
+            buff = buff.replaceAll("%q", victim.getSex().text());
+        }
 
         return buff;
     }
 
     private int my_random() {
-        int rnd = 1 + (int) (Math.random() * 100000000);
+        int rnd = 1 + (int) (Math.random() * Integer.MAX_VALUE);
         return rnd;
 
     }
@@ -133,6 +250,7 @@ public class FightService {
 
     private HitResult hitPlayer(Mobile attacker, Mobile victim) {
 
+        log.debug("Hit attacker {} ->  victim {}", attacker.getName(), victim.getName());
         PBody b = PBody.create();
 
         HitResult hitResult = new HitResult();

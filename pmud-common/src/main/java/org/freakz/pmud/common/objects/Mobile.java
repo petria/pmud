@@ -37,6 +37,15 @@ public class Mobile extends PMudObject implements Serializable {
                 return "She";
             }
         }
+
+        public String herHis() {
+            if (sex.equals("male")) {
+                return "his";
+            } else {
+                return "her";
+            }
+        }
+
     }
 
     public enum PPosition {

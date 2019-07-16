@@ -87,6 +87,8 @@ public interface World {
 
     void sendToPlayerF(PMudPlayer p, String format, String... params);
 
+    void sendToLocationF(Location location, Mobile except1, Mobile except2, String format, String... args);
+
     void startFight(PMudPlayer p, Mobile m);
 
     void stopFight(Mobile m);

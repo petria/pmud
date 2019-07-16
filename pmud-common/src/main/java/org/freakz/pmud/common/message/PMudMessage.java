@@ -7,6 +7,7 @@ public class PMudMessage extends ToClientsMessageBase implements Serializable {
     private final long pid;
     private String message;
     private String player;
+    private String prompt;
 
     public PMudMessage(String message, String player) {
         this.pid = ProcessHandle.current().pid();
@@ -39,4 +40,11 @@ public class PMudMessage extends ToClientsMessageBase implements Serializable {
         this.player = player;
     }
 
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+
+    public String getPrompt() {
+        return prompt;
+    }
 }

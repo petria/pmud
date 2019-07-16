@@ -104,7 +104,7 @@ public class PMudClient implements CommandLineRunner {
                     }
                 }
             } else {
-                prompt();
+                prompt(null);
             }
 
         }
@@ -170,10 +170,14 @@ public class PMudClient implements CommandLineRunner {
 
     boolean pressed = false;
 
-    private void prompt() {
+    private void prompt(String prompt) {
         if (doMainLoop) {
             pressed = false;
-            System.out.print("pmud> ");
+            if (prompt != null) {
+                System.out.print(prompt);
+            } else {
+                System.out.print("pmud> ");
+            }
         }
     }
 
@@ -192,11 +196,11 @@ public class PMudClient implements CommandLineRunner {
                     System.out.println();
                 }
                 System.out.print(message.getMessage());
-                prompt();
+                prompt(message.getPrompt());
 
             } else {
                 log.error("Null response");
-                prompt();
+                prompt(message.getPrompt());
             }
 
         }
@@ -237,7 +241,7 @@ public class PMudClient implements CommandLineRunner {
                 System.out.println();
             }
             System.out.print(message.getMessage());
-            prompt();
+            prompt(null);
         }
     }
 

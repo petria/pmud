@@ -382,6 +382,15 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void sendToLocationF(Location location, Mobile except1, Mobile except2, String format, String... args) {
+        for (PMudPlayer p : location.getPlayers().values()) {
+            if (p.getId() != except1.getId() && p.getId() != except2.getId()) {
+                sendToPlayerF(p, format, args);
+            }
+        }
+    }
+
+    @Override
     public void startFight(PMudPlayer p, Mobile m) {
         p.setFightingTo(m);
         m.setFightingTo(p);
