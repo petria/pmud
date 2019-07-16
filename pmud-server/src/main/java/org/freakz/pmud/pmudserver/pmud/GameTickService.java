@@ -3,7 +3,6 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +19,18 @@ public class GameTickService {
     private PMudEngine engine;
 
     @Autowired
+    private FightService fight;
+
+    @Autowired
     private World world;
 
 
     @Scheduled(initialDelay = 2000, fixedRate = 2000)
     public void gameTick() {
-        fight();
+        fight.handleFightTick();
         reGeneratePlayers();
     }
 
-    private void fight() {
-        if (world.getFighterMap() != null) {
-            for (Mobile attacker : world.getFighterMap().values()) {
-                Mobile victim = attacker.getFightingTo();
-                log.debug("Attack {} -> {}", attacker.getName(), victim.getName());
-                hitPlayer(attacker, victim);
-            }
-        }
-    }
-
-    private void hitPlayer(Mobile attacker, Mobile victim) {
-        int damage = 0;
-
-        if (attacker.getWielded() != null) {
-
-        }
-
-    }
 
     private void reGeneratePlayers() {
         for (PMudPlayer p : world.getPlayers()) {

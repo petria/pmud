@@ -40,11 +40,16 @@ public class PHelpers {
         return sb.toString();
     }
 
+    static Random r = new Random();
+
     public static int randperc() {
         int min = 0;
         int max = 100;
-        Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    public static int my_random() {
+        return r.nextInt();
     }
 
     public static boolean matchToMobile(Mobile m, String name) {
@@ -60,4 +65,5 @@ public class PHelpers {
         }
         return false;
     }
+
 }

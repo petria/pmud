@@ -61,6 +61,8 @@ public class PObject extends PMudObject {
 
     private boolean isOpenable = false;
 
+    private boolean isWeapon = false;
+
     public PObject(Zone zone) {
         this.zone = zone;
     }
@@ -210,6 +212,9 @@ public class PObject extends PMudObject {
                 }
                 if (flag.equalsIgnoreCase("NoGet")) {
                     isNoGet = true;
+                }
+                if (flag.equalsIgnoreCase("Weapon")) {
+                    isWeapon = true;
                 }
             }
         }
@@ -388,5 +393,14 @@ public class PObject extends PMudObject {
 
     public void setLit(boolean lit) {
         isLit = lit;
+    }
+
+
+    public boolean isWeapon() {
+        return isWeapon;
+    }
+
+    public void setWeapon(boolean weapon) {
+        isWeapon = weapon;
     }
 }

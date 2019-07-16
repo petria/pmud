@@ -129,6 +129,9 @@ public class Mobile extends PMudObject implements Serializable {
     }
 
     public int getDamage() {
+        if (getWielded() != null) {
+            return damage + getWielded().getDamage();
+        }
         return damage;
     }
 

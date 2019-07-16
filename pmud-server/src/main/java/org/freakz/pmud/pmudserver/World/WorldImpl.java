@@ -292,6 +292,16 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public Location isMobileLocation(String args) {
+        for (Mobile m : this.nameToMobileMap.values()) {
+            if (PHelpers.matchToMobile(m, args)) {
+                return m.getLocation();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public PMudPlayer findPlayer(String toFind) {
         return nameToPlayerMap.get(toFind.toLowerCase());
     }

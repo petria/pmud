@@ -45,7 +45,7 @@ public class PMudPlayerHandler extends HandlerBase {
     public void handleFlee(VerbRequest req, VerbResponse resp) {
 
         world.stopFight(player(req));
-        resp.setToSenderF("You flee from fight!\n");
+        resp.setToSenderF("You flee from fight!!\n");
 
     }
 
@@ -77,5 +77,6 @@ public class PMudPlayerHandler extends HandlerBase {
         }
 
     }
+
 
 }

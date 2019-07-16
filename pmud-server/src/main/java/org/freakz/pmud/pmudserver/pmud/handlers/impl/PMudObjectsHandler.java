@@ -144,6 +144,32 @@ public class PMudObjectsHandler extends HandlerBase {
         }
     }
 
+    @AcceptVerbs(verbs = {"wield"})
+    public void handleWield(VerbRequest req, VerbResponse resp) {
+        if (!hasArgs(req)) {
+            resp.setToSender("What's that?\n");
+            return;
+        }
+
+        PMudPlayer p = player(req);
+        PObject o = p.isCarrying(args(req));
+        if (o != null) {
+            if (!o.isWeapon()) {
+                resp.setToSender("It's not a weapon\n");
+                return;
+            }
+            if (p.getWielded() != null) {
+                p.removeWielded(o);
+            }
+            p.setWielded(o);
+            resp.setToSenderF("You are now wielding the %s\n", o.name());
+            resp.setToRoomF(p.getLocation(), "%s wield the %s", p.getName(), o.name());
+
+        } else {
+            resp.setToSender("What's that?\n");
+        }
+    }
+
     @AcceptVerbs(verbs = {"take"})
     public void handleTake(VerbRequest req, VerbResponse resp) {
         if (!hasArgs(req)) {

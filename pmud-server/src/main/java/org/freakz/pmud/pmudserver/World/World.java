@@ -61,6 +61,8 @@ public interface World {
 
     Location isPlayerLocation(String args);
 
+    Location isMobileLocation(String args);
+
     PMudPlayer findPlayer(String toFind);
 
     void addPlayer(PMudPlayer player);
@@ -90,4 +92,6 @@ public interface World {
     void stopFight(Mobile m);
 
     Map<Integer, Mobile> getFighterMap();
+
+
 }

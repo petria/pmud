@@ -45,4 +45,5 @@ public abstract class PMudObject implements Serializable {
     public void setVisibilityLevel(int visibilityLevel) {
         this.visibilityLevel = visibilityLevel;
     }
+
 }
