@@ -174,16 +174,19 @@ public class PMudClient implements CommandLineRunner {
         if (doMainLoop) {
             pressed = false;
             if (prompt != null) {
-                System.out.print(prompt);
+                print(prompt, true);
+//                System.out.print(prompt);
             } else {
-                System.out.print("pmud> ");
+//                System.out.print("pmud> ");
+                print("pmud> ", true);
             }
         }
     }
 
     @JmsListener(destination = "pmud-clients-server-quit.topic")
     public void receiveServerQuitMessage(PMudServerQuitMessage quit) {
-        System.out.print("\n** [SERVER DID SHUTDOWN, EXITING CLIENT!]\n");
+//        System.out.print("\n** [SERVER DID SHUTDOWN, EXITING CLIENT!]\n");
+        print("\n** [SERVER DID SHUTDOWN, EXITING CLIENT!]\n", true);
         doKill();
     }
 
@@ -195,7 +198,8 @@ public class PMudClient implements CommandLineRunner {
                 if (!pressed) {
                     System.out.println();
                 }
-                System.out.print(message.getMessage());
+                //System.out.print(message.getMessage());
+                print(message.getMessage(), true);
                 prompt(message.getPrompt());
 
             } else {
@@ -224,13 +228,26 @@ public class PMudClient implements CommandLineRunner {
 
     }
 
+    @JmsListener(destination = "pmud-clients-player-died.topic")
+    public void receivePlayerDied(PMudQuitClientMessage message) {
+        if (message.getReplyToPid() == MY_PID) {
+            doMainLoop = false;
+            if (!pressed) {
+                System.out.println();
+            }
+            print(message.getQuitMessage(), true);
+//            System.out.print(message.getQuitMessage());
+            doKill();
+        }
+    }
+
+
     //
     @JmsListener(destination = "pmud-clients-quit.topic")
     public void receiveClientQuit(PMudQuitClientMessage quit) {
         if (quit.getReplyToPid() == MY_PID) {
             doMainLoop = false;
-//            System.out.print("Got quit message, exiting...");
-            System.exit(0);
+            doKill();
         }
     }
 
@@ -240,7 +257,8 @@ public class PMudClient implements CommandLineRunner {
             if (!pressed) {
                 System.out.println();
             }
-            System.out.print(message.getMessage());
+            print(message.getMessage(), true);
+//            System.out.print(message.getMessage());
             prompt(null);
         }
     }
@@ -252,5 +270,7 @@ public class PMudClient implements CommandLineRunner {
 //        sender.sendToServer("DISCONNECTED", player);
     }
 
-
+    private void print(String message, boolean color) {
+        System.out.print(message);
+    }
 }

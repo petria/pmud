@@ -74,6 +74,10 @@ public class FightService {
         int s = victim.getStrength();
         s -= h.damage;
         victim.setStrength(s);
+        if (attacker instanceof PMudPlayer) {
+            world.addPlayerScore((PMudPlayer) attacker, h.damage * 2);
+        }
+
         log.debug("Victim -> {}", victim.getStrength());
 
         if (!weapon) {
@@ -98,18 +102,23 @@ public class FightService {
                 fightmsg(attacker, victim, h.hitloc, hit3);
         }
         if (s < 0) {
-            playerDied(attacker, victim, -1, h.hitloc);
+            victimDied(attacker, victim, -1, h.hitloc);
         }
 
     }
 
-    private void playerDied(Mobile attacker, Mobile victim, int type, BodyPart hitloc) {
+    private void victimDied(Mobile attacker, Mobile victim, int type, BodyPart hitloc) {
         log.debug("{} Killed: {}", attacker.getName(), victim.getName());
         attacker.removeFightingTo();
         victim.setDead(true);
         victim.removeFightingTo();
-
         fightmsg(attacker, victim, hitloc, death);
+        if (victim instanceof PMudPlayer) {
+            sender.sendPlayerDiedMessage(((PMudPlayer) victim).getPid(), PHelpers.getQuitMsg("Oh dear... you seem to be slightly dead\n\n"));
+            world.quitPlayer((PMudPlayer) victim);
+        } else {
+
+        }
 
     }
 
@@ -211,7 +220,8 @@ public class FightService {
         }
 
         if (victim instanceof PMudPlayer) {
-            String prompt = String.format("[Your strength is now %d/%d]\n", attacker.getStrength(), ((PMudPlayer) victim).getMaxStrength());
+            String prompt = String.format("[Your strength is now %d/%d]\n", victim.getStrength(), ((PMudPlayer) victim).getMaxStrength());
+            //    sender.sendReply((PMudPlayer) victim, toVictim, prompt);
             sender.sendReply((PMudPlayer) victim, toVictim, prompt);
         }
 
@@ -339,13 +349,8 @@ public class FightService {
     }
 
 
-    private int parmor(Mobile victim) {
-        return 0;
-    }
-
-
     enum BodyPart {
-        NONE(true, 0, 0, "NONE", null),
+        NONE(true, 0, 0, "", null),
         RIGHT_LEG(true, 0, 0, "right leg", null),
         LEFT_LEG(true, 0, 0, "left leg", null),
         RIGHT_ARM(true, 0, 0, "right arm", null),

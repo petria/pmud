@@ -326,6 +326,13 @@ public class Mobile extends PMudObject implements Serializable {
         this.score = score;
     }
 
+    public String name() {
+        if (name != null) {
+            return name;
+        }
+        return pName;
+    }
+
     public enum PSex {
         MALE("male"),
         FEMALE("female");

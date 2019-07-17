@@ -59,7 +59,7 @@ public class PMudEngine {
             if (success) {
                 sender.sendReply(resp);
                 if (resp.doQuit) {
-                    sender.sendQuitClientMessage(player.getPid());
+                    sender.sendPlayerQuitMessage(player.getPid());
                 }
             } else {
                 sender.sendReply(player, "Pardon?\n");
@@ -88,7 +88,7 @@ public class PMudEngine {
         } else {
             log.debug("Existing player, old pid: {} - new pid: {}", player.getPid(), pid);
             world.quitPlayer(player);
-            sender.sendQuitClientMessage(player.getPid());
+            sender.sendPlayerQuitMessage(player.getPid());
             player.setPid(pid);
         }
 

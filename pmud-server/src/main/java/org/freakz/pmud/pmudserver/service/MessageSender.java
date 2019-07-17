@@ -79,7 +79,11 @@ public class MessageSender {
         jmsTemplate.convertAndSend("pmud-clients-login-reply.topic", reply);
     }
 
-    public void sendQuitClientMessage(long pid) {
+    public void sendPlayerQuitMessage(long pid) {
         jmsTemplate.convertAndSend("pmud-clients-quit.topic", new PMudQuitClientMessage(pid));
+    }
+
+    public void sendPlayerDiedMessage(long pid, String quitMessage) {
+        jmsTemplate.convertAndSend("pmud-clients-player-died.topic", new PMudQuitClientMessage(pid, quitMessage));
     }
 }

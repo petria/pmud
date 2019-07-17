@@ -90,4 +90,23 @@ public class PMudPlayerHandler extends HandlerBase {
     }
 
 
+    @AcceptVerbs(verbs = {"stats"})
+    public void handleStats(VerbRequest req, VerbResponse resp) {
+        if (!hasArgs(req)) {
+            resp.setToSender("Stats who?\n");
+            return;
+        }
+        Mobile m = world.getMobileOrPlayer(args(req));
+        if (m != null) {
+            String msg = "";
+
+            msg += String.format("&+WName       &+C: &+w%s\n", m.name());
+
+            resp.setToSender(msg);
+
+        } else {
+            resp.setToSender("Who's that?\n");
+
+        }
+    }
 }

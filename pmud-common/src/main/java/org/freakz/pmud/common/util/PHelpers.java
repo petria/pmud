@@ -66,4 +66,12 @@ public class PHelpers {
         return false;
     }
 
+    public static String getQuitMsg(String message) {
+        String msg = "";
+        msg += "---PMudMUD-------------------------------------------------------------------\n\n";
+        msg += message;
+        msg += "-----------------------------------------------------------------------------\n";
+        return msg;
+    }
+
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static org.freakz.pmud.common.util.PHelpers.getQuitMsg;
+
 @Component
 @PMudVerbAcceptor
 public class PMudSystemHandler extends HandlerBase {
@@ -47,12 +49,10 @@ public class PMudSystemHandler extends HandlerBase {
     public void handleQuit(VerbRequest req, VerbResponse resp) {
         world.quitPlayer(player(req));
         resp.setDoQuit(true);
-        String msg = "";
-        msg += "---PMudMUD-------------------------------------------------------------------\n\n";
-        msg += "Thank you for playing PMudMUD!\n\n";
-        msg += "-----------------------------------------------------------------------------\n";
+        String msg = getQuitMsg("Thank you for playing PMudMUD!\n\n");
         resp.setToWorld("*** QUIT: " + playerName(req) + "\n");
         resp.setToSender(msg);
     }
+
 
 }

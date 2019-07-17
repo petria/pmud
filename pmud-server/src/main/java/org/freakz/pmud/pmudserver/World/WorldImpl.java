@@ -170,6 +170,16 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public Mobile getMobileOrPlayer(String name) {
+        for (Mobile m : getMobilesAndPlayers()) {
+            if (PHelpers.matchToMobile(m, name)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void addObject(PObject object) {
         this.idToLocationAndMobileAndObjectMap.put(object.getId(), object);
         this.allPObjects.add(object);
