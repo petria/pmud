@@ -2,6 +2,7 @@ package org.freakz.pmud.pmudclient.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.message.*;
+import org.freakz.pmud.common.util.ConsoleColors;
 import org.freakz.pmud.common.util.PHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -271,6 +272,91 @@ public class PMudClient implements CommandLineRunner {
     }
 
     private void print(String message, boolean color) {
+        if (color) {
+            message = doColors(message);
+        } else {
+            message = stripColors(message);
+        }
         System.out.print(message);
+    }
+
+    private String stripColors(String message) {
+        String test = message
+                .replaceAll("&\\+l", "")
+                .replaceAll("&\\+L", "")
+                .replaceAll("&\\+b", "")
+                .replaceAll("&\\+B", "")
+                .replaceAll("&\\+g", "")
+                .replaceAll("&\\+G", "")
+                .replaceAll("&\\+c", "")
+                .replaceAll("&\\+C", "")
+                .replaceAll("&\\+r", "")
+                .replaceAll("&\\+R", "")
+                .replaceAll("&\\+m", "")
+                .replaceAll("&\\+M", "")
+                .replaceAll("&\\+y", "")
+                .replaceAll("&\\+Y", "")
+                .replaceAll("&\\+w", "")
+                .replaceAll("&\\+W", "")
+
+
+                .replaceAll("&-l", "")
+                .replaceAll("&-L", "")
+                .replaceAll("&-b", "")
+                .replaceAll("&-B", "")
+                .replaceAll("&-g", "")
+                .replaceAll("&-G", "")
+                .replaceAll("&-c", "")
+                .replaceAll("&-C", "")
+                .replaceAll("&-r", "")
+                .replaceAll("&-R", "")
+                .replaceAll("&-m", "")
+                .replaceAll("&-M", "")
+                .replaceAll("&-y", "")
+                .replaceAll("&-Y", "")
+                .replaceAll("&-w", "")
+                .replaceAll("&-W", "");
+
+        return test;
+    }
+
+    private String doColors(String message) {
+        String test = message
+                .replaceAll("&\\+l", ConsoleColors.BLACK)
+                .replaceAll("&\\+L", ConsoleColors.WHITE)
+                .replaceAll("&\\+b", ConsoleColors.BLUE)
+                .replaceAll("&\\+B", ConsoleColors.BLUE_BOLD_BRIGHT)
+                .replaceAll("&\\+g", ConsoleColors.GREEN)
+                .replaceAll("&\\+G", ConsoleColors.GREEN_BOLD_BRIGHT)
+                .replaceAll("&\\+c", ConsoleColors.CYAN)
+                .replaceAll("&\\+C", ConsoleColors.CYAN_BOLD_BRIGHT)
+                .replaceAll("&\\+r", ConsoleColors.RED)
+                .replaceAll("&\\+R", ConsoleColors.RED_BOLD_BRIGHT)
+                .replaceAll("&\\+m", ConsoleColors.PURPLE)
+                .replaceAll("&\\+M", ConsoleColors.PURPLE_BOLD_BRIGHT)
+                .replaceAll("&\\+y", ConsoleColors.YELLOW)
+                .replaceAll("&\\+Y", ConsoleColors.YELLOW_BOLD_BRIGHT)
+                .replaceAll("&\\+w", ConsoleColors.WHITE)
+                .replaceAll("&\\+W", ConsoleColors.WHITE_BOLD_BRIGHT)
+
+
+                .replaceAll("&-l", ConsoleColors.BLACK_BACKGROUND)
+                .replaceAll("&-L", ConsoleColors.WHITE_BACKGROUND)
+                .replaceAll("&-b", ConsoleColors.BLUE_BACKGROUND)
+                .replaceAll("&-B", ConsoleColors.BLUE_BACKGROUND_BRIGHT)
+                .replaceAll("&-g", ConsoleColors.GREEN_BACKGROUND)
+                .replaceAll("&-G", ConsoleColors.GREEN_BACKGROUND_BRIGHT)
+                .replaceAll("&-c", ConsoleColors.CYAN_BACKGROUND)
+                .replaceAll("&-C", ConsoleColors.CYAN_BACKGROUND_BRIGHT)
+                .replaceAll("&-r", ConsoleColors.RED_BACKGROUND)
+                .replaceAll("&-R", ConsoleColors.RED_BACKGROUND_BRIGHT)
+                .replaceAll("&-m", ConsoleColors.PURPLE_BACKGROUND)
+                .replaceAll("&-M", ConsoleColors.PURPLE_BACKGROUND_BRIGHT)
+                .replaceAll("&-y", ConsoleColors.YELLOW_BACKGROUND)
+                .replaceAll("&-Y", ConsoleColors.YELLOW_BACKGROUND_BRIGHT)
+                .replaceAll("&-w", ConsoleColors.WHITE_BACKGROUND)
+                .replaceAll("&-W", ConsoleColors.WHITE_BACKGROUND_BRIGHT);
+
+        return test;
     }
 }
