@@ -16,6 +16,17 @@ import java.util.List;
 @PMudVerbAcceptor
 public class PMudSpellsHandler extends HandlerBase {
 
+
+    @AcceptVerbs(verbs = {"heal"})
+    public void handleHeal(VerbRequest req, VerbResponse resp) {
+        if (!hasArgs(req)) {
+            resp.setToSender("Heal who?\n");
+            return;
+        }
+        Mobile m = world.findPlayerOrMobile(args(req));
+//        i
+    }
+
     @AcceptVerbs(verbs = {"summon", "translocate"})
     public void handleSummonSpell(VerbRequest req, VerbResponse resp) {
         if (!hasArgs(req)) {

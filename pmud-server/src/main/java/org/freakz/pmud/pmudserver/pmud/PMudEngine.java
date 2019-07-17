@@ -75,9 +75,9 @@ public class PMudEngine {
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
             player.setHomeLocation(world.getLocationByName2("home1"));
-            player.setLevelNum(1);
-            player.setStrength(1);
-            player.setMana(1);
+            player.setDamage(8);
+            player.setStrength(player.getMaxStrength());
+            player.setMana(player.getMaxMana());
             player.setName(playerName);
             player.setpClass(PClass.THIEF);
             player.setScore(0);

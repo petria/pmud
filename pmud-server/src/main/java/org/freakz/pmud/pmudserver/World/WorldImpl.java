@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
 import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.common.util.PHelpers;
+import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
 import org.freakz.pmud.pmudserver.service.MessageSender;
-import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ public class WorldImpl implements World {
 
     private Map<String, Location> name2ToLocationMap;
 
-    private Map<String, Mobile> nameToMobileMap;
+    private Map<Integer, Mobile> idToMobileMap;
 
     private List<PObject> allPObjects;
 
@@ -40,7 +40,6 @@ public class WorldImpl implements World {
 
     private Map<String, PMudPlayer> nameToPlayerMap = new HashMap<>();
 
-    private Map<Integer, Mobile> fighterMap;
 
     @Autowired
     private MessageSender sender;
@@ -51,10 +50,9 @@ public class WorldImpl implements World {
         zoneNameToZoneMap = new HashMap<>();
         nameToLocationMap = new HashMap<>();
         name2ToLocationMap = new HashMap<>();
-        nameToMobileMap = new HashMap<>();
+        idToMobileMap = new HashMap<>();
         idToLocationAndMobileAndObjectMap = new HashMap<>();
         allPObjects = new ArrayList<>();
-        fighterMap = new HashMap<>();
     }
 
 
@@ -144,19 +142,19 @@ public class WorldImpl implements World {
 
     @Override
     public void addMobile(Mobile mobile) {
-        this.nameToMobileMap.put(mobile.getName().toLowerCase(), mobile);
+        this.idToMobileMap.put(mobile.getId(), mobile);
         this.idToLocationAndMobileAndObjectMap.put(mobile.getId(), mobile);
     }
 
     @Override
     public int getMobileCount() {
-        return this.nameToMobileMap.size();
+        return this.idToMobileMap.size();
     }
 
     @Override
     public List<Mobile> findMobiles(String toFind) {
         List<Mobile> found = new ArrayList<>();
-        for (Mobile o : nameToMobileMap.values()) {
+        for (Mobile o : idToMobileMap.values()) {
             if (o.getName() != null) {
                 if (o.getName().equalsIgnoreCase(toFind)) {
                     found.add(o);
@@ -197,6 +195,13 @@ public class WorldImpl implements World {
     @Override
     public int getObjectCount() {
         return this.allPObjects.size();
+    }
+
+    @Override
+    public List<Mobile> getMobilesAndPlayers() {
+        List<Mobile> list = new ArrayList<>(idToMobileMap.values());
+        list.addAll(nameToPlayerMap.values());
+        return list;
     }
 
     @Override
@@ -293,7 +298,7 @@ public class WorldImpl implements World {
 
     @Override
     public Location isMobileLocation(String args) {
-        for (Mobile m : this.nameToMobileMap.values()) {
+        for (Mobile m : this.idToMobileMap.values()) {
             if (PHelpers.matchToMobile(m, args)) {
                 return m.getLocation();
             }
@@ -304,6 +309,21 @@ public class WorldImpl implements World {
     @Override
     public PMudPlayer findPlayer(String toFind) {
         return nameToPlayerMap.get(toFind.toLowerCase());
+    }
+
+    @Override
+    public Mobile findPlayerOrMobile(String name) {
+        for (PMudPlayer p : this.nameToPlayerMap.values()) {
+            if (PHelpers.matchToMobile(p, name)) {
+                return p;
+            }
+        }
+        for (Mobile m : this.idToMobileMap.values()) {
+            if (PHelpers.matchToMobile(m, name)) {
+                return m;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -388,30 +408,5 @@ public class WorldImpl implements World {
                 sendToPlayerF(p, format, args);
             }
         }
-    }
-
-    @Override
-    public void startFight(PMudPlayer p, Mobile m) {
-        p.setFightingTo(m);
-        m.setFightingTo(p);
-        this.fighterMap.put(p.getId(), p);
-        this.fighterMap.put(m.getId(), m);
-    }
-
-    @Override
-    public void stopFight(Mobile m) {
-        Mobile other = m.getFightingTo();
-
-        this.fighterMap.remove(m.getId());
-        this.fighterMap.remove(other.getId());
-
-        m.removeFightingTo();
-        other.removeFightingTo();
-
-    }
-
-    @Override
-    public Map<Integer, Mobile> getFighterMap() {
-        return fighterMap;
     }
 }

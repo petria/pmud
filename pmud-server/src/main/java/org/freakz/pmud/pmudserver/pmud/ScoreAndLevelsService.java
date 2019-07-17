@@ -1,4 +1,4 @@
-package org.freakz.pmud.pmudserver.service;
+package org.freakz.pmud.pmudserver.pmud;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.enums.PClass;
@@ -60,11 +60,14 @@ public class ScoreAndLevelsService {
         player.setTitle("the " + name);
 
         int newLevel = player.getLevelNum();
+/*
         int maxStrength = 75 + ((newLevel - 1) * 8);
         int maxMana = 15 + ((newLevel - 1) * 3);
 
         player.setMaxStrength(maxStrength);
         player.setMaxMana(maxMana);
+        */
+
         if (newLevel != oldLevel) {
             log.debug("{} level {} -> {}", player.getName(), oldLevel, newLevel);
             return level;

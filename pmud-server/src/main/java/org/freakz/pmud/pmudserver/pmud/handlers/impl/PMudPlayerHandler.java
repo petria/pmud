@@ -44,7 +44,16 @@ public class PMudPlayerHandler extends HandlerBase {
     @AcceptVerbs(verbs = {"flee"})
     public void handleFlee(VerbRequest req, VerbResponse resp) {
 
-        world.stopFight(player(req));
+        PMudPlayer p = player(req);
+        if (!p.isFighting()) {
+            resp.setToSender("You are not fighting!\n");
+            return;
+
+        }
+
+        p.getFightingTo().removeFightingTo();
+        p.removeFightingTo();
+
         resp.setToSenderF("You flee from fight!!\n");
 
     }
@@ -69,7 +78,9 @@ public class PMudPlayerHandler extends HandlerBase {
                 return;
 
             }
-            world.startFight(p, m);
+            p.setFightingTo(m);
+            m.setFightingTo(p);
+
             resp.setToSenderF("You charge into battle with %s.\n", m.getName());
 
         } else {

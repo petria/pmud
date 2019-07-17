@@ -7,75 +7,23 @@ import java.util.Map;
 
 public class Mobile extends PMudObject implements Serializable {
 
-
-    public enum PSex {
-        MALE("male"),
-        FEMALE("female");
-
-        private final String sex;
-
-        PSex(String sex) {
-            this.sex = sex;
-        }
-
-        public String getSex() {
-            return sex;
-        }
-
-        public String text() {
-            if (sex.equals("male")) {
-                return "he";
-            } else {
-                return "she";
-            }
-        }
-
-        public String textB() {
-            if (sex.equals("male")) {
-                return "He";
-            } else {
-                return "She";
-            }
-        }
-
-        public String herHis() {
-            if (sex.equals("male")) {
-                return "his";
-            } else {
-                return "her";
-            }
-        }
-
-    }
-
-    public enum PPosition {
-        STANDING("standing", "Standing"),
-        SITTNG("Sitting", "Standing");
-
-        private final String text;
-        private final String textB;
-
-        PPosition(String text, String textB) {
-            this.text = text;
-            this.textB = textB;
-        }
-
-        public String text() {
-            return text;
-        }
-
-        public String textB() {
-            return textB;
-        }
-
-    }
-
     private Zone zone;
     private Location location;
 
     private String pName;
 
-    private int strength;
+    private int levelNum = 1;
+    private int score = 0;
+
+    private int strength = 0;
+    private int maxStrength = 0;
+    private int mana = 0;
+    private int maxMana = 0;
+    private int kills = 0;
+    private int deaths = 0;
+    private int wimpy = 0;
+
+
     private int damage;
     private int aggression;
     private int armor;
@@ -90,6 +38,8 @@ public class Mobile extends PMudObject implements Serializable {
 
     private boolean isFighting = false;
     private Mobile fightingTo;
+
+    private boolean isDead;
 
     private Map<Integer, PObject> carried = new HashMap<>();
 
@@ -289,6 +239,14 @@ public class Mobile extends PMudObject implements Serializable {
         return this.isFighting;
     }
 
+    public boolean isDead() {
+        return this.isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
     public void setFightingTo(Mobile other) {
         this.fightingTo = other;
         this.isFighting = true;
@@ -302,4 +260,132 @@ public class Mobile extends PMudObject implements Serializable {
     public Mobile getFightingTo() {
         return this.fightingTo;
     }
+
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public int getWimpy() {
+        return wimpy;
+    }
+
+    public void setWimpy(int wimpy) {
+        this.wimpy = wimpy;
+    }
+
+    public int getMaxStrength() {
+        return 75 + ((levelNum - 1) * 8);
+    }
+
+    public void setMaxStrength(int maxStrength) {
+        this.maxStrength = maxStrength;
+    }
+
+    public int getMaxMana() {
+        return 15 + ((levelNum - 1) * 3);
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public int getLevelNum() {
+        return levelNum;
+    }
+
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public enum PSex {
+        MALE("male"),
+        FEMALE("female");
+
+        private final String sex;
+
+        PSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public String text() {
+            if (sex.equals("male")) {
+                return "he";
+            } else {
+                return "she";
+            }
+        }
+
+        public String textB() {
+            if (sex.equals("male")) {
+                return "He";
+            } else {
+                return "She";
+            }
+        }
+
+        public String herHis() {
+            if (sex.equals("male")) {
+                return "his";
+            } else {
+                return "her";
+            }
+        }
+
+    }
+
+    public enum PPosition {
+        STANDING("standing", "Standing"),
+        SITTNG("Sitting", "Standing");
+
+        private final String text;
+        private final String textB;
+
+        PPosition(String text, String textB) {
+            this.text = text;
+            this.textB = textB;
+        }
+
+        public String text() {
+            return text;
+        }
+
+        public String textB() {
+            return textB;
+        }
+
+    }
+
 }

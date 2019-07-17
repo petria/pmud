@@ -41,63 +41,153 @@ public class FightService {
 
 
     public void handleFightTick() {
-        if (world.getFighterMap() != null) {
-            for (Mobile attacker : world.getFighterMap().values()) {
-                Mobile victim = attacker.getFightingTo();
 
-                boolean weapon = attacker.getWielded() != null;
-
-                HitResult h = hitPlayer(attacker, victim);
-                if (h.hitloc != BodyPart.NONE) {
-//                    log.debug("Attack {} -> {} :: HIT TO: {} / {}", attacker.getName(), victim.getName(), h.hitloc.name, h.damage);
-
-                    if (h.missed == true) {
-                        if (!weapon) {
-                            fightmsg(attacker, victim, h.hitloc, handmiss);
-                        } else {
-                            fightmsg(attacker, victim, h.hitloc, miss);
-                        }
-                        return;
-                    }
-
-                }
-                int s = victim.getStrength();
-                s -= h.damage;
-                victim.setStrength(s);
-
-                if (!weapon) {
-                    if (h.damage == 0) {
-                        fightmsg(attacker, victim, h.hitloc, handhit0);
-                        return;
-                    } else if (h.hitpct < 33)
-                        fightmsg(attacker, victim, h.hitloc, handhit1);
-                    else if (h.hitpct < 66)
-                        fightmsg(attacker, victim, h.hitloc, handhit1);
-                    else
-                        fightmsg(attacker, victim, h.hitloc, handhit3);
-                } else {
-                    if (h.damage == 0) {
-                        fightmsg(attacker, victim, h.hitloc, hit0);
-                        return;
-                    } else if (h.hitpct < 33)
-                        fightmsg(attacker, victim, h.hitloc, hit1);
-                    else if (h.hitpct < 66)
-                        fightmsg(attacker, victim, h.hitloc, hit2);
-                    else
-                        fightmsg(attacker, victim, h.hitloc, hit3);
-                }
-                if (s < 0) {
-                    fightmsg(attacker, victim, h.hitloc, death);
-                    playerDied(attacker, victim, -1);
-                }
+        for (Mobile m : world.getMobilesAndPlayers()) {
+            if (m.isFighting()) {
+                hitPlayer(m, m.getFightingTo());
             }
         }
+
     }
 
-    private void playerDied(Mobile attacker, Mobile victim, int type) {
-        log.debug("{} Killed: {}", attacker.getName(), victim.getName());
-        world.stopFight(attacker);
+    public void hitPlayer(Mobile attacker, Mobile victim) {
+
+
+        boolean weapon = attacker.getWielded() != null;
+
+        HitResult h = calcHitResult(attacker, victim);
+        log.debug("Hit attacker {} ->  victim {}", attacker.getName(), victim.getName());
+
+        if (h.hitloc != BodyPart.NONE) {
+//                    log.debug("Attack {} -> {} :: HIT TO: {} / {}", attacker.getName(), victim.getName(), h.hitloc.name, h.damage);
+
+            if (h.missed == true) {
+                if (!weapon) {
+                    fightmsg(attacker, victim, h.hitloc, handmiss);
+                } else {
+                    fightmsg(attacker, victim, h.hitloc, miss);
+                }
+                return;
+            }
+
+        }
+        int s = victim.getStrength();
+        s -= h.damage;
+        victim.setStrength(s);
+        log.debug("Victim -> {}", victim.getStrength());
+
+        if (!weapon) {
+            if (h.damage == 0) {
+                fightmsg(attacker, victim, h.hitloc, handhit0);
+                return;
+            } else if (h.hitpct < 33)
+                fightmsg(attacker, victim, h.hitloc, handhit1);
+            else if (h.hitpct < 66)
+                fightmsg(attacker, victim, h.hitloc, handhit1);
+            else
+                fightmsg(attacker, victim, h.hitloc, handhit3);
+        } else {
+            if (h.damage == 0) {
+                fightmsg(attacker, victim, h.hitloc, hit0);
+                return;
+            } else if (h.hitpct < 33)
+                fightmsg(attacker, victim, h.hitloc, hit1);
+            else if (h.hitpct < 66)
+                fightmsg(attacker, victim, h.hitloc, hit2);
+            else
+                fightmsg(attacker, victim, h.hitloc, hit3);
+        }
+        if (s < 0) {
+            playerDied(attacker, victim, -1, h.hitloc);
+        }
+
     }
+
+    private void playerDied(Mobile attacker, Mobile victim, int type, BodyPart hitloc) {
+        log.debug("{} Killed: {}", attacker.getName(), victim.getName());
+        attacker.removeFightingTo();
+        victim.setDead(true);
+        victim.removeFightingTo();
+
+        fightmsg(attacker, victim, hitloc, death);
+
+    }
+
+    private HitResult calcHitResult(Mobile attacker, Mobile victim) {
+
+        PBody b = PBody.create();
+
+        HitResult hitResult = new HitResult();
+        hitResult.hitloc = BodyPart.NONE;
+
+        int val = 0;
+        BodyPart hitloc = BodyPart.NONE;
+        int locpct = PHelpers.randperc();
+        int hitpct = PHelpers.randperc();
+
+        boolean missed = false;
+        int damage = 0;
+
+        if (locpct < (val = HEAD_CHANCE) && b.head.isAttached())
+            hitloc = b.head;
+        else if (locpct < (val += RARM_CHANCE) && b.rightArm.isAttached())
+            hitloc = b.rightArm;
+        else if (locpct < (val += LARM_CHANCE) && b.leftArm.isAttached())
+            hitloc = b.leftArm;
+        else if (locpct < (val += RLEG_CHANCE) && b.rightLeg.isAttached())
+            hitloc = b.rightLeg;
+        else if (locpct < (val += LLEG_CHANCE) && b.leftLeg.isAttached())
+            hitloc = b.leftLeg;
+        else if (locpct < (val += RFOOT_CHANCE) &&
+                b.rightFoot.isAttached() && b.rightLeg.isAttached())
+            hitloc = b.rightFoot;
+        else if (locpct < (val += LFOOT_CHANCE) &&
+                b.leftFoot.isAttached() && b.leftLeg.isAttached())
+            hitloc = b.leftFoot;
+        else if (locpct < (val += RHAND_CHANCE) &&
+                b.rightHand.isAttached() && b.rightArm.isAttached())
+            hitloc = b.rightHand;
+        else if (locpct < (val += LHAND_CHANCE) &&
+                b.leftHand.isAttached() && b.leftArm.isAttached())
+            hitloc = b.leftHand;
+        else if (locpct < (val += CHEST_CHANCE) && b.chest.isAttached())
+            hitloc = b.chest;
+        else if (locpct < (val += BACK_CHANCE) && b.back.isAttached())
+            hitloc = b.back;
+        else if (locpct < (val += FACE_CHANCE) && b.face.isAttached())
+            hitloc = b.face;
+        else if (locpct < (val += NECK_CHANCE) && b.neck.isAttached())
+            hitloc = b.neck;
+        else
+            return hitResult;
+
+        float absorbval, hitval;
+
+        if (hitpct - victim.getArmor() < CTH_BASE) {
+            hitResult.missed = true;
+
+        } else {
+            // HIT OK
+            hitval = (float) hitpct / 100;
+
+            if (hitloc.hasArmor())
+                absorbval = (float) (100 - hitloc.getArmor()) / 100;
+            else
+                absorbval = (float) 1;
+
+            damage = (int) (hitval * attacker.getDamage() * absorbval);
+
+            if (damage < 0) {
+                damage = 0;
+            }
+            hitResult.hitloc = hitloc;
+            hitResult.hitpct = hitpct;
+            hitResult.damage = damage;
+
+        }
+        return hitResult;
+    }
+
 
     void fightmsg(Mobile attacker, Mobile victim,
                   BodyPart area, String[] msg) {
@@ -122,7 +212,7 @@ public class FightService {
 
         if (victim instanceof PMudPlayer) {
             String prompt = String.format("[Your strength is now %d/%d]\n", attacker.getStrength(), ((PMudPlayer) victim).getMaxStrength());
-            sender.sendReply((PMudPlayer) victim, toVictim, "FIGHT!");
+            sender.sendReply((PMudPlayer) victim, toVictim, prompt);
         }
 
         world.sendToLocationF(attacker.getLocation(), attacker, victim, toOther);
@@ -248,81 +338,6 @@ public class FightService {
         int hitpct;
     }
 
-    private HitResult hitPlayer(Mobile attacker, Mobile victim) {
-
-        log.debug("Hit attacker {} ->  victim {}", attacker.getName(), victim.getName());
-        PBody b = PBody.create();
-
-        HitResult hitResult = new HitResult();
-        hitResult.hitloc = BodyPart.NONE;
-
-        int val = 0;
-        BodyPart hitloc = BodyPart.NONE;
-        int locpct = PHelpers.randperc();
-        int hitpct = PHelpers.randperc();
-
-        boolean missed = false;
-        int damage = 0;
-
-        if (locpct < (val = HEAD_CHANCE) && b.head.isAttached())
-            hitloc = b.head;
-        else if (locpct < (val += RARM_CHANCE) && b.rightArm.isAttached())
-            hitloc = b.rightArm;
-        else if (locpct < (val += LARM_CHANCE) && b.leftArm.isAttached())
-            hitloc = b.leftArm;
-        else if (locpct < (val += RLEG_CHANCE) && b.rightLeg.isAttached())
-            hitloc = b.rightLeg;
-        else if (locpct < (val += LLEG_CHANCE) && b.leftLeg.isAttached())
-            hitloc = b.leftLeg;
-        else if (locpct < (val += RFOOT_CHANCE) &&
-                b.rightFoot.isAttached() && b.rightLeg.isAttached())
-            hitloc = b.rightFoot;
-        else if (locpct < (val += LFOOT_CHANCE) &&
-                b.leftFoot.isAttached() && b.leftLeg.isAttached())
-            hitloc = b.leftFoot;
-        else if (locpct < (val += RHAND_CHANCE) &&
-                b.rightHand.isAttached() && b.rightArm.isAttached())
-            hitloc = b.rightHand;
-        else if (locpct < (val += LHAND_CHANCE) &&
-                b.leftHand.isAttached() && b.leftArm.isAttached())
-            hitloc = b.leftHand;
-        else if (locpct < (val += CHEST_CHANCE) && b.chest.isAttached())
-            hitloc = b.chest;
-        else if (locpct < (val += BACK_CHANCE) && b.back.isAttached())
-            hitloc = b.back;
-        else if (locpct < (val += FACE_CHANCE) && b.face.isAttached())
-            hitloc = b.face;
-        else if (locpct < (val += NECK_CHANCE) && b.neck.isAttached())
-            hitloc = b.neck;
-        else
-            return hitResult;
-
-        float absorbval, hitval;
-
-        if (hitpct - victim.getArmor() < CTH_BASE) {
-            hitResult.missed = true;
-
-        } else {
-            // HIT OK
-            hitval = (float) hitpct / 100;
-
-            if (hitloc.hasArmor())
-                absorbval = (float) (100 - hitloc.getArmor()) / 100;
-            else
-                absorbval = (float) 1;
-
-            damage = (int) (hitval * attacker.getDamage() * absorbval);
-
-            if (damage < 0) {
-                damage = 0;
-            }
-            hitResult.hitloc = hitloc;
-            hitResult.hitpct = hitpct;
-            hitResult.damage = damage;
-
-        }
-        return hitResult;
-    }
 
     private int parmor(Mobile victim) {
         return 0;

@@ -5,10 +5,10 @@ import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.CommandHandlerService;
+import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbHandler;
-import org.freakz.pmud.pmudserver.service.ScoreAndLevelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class HandlerBase implements PMudVerbHandler {

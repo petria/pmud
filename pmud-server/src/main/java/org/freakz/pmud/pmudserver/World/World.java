@@ -43,6 +43,8 @@ public interface World {
 
     int getObjectCount();
 
+    List<Mobile> getMobilesAndPlayers();
+
     void playerCloseObject(PMudPlayer player, PObject o);
 
     void playerOpenObject(PMudPlayer player, PObject o);
@@ -64,6 +66,8 @@ public interface World {
     Location isMobileLocation(String args);
 
     PMudPlayer findPlayer(String toFind);
+
+    Mobile findPlayerOrMobile(String name);
 
     void addPlayer(PMudPlayer player);
 
@@ -89,11 +93,6 @@ public interface World {
 
     void sendToLocationF(Location location, Mobile except1, Mobile except2, String format, String... args);
 
-    void startFight(PMudPlayer p, Mobile m);
-
-    void stopFight(Mobile m);
-
-    Map<Integer, Mobile> getFighterMap();
 
 
 }
