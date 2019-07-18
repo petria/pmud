@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
@@ -45,16 +46,14 @@ public class PMudInfoHandler extends HandlerBase {
     public void handleFights(VerbRequest req, VerbResponse resp) {
         String msg = "";
         msg += "+---- Currently fighting\n";
-/*        if (world.getFighterMap().values().size() > 0) {
-            for (Mobile m : world.getFighterMap().values()) {
+
+        if (world.getFightingPlayers().size() > 0) {
+            for (Mobile m : world.getFightingPlayers()) {
                 msg += String.format("  %10s -> %-10s\n", m.getName(), m.getFightingTo().getName());
             }
         } else {
             msg += "  none!\n";
         }
-
-        TODO
- */
         resp.setToSender(msg);
     }
 
@@ -71,8 +70,8 @@ public class PMudInfoHandler extends HandlerBase {
         String msg = "";
         msg += "+-----------------------------------------------------------------------------+\n";
         msg += String.format("| Name      : %-13s Level     : %-13s Score     : %-6d      |\n", p.getName(), p.getTitle(), p.getScore());
-        msg += String.format("| Strength  : %-13s Mana      : %-13s Kills     : %-7d     |\n", str1, str2, p.getDeaths());
-        msg += String.format("| Deaths    : %-13d Wimpy     : %-13d Q-Points  : %-7d     |\n", p.getDeaths(), p.getWimpy(), p.getDeaths());
+        msg += String.format("| Strength  : %-13s Mana      : %-13s Kills     : %-7d     |\n", str1, str2, p.getKills());
+        msg += String.format("| Deaths    : %-13d Wimpy     : %-13d Q-Points  : %-7d     |\n", p.getDeaths(), p.getWimpy(), p.getQPoints());
         msg += String.format("| Age       : %-13d Coins     : %-13d AC Avg    : %-5s       |\n", p.getDeaths(), p.getWimpy(), p.getAcAvg() + "%");
         msg += "+-----------------------------------------------------------------------------+\n";
         resp.setToSender(msg);

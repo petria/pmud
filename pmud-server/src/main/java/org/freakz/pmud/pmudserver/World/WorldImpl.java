@@ -73,7 +73,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public void createCorpse(Mobile victim) {
+    public void createCorpse(Mobile victim, Mobile attacker) {
         Location newLocation = getLocationByName2("dead1");
 
         Zone zone = getZone("temp");
@@ -83,7 +83,8 @@ public class WorldImpl implements World {
         corpse.setpName("coprseOf" + victim.name());
         corpse.setNoGet(true);
         corpse.setState(1);
-        corpse.setDescription(1, String.format("Corpse of %s is lying here.", victim.name()));
+        corpse.setDescription(1, String.format("corpse of %s is lying here.", victim.name()));
+        corpse.setExamine(String.format("Poor %s was slain by %s !!\n", victim.getName(), attacker.name()));
         corpse.setLocation(victim.getLocation());
         corpse.setInRoom(victim.getLocation());
         corpse.setIsInRoom(true);
@@ -472,6 +473,17 @@ public class WorldImpl implements World {
             return removePlayer(player);
         }
         return null;
+    }
+
+    @Override
+    public List<PMudPlayer> getFightingPlayers() {
+        List<PMudPlayer> fighting = new ArrayList<>();
+        for (PMudPlayer p : this.nameToPlayerMap.values()) {
+            if (p.isFighting()) {
+                fighting.add(p);
+            }
+        }
+        return fighting;
     }
 
     @Override

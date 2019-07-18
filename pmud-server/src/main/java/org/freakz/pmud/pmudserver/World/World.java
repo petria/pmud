@@ -17,7 +17,7 @@ public interface World {
 
     int getZoneCount();
 
-    void createCorpse(Mobile victim);
+    void createCorpse(Mobile victim, Mobile attacker);
 
     void addLocation(Location location);
 
@@ -91,6 +91,8 @@ public interface World {
 
     PMudPlayer removePlayer(String player);
 
+    List<PMudPlayer> getFightingPlayers();
+
     List<PObject> findObjects(String toFind);
 
     List<Mobile> findMobiles(String toFind);
@@ -102,5 +104,6 @@ public interface World {
     void sendToLocationF(Location location, Mobile except1, Mobile except2, String format, String... args);
 
     PObject getObjectById(int objId);
+
 
 }

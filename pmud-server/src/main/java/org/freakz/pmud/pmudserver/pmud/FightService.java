@@ -105,6 +105,7 @@ public class FightService {
                 fightmsg(attacker, victim, h.hitloc, hit3);
         }
         if (s < 0) {
+            fightmsg(attacker, victim, h.hitloc, death);
             victimDied(attacker, victim, -1, h.hitloc);
         }
 
@@ -112,16 +113,23 @@ public class FightService {
 
     private void victimDied(Mobile attacker, Mobile victim, int type, BodyPart hitloc) {
         log.debug("{} Killed: {}", attacker.getName(), victim.getName());
+
         attacker.removeFightingTo();
-        victim.setDead(true);
         victim.removeFightingTo();
-        fightmsg(attacker, victim, hitloc, death);
+        victim.setDead(true);
+
         if (victim instanceof PMudPlayer) {
             sender.sendPlayerDiedMessage(((PMudPlayer) victim).getPid(), PHelpers.getQuitMsg("Oh dear... you seem to be slightly dead\n\n"));
             world.quitPlayer((PMudPlayer) victim);
         } else {
-            world.createCorpse(victim);
+            world.createCorpse(victim, attacker);
         }
+        if (attacker instanceof PMudPlayer) {
+            sender.sendReply((PMudPlayer) attacker, "[You killed " + victim.name() + "]\n");
+        }
+
+        victim.setDeaths(victim.getDeaths() + 1);
+        attacker.setKills(attacker.getKills() + 1);
 
     }
 

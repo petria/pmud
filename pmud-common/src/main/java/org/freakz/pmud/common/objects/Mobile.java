@@ -398,6 +398,10 @@ public class Mobile extends PMudObject implements Serializable {
         return "TODO LevelName";
     }
 
+    public int getQPoints() {
+        return 0;
+    }
+
     public enum PSex {
         MALE("male"),
         FEMALE("female");
