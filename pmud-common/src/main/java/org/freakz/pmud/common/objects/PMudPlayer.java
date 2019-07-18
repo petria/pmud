@@ -83,4 +83,12 @@ public class PMudPlayer extends Mobile implements Serializable {
         }
         return null;
     }
+
+    public void reset() {
+//        this.location = getStartLocation();
+        removeFightingTo();
+        removeWielded(getWielded());
+        getCarried().clear();
+        getWorn().clear();
+    }
 }

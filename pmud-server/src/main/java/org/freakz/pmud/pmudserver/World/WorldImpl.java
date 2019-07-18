@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.*;
 import org.freakz.pmud.common.player.Level;
 import org.freakz.pmud.common.util.PHelpers;
+import org.freakz.pmud.pmudserver.pmud.BootStrap;
 import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
 import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class WorldImpl implements World {
 
     @Autowired
     private ScoreAndLevelsService levelsService;
+
+    @Autowired
+    private BootStrap bootStrap;
 
     private Map<String, Zone> zoneNameToZoneMap;
 
@@ -526,5 +530,15 @@ public class WorldImpl implements World {
             return null;
         }
         return (PObject) pMudObject;
+    }
+
+
+    @Override
+    public void reset() {
+        bootStrap.reloadWorld();
+        for (PMudPlayer p : this.nameToPlayerMap.values()) {
+            p.reset();
+        }
+
     }
 }

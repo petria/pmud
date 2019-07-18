@@ -57,6 +57,7 @@ public class PMudInfoHandler extends HandlerBase {
         resp.setToSender(msg);
     }
 
+
     @AcceptVerbs(verbs = {"score"})
     public void handleScore(VerbRequest req, VerbResponse resp) {
         PMudPlayer p = player(req);

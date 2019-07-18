@@ -105,5 +105,5 @@ public interface World {
 
     PObject getObjectById(int objId);
 
-
+    void reset();
 }

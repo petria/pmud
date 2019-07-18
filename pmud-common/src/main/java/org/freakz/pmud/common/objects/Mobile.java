@@ -228,8 +228,10 @@ public class Mobile extends PMudObject implements Serializable {
     }
 
     public void removeWielded(PObject object) {
-        object.setWielded(false);
-        object.setWieldedBy(null);
+        if (object != null) {
+            object.setWielded(false);
+            object.setWieldedBy(null);
+        }
         this.wielded = null;
     }
 

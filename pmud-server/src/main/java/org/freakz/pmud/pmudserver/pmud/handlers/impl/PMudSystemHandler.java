@@ -45,6 +45,14 @@ public class PMudSystemHandler extends HandlerBase {
         resp.setToSender(msg);
     }
 
+    @AcceptVerbs(verbs = {"reset"})
+    public void handleReset(VerbRequest req, VerbResponse resp) {
+        world.reset();
+        resp.setToSender("...WORLD RESET COMPLETED!\n");
+
+    }
+
+
     @AcceptVerbs(verbs = {"quit"})
     public void handleQuit(VerbRequest req, VerbResponse resp) {
         world.quitPlayer(player(req));

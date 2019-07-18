@@ -38,6 +38,10 @@ public class BootStrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        reloadWorld();
+    }
+
+    public void reloadWorld() {
         try {
             log.debug("Start world init!");
 
@@ -59,6 +63,7 @@ public class BootStrap implements CommandLineRunner {
         } catch (Exception e) {
             log.error("FAIL", e);
         }
+
     }
 
     private void mapLocationExits() {
