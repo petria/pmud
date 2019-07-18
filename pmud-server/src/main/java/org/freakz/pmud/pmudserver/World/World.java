@@ -17,6 +17,8 @@ public interface World {
 
     int getZoneCount();
 
+    void createCorpse(Mobile victim);
+
     void addLocation(Location location);
 
     Location getLocationByName(String name);
@@ -51,6 +53,8 @@ public interface World {
 
     void playerSummonObject(PMudPlayer player, PObject o);
 
+    void summonObjectToRoom(Location toRoom, PObject o);
+
     void playerTakeObject(PMudPlayer player, Location l, PObject o);
 
     void playerDropObject(PMudPlayer p, Location l, PObject o);
@@ -59,7 +63,9 @@ public interface World {
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 
-    PObject findClosestObject(PMudPlayer p, String name);
+    List<PObject> findPObjects(String name);
+
+    PObject findClosestPObject(PMudPlayer p, String name);
 
     Location isPlayerLocation(String args);
 
@@ -95,5 +101,6 @@ public interface World {
 
     void sendToLocationF(Location location, Mobile except1, Mobile except2, String format, String... args);
 
+    PObject getObjectById(int objId);
 
 }

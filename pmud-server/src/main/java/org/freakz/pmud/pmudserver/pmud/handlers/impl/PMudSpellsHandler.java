@@ -33,16 +33,16 @@ public class PMudSpellsHandler extends HandlerBase {
             resp.setToSender("Summon who?\n");
             return;
         }
-        List<PObject> ol = world.findObjects(args(req));
-        PObject o = world.findClosestObject(player(req), args(req));
+        PObject o = world.findClosestPObject(player(req), args(req));
         if (o != null) {
             Location oldL = o.location();
             String oldW = o.where();
-            resp.setFromRoomF(o.getLocation(), "The %s umbrella vanishes!\n", o.name());
+            resp.setFromRoomF(o.getLocation(), "The %s vanishes!\n", o.name());
             world.playerSummonObject(player(req), o);
             resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.\n", playerName(req));
-
             resp.setToSenderF("The %s flies into your hand.\nIt was: %-25s | %s\n", o.name(), oldW, oldL.getName2());
+        } else {
+            resp.setToSenderF("Who or what is %s?\n", args(req));
         }
     }
 
@@ -54,7 +54,7 @@ public class PMudSpellsHandler extends HandlerBase {
             resp.setToSender(String.format("[%5d]%25s - %-30s| %s\n", f.getId(), f.getName(), f.getLocation().getTitle(), f.getLocation().getName2()));
             return;
         }
-        List<PObject> f2 = world.findObjects(toFind);
+        List<PObject> f2 = world.findPObjects(toFind);
         if (f2.size() > 0) {
             String msg = "";
             for (PObject o : f2) {

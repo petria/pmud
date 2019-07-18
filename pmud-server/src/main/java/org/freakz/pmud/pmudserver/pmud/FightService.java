@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FightService {
 
+
+    public static final int MAXARMOR = 52;
+
     /* chance to hit various parts */
 
     private final static int HEAD_CHANCE = 10;
@@ -117,7 +120,7 @@ public class FightService {
             sender.sendPlayerDiedMessage(((PMudPlayer) victim).getPid(), PHelpers.getQuitMsg("Oh dear... you seem to be slightly dead\n\n"));
             world.quitPlayer((PMudPlayer) victim);
         } else {
-
+            world.createCorpse(victim);
         }
 
     }

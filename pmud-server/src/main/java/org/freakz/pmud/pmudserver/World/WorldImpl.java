@@ -34,7 +34,7 @@ public class WorldImpl implements World {
 
     private Map<Integer, Mobile> idToMobileMap;
 
-    private List<PObject> allPObjects;
+    private Map<Integer, PMudObject> allObjects;
 
     private Map<Integer, PMudObject> idToLocationAndMobileAndObjectMap;
 
@@ -52,7 +52,45 @@ public class WorldImpl implements World {
         name2ToLocationMap = new HashMap<>();
         idToMobileMap = new HashMap<>();
         idToLocationAndMobileAndObjectMap = new HashMap<>();
-        allPObjects = new ArrayList<>();
+        allObjects = new HashMap<>();
+        createTempZone();
+    }
+
+    private void createTempZone() {
+        Zone zone = new Zone();
+        zone.setName("temp");
+
+        addZone(zone);
+
+        Location temp = new Location(zone);
+        temp.setTitle("The Temporary Place");
+        temp.setDescription("  Nothing here!");
+        temp.setName("temp1");
+        temp.setName2("temp1");
+
+        zone.getLocations().add(temp);
+        addLocation(temp);
+    }
+
+    @Override
+    public void createCorpse(Mobile victim) {
+        Zone zone = getZone("temp");
+
+        PObject corpse = new PObject(zone);
+        corpse.setName("corpse");
+        corpse.setpName("coprseOf" + victim.name());
+        corpse.setNoGet(true);
+        corpse.setState(1);
+        corpse.setDescription(1, String.format("Corpse of %s is lying here.", victim.name()));
+        corpse.setLocation(victim.getLocation());
+        corpse.setInRoom(victim.getLocation());
+        corpse.setIsInRoom(true);
+
+        victim.getLocation().addObject(corpse);
+        zone.addObject(corpse);
+        addObject(corpse);
+        victim.getLocation().removeMobile(victim);
+        victim.setLocation(getLocationByName2("dead1"));
     }
 
 
@@ -71,11 +109,13 @@ public class WorldImpl implements World {
         this.nameToLocationMap.put(key, location);
         this.name2ToLocationMap.put(location.getName2(), location);
         this.idToLocationAndMobileAndObjectMap.put(location.getId(), location);
+        this.allObjects.put(location.getId(), location);
     }
 
     @Override
     public void addZone(Zone zone) {
         this.zoneNameToZoneMap.put(zone.getName().toLowerCase(), zone);
+        this.allObjects.put(zone.getId(), zone);
     }
 
     @Override
@@ -144,6 +184,7 @@ public class WorldImpl implements World {
     public void addMobile(Mobile mobile) {
         this.idToMobileMap.put(mobile.getId(), mobile);
         this.idToLocationAndMobileAndObjectMap.put(mobile.getId(), mobile);
+        this.allObjects.put(mobile.getId(), mobile);
     }
 
     @Override
@@ -182,8 +223,7 @@ public class WorldImpl implements World {
     @Override
     public void addObject(PObject object) {
         this.idToLocationAndMobileAndObjectMap.put(object.getId(), object);
-        this.allPObjects.add(object);
-//        this.nameToObjectMap.put(object.name(), object);
+        this.allObjects.put(object.getId(), object);
     }
 
     @Override
@@ -204,7 +244,7 @@ public class WorldImpl implements World {
 
     @Override
     public int getObjectCount() {
-        return this.allPObjects.size();
+        return this.allObjects.size();
     }
 
     @Override
@@ -251,6 +291,24 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void summonObjectToRoom(Location toRoom, PObject o) {
+        if (o.isInRoom()) {
+            o.getInRoom().removeObject(o);
+        }
+        if (o.isInContainer()) {
+            o.getContainer().removeContains(o);
+        }
+        if (o.isWielded()) {
+            o.getWieldedBy().removeWielded(o);
+        }
+        if (o.isCarried()) {
+            o.getCarrier().removeCarried(o);
+        }
+        toRoom.addObject(o);
+        o.setLocation(toRoom);
+    }
+
+    @Override
     public void playerTakeObject(PMudPlayer player, Location l, PObject o) {
         l.removeObject(o);
         player.addCarried(o);
@@ -273,18 +331,36 @@ public class WorldImpl implements World {
     @Override
     public List<PObject> findObjects(String name) {
         List<PObject> found = new ArrayList<>();
-        for (PObject o : allPObjects) {
-            if (PHelpers.matchToObject(o, name)) {
-                found.add(o);
+        for (PMudObject o : allObjects.values()) {
+            if (o instanceof Zone || o instanceof Location) {
+                continue;
+            }
+            if (PHelpers.matchToObject((PObject) o, name)) {
+                found.add((PObject) o);
             }
         }
         return found;
     }
 
-    @Override
-    public PObject findClosestObject(PMudPlayer p, String name) {
 
-        List<PObject> objs = findObjects(name);
+    @Override
+    public List<PObject> findPObjects(String name) {
+        List<PObject> found = new ArrayList<>();
+        for (PMudObject o : allObjects.values()) {
+            if (o instanceof PObject) {
+                if (PHelpers.matchToObject((PObject) o, name)) {
+                    found.add((PObject) o);
+                }
+            }
+        }
+        return found;
+
+    }
+
+    @Override
+    public PObject findClosestPObject(PMudPlayer p, String name) {
+
+        List<PObject> objs = findPObjects(name);
         if (objs.size() > 0) {
             for (PObject o : objs) {
                 if (o.getLocation() == p.getLocation()) {
@@ -338,7 +414,8 @@ public class WorldImpl implements World {
 
     @Override
     public void addPlayer(PMudPlayer player) {
-        nameToPlayerMap.put(player.getName().toLowerCase(), player);
+        this.nameToPlayerMap.put(player.getName().toLowerCase(), player);
+        this.allObjects.put(player.getId(), player);
     }
 
     @Override
@@ -366,6 +443,7 @@ public class WorldImpl implements World {
 
     @Override
     public PMudPlayer removePlayer(PMudPlayer player) {
+        allObjects.remove(player.getId());
         player.getLocation().removePlayer(player);
         return nameToPlayerMap.remove(player.getName().toLowerCase());
     }
@@ -418,5 +496,14 @@ public class WorldImpl implements World {
                 sendToPlayerF(p, format, args);
             }
         }
+    }
+
+    @Override
+    public PObject getObjectById(int objId) {
+        PMudObject pMudObject = allObjects.get(objId);
+        if (pMudObject instanceof Zone || pMudObject instanceof Location) {
+            return null;
+        }
+        return (PObject) pMudObject;
     }
 }

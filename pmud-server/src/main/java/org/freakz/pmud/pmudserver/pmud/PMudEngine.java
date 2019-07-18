@@ -19,6 +19,7 @@ import javax.annotation.PreDestroy;
 @Slf4j
 public class PMudEngine {
 
+
     @Autowired
     private CommandHandlerService commandHandlerService;
 
@@ -74,7 +75,8 @@ public class PMudEngine {
         PMudPlayer player = world.findPlayer(playerName);
         if (player == null) {
             player = new PMudPlayer(world.getZone("start"));
-            player.setHomeLocation(world.getLocationByName2("home1"));
+            player.setStartLocation(world.getLocationByName2("home1"));
+
             player.setDamage(8);
             player.setStrength(player.getMaxStrength());
             player.setMana(player.getMaxMana());

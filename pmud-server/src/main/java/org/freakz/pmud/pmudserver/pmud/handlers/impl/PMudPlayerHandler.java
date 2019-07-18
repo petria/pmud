@@ -4,11 +4,14 @@ import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
 import org.freakz.pmud.common.objects.PObject;
 import org.freakz.pmud.common.player.Level;
+import org.freakz.pmud.common.util.ConsoleColors;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.AcceptVerbs;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbAcceptor;
 import org.springframework.stereotype.Component;
+
+import static org.freakz.pmud.pmudserver.pmud.FightService.MAXARMOR;
 
 @Component
 @PMudVerbAcceptor
@@ -22,7 +25,7 @@ public class PMudPlayerHandler extends HandlerBase {
             return;
         }
         PMudPlayer p = player(req);
-        PObject o = world.findClosestObject(player(req), args(req));
+        PObject o = world.findClosestPObject(player(req), args(req));
         if (o != null) {
             if (o.getZone().getName().equals("icecave") && o.name().equals("fountain")) {
                 if (p.getLevelNum() >= 3) {
@@ -100,7 +103,51 @@ public class PMudPlayerHandler extends HandlerBase {
         if (m != null) {
             String msg = "";
 
-            msg += String.format("&+WName       &+C: &+w%s\n", m.name());
+            msg += String.format("&+WName       &+C: &+w%s", m.getName());
+            if (!m.isMobile()) {
+                msg += String.format("\n&+WTitle      &+C: &+w%s", m.getTitle());
+                msg += String.format("\n&+WScore      &+C: &+w%d", m.getScore());
+                msg += String.format("\n&+WLevel      &+C: %s - %s (level %d)",
+                        m.getpClass().name(), m.getLevelName(),
+                        m.getLevelNum());
+
+            }
+
+            msg += String.format("\n&+WStrength   &+C: &+w%d / %d", m.getStrength(), m.getMaxStrength());
+
+            if (!m.isMobile()) {
+                msg += String.format("\n&+WMagic      &+C: &+w%d / %d", m.getMana(), m.getMaxMana());
+            }
+
+            if (m.getWielded() != null) {
+                msg += String.format("\n&+WDamage     &+C: &+w%d (Wielding: %s)", m.getDamage(), m.getWielded().name());
+            } else {
+                msg += String.format("\n&+WDamage     &+C: &+w%d", m.getDamage());
+            }
+
+            msg += String.format("\n&+WArmor      &+C: &+w%d / %d", m.getArmor(), MAXARMOR);
+
+
+            if (!m.isMobile()) {
+                msg += String.format("\n&+WKill/Death &+C: &+w%d / %d", m.getKills(), m.getDeaths());
+            }
+            msg += String.format("\n&+WVisibility &+C: &+w%d", m.getVisibilityLevel());
+
+            if (m.isMobile()) {
+                msg += String.format("\n&+WAggression &+C: &+w%d %%", m.getAggression());
+                msg += String.format("\n&+WSpeed      &+C: &+w%d", m.getSpeed());
+                msg += String.format("\n&+W%s      &+C: &+w%s", "Zone ", m.getZone().getName());
+            }
+            msg += String.format("\n&+WWimpy      &+C: &+w%d", m.getWimpy());
+
+            msg += String.format("\n&+WStart      &+C: &+w%s &+B(&*%s&+B)",
+                    m.getStartLocation().getTitle(), m.getStartLocation().getName2());
+
+            msg += String.format("\n&+WLocation   &+C: &+w%s &+B(&*%s&+B)",
+                    m.getLocation().getTitle(), m.getLocation().getName2());
+
+
+            msg += "\n" + ConsoleColors.RESET;
 
             resp.setToSender(msg);
 

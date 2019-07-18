@@ -175,11 +175,11 @@ public class PMudClient implements CommandLineRunner {
         if (doMainLoop) {
             pressed = false;
             if (prompt != null) {
-                print(prompt, true);
+                print(ConsoleColors.RESET + prompt, true);
 //                System.out.print(prompt);
             } else {
 //                System.out.print("pmud> ");
-                print("pmud> ", true);
+                print(ConsoleColors.RESET + "pmud> ", true);
             }
         }
     }
@@ -322,6 +322,9 @@ public class PMudClient implements CommandLineRunner {
 
     private String doColors(String message) {
         String test = message
+                .replaceAll("&\\*", ConsoleColors.RESET)
+                .replaceAll("&N", ConsoleColors.RESET)
+
                 .replaceAll("&\\+l", ConsoleColors.BLACK)
                 .replaceAll("&\\+L", ConsoleColors.WHITE)
                 .replaceAll("&\\+b", ConsoleColors.BLUE)
@@ -356,6 +359,7 @@ public class PMudClient implements CommandLineRunner {
                 .replaceAll("&-Y", ConsoleColors.YELLOW_BACKGROUND_BRIGHT)
                 .replaceAll("&-w", ConsoleColors.WHITE_BACKGROUND)
                 .replaceAll("&-W", ConsoleColors.WHITE_BACKGROUND_BRIGHT);
+
 
         return test;
     }

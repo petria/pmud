@@ -67,7 +67,7 @@ public class PMudMovementsHandler extends HandlerBase {
             }
 
         } else {
-            toGo = req.getPlayer().getHomeLocation();
+            toGo = req.getPlayer().getStartLocation();
         }
 
         if (toGo == null) {

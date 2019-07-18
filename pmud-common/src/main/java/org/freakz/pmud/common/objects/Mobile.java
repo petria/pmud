@@ -1,5 +1,7 @@
 package org.freakz.pmud.common.objects;
 
+import org.freakz.pmud.common.enums.PClass;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,7 @@ public class Mobile extends PMudObject implements Serializable {
 
     private Zone zone;
     private Location location;
+    private Location startLocation;
 
     private String pName;
 
@@ -36,10 +39,18 @@ public class Mobile extends PMudObject implements Serializable {
     private String description;
     private String examine;
 
+    private boolean isMobile = true;
+
     private boolean isFighting = false;
     private Mobile fightingTo;
 
     private boolean isDead;
+    private String corpseText;
+
+    private String title;
+
+    private PClass pClass;
+
 
     private Map<Integer, PObject> carried = new HashMap<>();
 
@@ -71,6 +82,14 @@ public class Mobile extends PMudObject implements Serializable {
         this.location = location;
     }
 
+    public Location getStartLocation() {
+        return startLocation;
+    }
+
+    public void setStartLocation(Location startLocation) {
+        this.startLocation = startLocation;
+    }
+
     public String getpName() {
         return pName;
     }
@@ -89,7 +108,11 @@ public class Mobile extends PMudObject implements Serializable {
 
     public int getDamage() {
         if (getWielded() != null) {
-            return damage + getWielded().getDamage();
+            if (isMobile) {
+                return damage + (getWielded().getDamage() / 2);
+            } else {
+                return damage + getWielded().getDamage();
+            }
         }
         return damage;
     }
@@ -247,6 +270,14 @@ public class Mobile extends PMudObject implements Serializable {
         isDead = dead;
     }
 
+    public String getCorpseText() {
+        return corpseText;
+    }
+
+    public void setCorpseText(String corpseText) {
+        this.corpseText = corpseText;
+    }
+
     public void setFightingTo(Mobile other) {
         this.fightingTo = other;
         this.isFighting = true;
@@ -295,7 +326,11 @@ public class Mobile extends PMudObject implements Serializable {
     }
 
     public int getMaxStrength() {
-        return 75 + ((levelNum - 1) * 8);
+        if (isMobile) {
+            return maxStrength;
+        } else {
+            return 75 + ((levelNum - 1) * 8);
+        }
     }
 
     public void setMaxStrength(int maxStrength) {
@@ -331,6 +366,36 @@ public class Mobile extends PMudObject implements Serializable {
             return name;
         }
         return pName;
+    }
+
+
+    public boolean isMobile() {
+        return isMobile;
+    }
+
+    public void setMobile(boolean mobile) {
+        isMobile = mobile;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public PClass getpClass() {
+        return pClass;
+    }
+
+    public void setpClass(PClass pClass) {
+        this.pClass = pClass;
+    }
+
+    public String getLevelName() {
+        return "TODO LevelName";
     }
 
     public enum PSex {

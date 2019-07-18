@@ -21,6 +21,12 @@ public class PMudObjectsHandler extends HandlerBase {
             String msg = "Your backpack contains:\n";
             for (PObject o : p.getCarried().values()) {
                 msg += o.getName() + " ";
+                if (o.isWielded()) {
+                    msg += "<wielded> ";
+                }
+                if (o.isWorn()) {
+                    msg += "<worn> ";
+                }
             }
             msg += "\n";
             resp.setToSender(msg);
@@ -109,7 +115,16 @@ public class PMudObjectsHandler extends HandlerBase {
             resp.setToSender("Show what?\n");
             return;
         }
-        PObject o = world.findClosestObject(player(req), args(req));
+        PObject o = null;
+        if (isNumericArg(req)) {
+            int objId = Integer.parseInt(args(req));
+            o = world.getObjectById(objId);
+        }
+        if (o == null) {
+            o = world.findClosestPObject(player(req), args(req));
+        }
+
+
         if (o != null) {
             String msg = "";
             msg += String.format("Item [%d] : %s\n", o.getId(), o.name());

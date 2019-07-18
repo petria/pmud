@@ -268,7 +268,9 @@ public class BootStrap implements CommandLineRunner {
                 mobile.setDescription(parseTrim(valuesMap.get("description")));
                 mobile.setExamine(parseTrim(valuesMap.get("examine")));
 
-                mobile.setStrength(parseInt(valuesMap.get("strength"), 0));
+                mobile.setMaxStrength(parseInt(valuesMap.get("strength"), 0));
+                mobile.setStrength(mobile.getMaxStrength());
+
                 mobile.setDamage(parseInt(valuesMap.get("damage"), 0));
                 mobile.setArmor(parseInt(valuesMap.get("armor"), 0));
                 mobile.setAggression(parseInt(valuesMap.get("aggression"), 0));
@@ -289,6 +291,7 @@ public class BootStrap implements CommandLineRunner {
 
                 if (location != null) {
                     mobile.setLocation(location);
+                    mobile.setStartLocation(location);
                     location.addMobile(mobile);
                     zone.addMobile(mobile);
                     world.addMobile(mobile);

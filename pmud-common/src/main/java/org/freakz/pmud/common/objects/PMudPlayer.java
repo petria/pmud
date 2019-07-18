@@ -1,6 +1,5 @@
 package org.freakz.pmud.common.objects;
 
-import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.util.PHelpers;
 
 import java.io.Serializable;
@@ -10,13 +9,7 @@ public class PMudPlayer extends Mobile implements Serializable {
     private long pid;
 
     private String name;
-    private String title;
-
-    private PClass pClass;
-
     private Location location;
-
-    private Location homeLocation;
 
     private int qPoints = 0;
     private int age = 20;
@@ -25,6 +18,7 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     public PMudPlayer(Zone zone) {
         super(zone);
+        setMobile(false);
     }
 
     public String getName() {
@@ -51,35 +45,10 @@ public class PMudPlayer extends Mobile implements Serializable {
         this.location = location;
     }
 
-    public Location getHomeLocation() {
-        return homeLocation;
-    }
-
-    public void setHomeLocation(Location homeLocation) {
-        this.homeLocation = homeLocation;
-    }
-
     @Override
     public boolean equals(Object obj) {
         PMudPlayer other = (PMudPlayer) obj;
         return other.getName().equals(this.name);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public PClass getpClass() {
-        return pClass;
-    }
-
-    public void setpClass(PClass pClass) {
-        this.pClass = pClass;
     }
 
     public int getqPoints() {
