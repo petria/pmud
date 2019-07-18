@@ -362,10 +362,10 @@ public class Mobile extends PMudObject implements Serializable {
     }
 
     public String name() {
-        if (name != null) {
-            return name;
+        if (this.name != null) {
+            return this.name;
         }
-        return pName;
+        return this.pName;
     }
 
 

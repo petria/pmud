@@ -8,7 +8,6 @@ public class PMudPlayer extends Mobile implements Serializable {
 
     private long pid;
 
-    private String name;
     private Location location;
 
     private int qPoints = 0;
@@ -19,14 +18,6 @@ public class PMudPlayer extends Mobile implements Serializable {
     public PMudPlayer(Zone zone) {
         super(zone);
         setMobile(false);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public long getPid() {

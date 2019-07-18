@@ -12,6 +12,7 @@ import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbAcceptor;
 import org.springframework.stereotype.Component;
 
 import static org.freakz.pmud.pmudserver.pmud.FightService.MAXARMOR;
+import static org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService.LVL_WIZARD;
 
 @Component
 @PMudVerbAcceptor
@@ -52,16 +53,81 @@ public class PMudPlayerHandler extends HandlerBase {
             "%s looks very strong.\n",
             "%s seems almost invincible.\n"
     };
+    String[] omess = {
+            "%s is dead.",
+            "%s is near death",
+            "%s is near death",
+            "%s is mortally wounded",
+            "%s is seriously wounded",
+            "%s has some wounds, but is still fairly strong",
+            "%s has minor cuts and abrasions",
+            "%s has minor cuts and abrasions",
+            "%s seems a bit dazed",
+            "%s is in better than average condition",
+            "%s is in exceptional health",
+            "%s is in exceptional health",
+            "&+G%s is invincible"
+    };
+
+    String[] smess = {
+            "You are dead.",
+            "***You are near death***",
+            "***You are near death***",
+            "***You are mortally wounded***",
+            "***You are seriously wounded***",
+            "You have some wounds, but are still fairly strong.",
+            "You have minor cuts and abrasions.",
+            "You have minor cuts and abrasions.",
+            "You feel a bit dazed.",
+            "You are in better than average condition.",
+            "You are in exceptional health.",
+            "You are in exceptional health.",
+            "&+GYou are invincible."
+    };
+
+
+    private String pmess(Mobile m, boolean self) {
+        int p = 0;
+        if (m.getLevelNum() >= LVL_WIZARD)
+            p = 12;
+        else if (m.getStrength() <= 0)
+            p = 0;
+        else {
+            if (m.isMobile())
+                p = (int) (m.getStrength() * 10) / m.getMaxStrength();
+            else
+                p = (int) (m.getStrength() * 10) / m.getMaxStrength();
+
+            if (p >= 11) p = 11;
+            else p++;
+        }
+
+
+        if (self)
+            return smess[p];
+        else
+            return String.format(omess[p], m.getName());
+
+
+    }
 
     @AcceptVerbs(verbs = {"examine"})
     public void handleExamine(VerbRequest req, VerbResponse resp) {
         String msg = "You see nothing special.\n";
         if (hasArgs(req)) {
             String name = args(req);
+            boolean self = false;
 
             PMudPlayer p = player(req);
 
-            Mobile m = p.getLocation().getMobile(name);
+            Mobile m = null;
+            PMudPlayer other = p.getLocation().getPlayer(name, null);
+            if (other != null) {
+                m = other;
+            } else {
+                m = p.getLocation().getMobile(name);
+            }
+
             if (m != null) {
                 int s = m.getStrength() + 25 * m.getDamage();
                 if (between(0, 250, s)) {
@@ -82,6 +148,9 @@ public class PMudPlayerHandler extends HandlerBase {
                 if (s >= 1500) {
                     msg = String.format(MobDesc[5], m.name());
                 }
+
+                msg += pmess(m, self) + "\n";
+
                 resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), m.name());
 
             } else {
@@ -91,8 +160,8 @@ public class PMudPlayerHandler extends HandlerBase {
                     if (o.getExamine() != null) {
                         msg = o.getExamine() + "\n";
                     }
+                    resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), o.name());
                 }
-                resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), o.name());
 
             }
 

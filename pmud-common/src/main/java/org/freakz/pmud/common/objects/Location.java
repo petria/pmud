@@ -174,8 +174,10 @@ public class Location extends PMudObject implements Serializable {
 
     public PMudPlayer getPlayer(String name, PMudPlayer ignore) {
         for (Mobile p : this.players.values()) {
-            if (p.getId() == ignore.getId()) {
-                continue;
+            if (ignore != null) {
+                if (p.getId() == ignore.getId()) {
+                    continue;
+                }
             }
             if (PHelpers.matchToMobile(p, name)) {
                 return (PMudPlayer) p;

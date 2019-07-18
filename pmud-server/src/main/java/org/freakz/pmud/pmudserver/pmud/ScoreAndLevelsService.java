@@ -15,6 +15,8 @@ public class ScoreAndLevelsService {
 
     private static final int MAX_LEVEL = 21;
 
+    public static final int LVL_WIZARD = 21;
+
     private Levels levels = new Levels();
 
     public ScoreAndLevelsService() {
