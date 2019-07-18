@@ -86,7 +86,7 @@ public class PMudEngine {
             player.setTitle("the Newbie");
             player.setPid(pid);
             world.addPlayer(player);
-            world.addPlayerScore(player, 0);
+            world.addPlayerScore(player, 200000);
         } else {
             log.debug("Existing player, old pid: {} - new pid: {}", player.getPid(), pid);
             world.quitPlayer(player);

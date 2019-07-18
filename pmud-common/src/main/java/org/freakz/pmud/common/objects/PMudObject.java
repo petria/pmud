@@ -6,6 +6,10 @@ public abstract class PMudObject implements Serializable {
 
     private static int objectCounter = 0;
 
+    public static void resetCounter() {
+        objectCounter = 0;
+    }
+
     private final int id;
 
     private int visibilityLevel = 0;
@@ -20,6 +24,7 @@ public abstract class PMudObject implements Serializable {
     public static int getObjectCounter() {
         return objectCounter;
     }
+
 
     public int getId() {
         return id;

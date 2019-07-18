@@ -70,10 +70,10 @@ public class PMudInfoHandler extends HandlerBase {
 
         String msg = "";
         msg += "+-----------------------------------------------------------------------------+\n";
-        msg += String.format("| Name      : %-13s Level     : %-13s Score     : %-6d      |\n", p.getName(), p.getTitle(), p.getScore());
-        msg += String.format("| Strength  : %-13s Mana      : %-13s Kills     : %-7d     |\n", str1, str2, p.getKills());
-        msg += String.format("| Deaths    : %-13d Wimpy     : %-13d Q-Points  : %-7d     |\n", p.getDeaths(), p.getWimpy(), p.getQPoints());
-        msg += String.format("| Age       : %-13d Coins     : %-13d AC Avg    : %-5s       |\n", p.getDeaths(), p.getWimpy(), p.getAcAvg() + "%");
+        msg += String.format("| Name      : %-13s Level     : %-15s Score     : %-7d   |\n", p.getName(), p.getTitle(), p.getScore());
+        msg += String.format("| Strength  : %-13s Mana      : %-15s Kills     : %-7d   |\n", str1, str2, p.getKills());
+        msg += String.format("| Deaths    : %-13d Wimpy     : %-15d Q-Points  : %-7d   |\n", p.getDeaths(), p.getWimpy(), p.getQPoints());
+        msg += String.format("| Age       : %-13d Coins     : %-15d AC Avg    : %-5s     |\n", p.getDeaths(), p.getWimpy(), p.getAcAvg() + "%");
         msg += "+-----------------------------------------------------------------------------+\n";
         resp.setToSender(msg);
 

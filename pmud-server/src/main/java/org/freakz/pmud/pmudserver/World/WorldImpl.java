@@ -51,6 +51,7 @@ public class WorldImpl implements World {
 
     @Override
     public void init() {
+        PMudObject.resetCounter();
         zoneNameToZoneMap = new HashMap<>();
         nameToLocationMap = new HashMap<>();
         name2ToLocationMap = new HashMap<>();
@@ -538,6 +539,8 @@ public class WorldImpl implements World {
         bootStrap.reloadWorld();
         for (PMudPlayer p : this.nameToPlayerMap.values()) {
             p.reset();
+            p.setStartLocation(getLocationByName2(p.getStartLocation().getName2()));
+            p.setLocation(getLocationByName2(p.getLocation().getName2()));
         }
 
     }
