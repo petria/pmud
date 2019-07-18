@@ -44,6 +44,15 @@ public class PMudPlayerHandler extends HandlerBase {
         }
     }
 
+    String[] MobDesc = {
+            "%s is of very weak build.\n",
+            "%s is of weak build.\n",
+            "%s appears to be of average strength.\n",
+            "%s looks strong.\n",
+            "%s looks very strong.\n",
+            "%s seems almost invincible.\n"
+    };
+
     @AcceptVerbs(verbs = {"examine"})
     public void handleExamine(VerbRequest req, VerbResponse resp) {
         String msg = "You see nothing special.\n";
@@ -52,17 +61,48 @@ public class PMudPlayerHandler extends HandlerBase {
 
             PMudPlayer p = player(req);
 
-            PObject o = p.getLocation().getObject(name);
-            if (o != null) {
-                if (o.getExamine() != null) {
-                    msg = o.getExamine() + "\n";
+            Mobile m = p.getLocation().getMobile(name);
+            if (m != null) {
+                int s = m.getStrength() + 25 * m.getDamage();
+                if (between(0, 250, s)) {
+                    msg = String.format(MobDesc[0], m.name());
+                }
+                if (between(200, 450, s)) {
+                    msg = String.format(MobDesc[1], m.name());
+                }
+                if (between(450, 800, s)) {
+                    msg = String.format(MobDesc[2], m.name());
+                }
+                if (between(800, 1200, s)) {
+                    msg = String.format(MobDesc[3], m.name());
+                }
+                if (between(1200, 1500, s)) {
+                    msg = String.format(MobDesc[4], m.name());
+                }
+                if (s >= 1500) {
+                    msg = String.format(MobDesc[5], m.name());
+                }
+                resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), m.name());
+
+            } else {
+
+                PObject o = p.getLocation().getObject(name);
+                if (o != null) {
+                    if (o.getExamine() != null) {
+                        msg = o.getExamine() + "\n";
+                    }
                 }
                 resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), o.name());
+
             }
 
         }
         resp.setToSender(msg);
 
+    }
+
+    private boolean between(int start, int end, int s) {
+        return (s > start && s <= end);
     }
 
     @AcceptVerbs(verbs = {"flee"})
