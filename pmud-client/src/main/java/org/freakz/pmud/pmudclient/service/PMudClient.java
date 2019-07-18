@@ -84,9 +84,13 @@ public class PMudClient implements CommandLineRunner {
             String message = scanner.nextLine();
             if (!message.isEmpty()) {
                 if (message.equals("!!")) {
+                    pressed = true;
                     sender.sendToServer(prev, player);
+                    sleep(150L);
                 } else if (message.equals("!")) {
+                    pressed = true;
                     sender.sendToServer(last, player);
+                    sleep(150L);
                 } else {
                     prev = last;
                     last = message;
@@ -96,11 +100,7 @@ public class PMudClient implements CommandLineRunner {
                         if (message.equals("quit")) {
                             doMainLoop = false;
                         } else {
-                            try {
-                                Thread.sleep(150L);
-                            } catch (InterruptedException e) {
-                                //
-                            }
+                            sleep(150L);
                         }
                     }
                 }
@@ -111,6 +111,14 @@ public class PMudClient implements CommandLineRunner {
         }
         doKill();
         System.out.print(">> Exit Client main loop!");
+    }
+
+    private void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            //
+        }
     }
 
     private void doKill() {

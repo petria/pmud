@@ -20,6 +20,8 @@ public class PObject extends PMudObject {
     private int state = 0;
     private int maxState = 0;
 
+    private String examine;
+
     private String oFlags;
     private Map<Integer, String> descriptions = new HashMap<>();
 
@@ -402,5 +404,13 @@ public class PObject extends PMudObject {
 
     public void setWeapon(boolean weapon) {
         isWeapon = weapon;
+    }
+
+    public String getExamine() {
+        return examine;
+    }
+
+    public void setExamine(String examine) {
+        this.examine = examine;
     }
 }

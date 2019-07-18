@@ -151,6 +151,8 @@ public class BootStrap implements CommandLineRunner {
                 object.setDescription(2, parseTrim(valuesMap.get("desc[2]")));
                 object.setDescription(3, parseTrim(valuesMap.get("desc[3]")));
 
+                object.setExamine(parseTrim(valuesMap.get("examine")));
+
                 String locationName = valuesMap.get("location");
                 Location location = null;
                 if (locationName.startsWith("IN_ROOM:") || locationName.matches(".?@.?")) {

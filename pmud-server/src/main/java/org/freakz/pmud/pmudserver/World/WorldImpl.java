@@ -74,6 +74,8 @@ public class WorldImpl implements World {
 
     @Override
     public void createCorpse(Mobile victim) {
+        Location newLocation = getLocationByName2("dead1");
+
         Zone zone = getZone("temp");
 
         PObject corpse = new PObject(zone);
@@ -89,8 +91,15 @@ public class WorldImpl implements World {
         victim.getLocation().addObject(corpse);
         zone.addObject(corpse);
         addObject(corpse);
-        victim.getLocation().removeMobile(victim);
-        victim.setLocation(getLocationByName2("dead1"));
+
+        moveMobileToLocation(victim, newLocation);
+
+    }
+
+    private void moveMobileToLocation(Mobile mobile, Location newLocation) {
+        mobile.getLocation().removeMobile(mobile);
+        newLocation.addMobile(mobile);
+        mobile.setLocation(newLocation);
     }
 
 

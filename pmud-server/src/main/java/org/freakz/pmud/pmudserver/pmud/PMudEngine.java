@@ -77,7 +77,7 @@ public class PMudEngine {
             player = new PMudPlayer(world.getZone("start"));
             player.setStartLocation(world.getLocationByName2("home1"));
 
-            player.setDamage(8);
+            player.setDamage(100);
             player.setStrength(player.getMaxStrength());
             player.setMana(player.getMaxMana());
             player.setName(playerName);

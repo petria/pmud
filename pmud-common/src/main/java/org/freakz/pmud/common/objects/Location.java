@@ -105,7 +105,7 @@ public class Location extends PMudObject implements Serializable {
     }
 
     public void removeMobile(Mobile mobile) {
-        this.mobiles.remove(mobile.getName());
+        this.mobiles.remove(mobile.getId());
     }
 
     public Map<Integer, Mobile> getMobiles() {
@@ -171,4 +171,17 @@ public class Location extends PMudObject implements Serializable {
         }
         return null;
     }
+
+    public PMudPlayer getPlayer(String name, PMudPlayer ignore) {
+        for (Mobile p : this.players.values()) {
+            if (p.getId() == ignore.getId()) {
+                continue;
+            }
+            if (PHelpers.matchToMobile(p, name)) {
+                return (PMudPlayer) p;
+            }
+        }
+        return null;
+    }
+
 }

@@ -44,6 +44,27 @@ public class PMudPlayerHandler extends HandlerBase {
         }
     }
 
+    @AcceptVerbs(verbs = {"examine"})
+    public void handleExamine(VerbRequest req, VerbResponse resp) {
+        String msg = "You see nothing special.\n";
+        if (hasArgs(req)) {
+            String name = args(req);
+
+            PMudPlayer p = player(req);
+
+            PObject o = p.getLocation().getObject(name);
+            if (o != null) {
+                if (o.getExamine() != null) {
+                    msg = o.getExamine() + "\n";
+                }
+                resp.setToRoomF(p.getLocation(), "%s examines %s closely\n", p.getName(), o.name());
+            }
+
+        }
+        resp.setToSender(msg);
+
+    }
+
     @AcceptVerbs(verbs = {"flee"})
     public void handleFlee(VerbRequest req, VerbResponse resp) {
 
