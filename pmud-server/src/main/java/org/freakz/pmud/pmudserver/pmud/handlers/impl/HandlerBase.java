@@ -1,9 +1,7 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.pmud.common.objects.Location;
-import org.freakz.pmud.common.objects.Mobile;
-import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.common.objects.*;
 import org.freakz.pmud.pmudserver.World.World;
 import org.freakz.pmud.pmudserver.pmud.CommandHandlerService;
 import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
@@ -82,5 +80,25 @@ public abstract class HandlerBase implements PMudVerbHandler {
         }
     }
 
+    void setPn(VerbRequest req, PMudObject o) {
+        if (o instanceof Mobile) {
+            setHimOrHer(req, (Mobile) o);
+        } else {
+            setIt(req, (PObject) o);
+        }
+    }
+
+    void setIt(VerbRequest req, PObject o) {
+        player(req).setIt(o.name());
+    }
+
+
+    void setHimOrHer(VerbRequest req, Mobile m) {
+        if (m.getSex() == Mobile.PSex.MALE) {
+            player(req).setHim(m.name());
+        } else {
+            player(req).setHer(m.name());
+        }
+    }
 
 }

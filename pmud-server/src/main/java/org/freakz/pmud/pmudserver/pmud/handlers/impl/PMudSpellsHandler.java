@@ -24,7 +24,15 @@ public class PMudSpellsHandler extends HandlerBase {
             return;
         }
         Mobile m = world.findPlayerOrMobile(args(req));
-//        i
+        if (m != null) {
+            setHimOrHer(req, m);
+            m.setStrength(m.getMaxStrength());
+            resp.setToSenderF("Power radiates from your hands to heal %s.\n", m.getName());
+            resp.setToRoomF(m.getLocation(), "%s heals all %s wounds.", playerName(req), m.getName());
+        } else {
+            resp.setToSender("Heal who?\n");
+        }
+
     }
 
     @AcceptVerbs(verbs = {"summon", "translocate"})
@@ -35,12 +43,14 @@ public class PMudSpellsHandler extends HandlerBase {
         }
         PObject o = world.findClosestPObject(player(req), args(req));
         if (o != null) {
+            setPn(req, o);
             Location oldL = o.location();
             String oldW = o.where();
             resp.setFromRoomF(o.getLocation(), "The %s vanishes!\n", o.name());
             world.playerSummonObject(player(req), o);
             resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.\n", playerName(req));
             resp.setToSenderF("The %s flies into your hand.\nIt was: %-25s | %s\n", o.name(), oldW, oldL.getName2());
+            setIt(req, o);
         } else {
             resp.setToSenderF("Who or what is %s?\n", args(req));
         }
@@ -51,6 +61,7 @@ public class PMudSpellsHandler extends HandlerBase {
         String toFind = args(req);
         PMudPlayer f = world.findPlayer(toFind);
         if (f != null) {
+            setPn(req, f);
             resp.setToSender(String.format("[%5d]%25s - %-30s| %s\n", f.getId(), f.getName(), f.getLocation().getTitle(), f.getLocation().getName2()));
             return;
         }
@@ -59,6 +70,7 @@ public class PMudSpellsHandler extends HandlerBase {
             String msg = "";
             for (PObject o : f2) {
                 msg += String.format("[%5d]%25s - %-30s| %s\n", o.getId(), o.name(), o.where(), o.location().getName2());
+                setPn(req, o);
             }
             resp.setToSender(msg);
             return;
@@ -68,6 +80,7 @@ public class PMudSpellsHandler extends HandlerBase {
             String msg = "";
             for (Mobile o : f3) {
                 msg += String.format("[%5d]%25s - %-30s| %s\n", o.getId(), o.getName(), o.getLocation().getTitle(), o.getLocation().getName2());
+                setPn(req, o);
             }
             resp.setToSender(msg);
             return;

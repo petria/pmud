@@ -41,6 +41,7 @@ public class PMudLookHandler extends HandlerBase {
             } else {
                 msg += object.getDescription(object.getState()) + "\n";
             }
+            setPn(req, object);
         }
 
         for (Mobile mobile : location.getMobiles().values()) {
@@ -52,6 +53,7 @@ public class PMudLookHandler extends HandlerBase {
                 }
                 msg += "\n";
             }
+            setPn(req, mobile);
         }
 
         for (PMudPlayer plr : location.getPlayers().values()) {

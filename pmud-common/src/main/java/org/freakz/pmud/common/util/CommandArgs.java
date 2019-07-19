@@ -1,5 +1,7 @@
 package org.freakz.pmud.common.util;
 
+import org.freakz.pmud.common.objects.PMudPlayer;
+
 import java.io.Serializable;
 
 /**
@@ -14,9 +16,15 @@ public class CommandArgs implements Serializable {
     private final String line;
     private final String[] args;
 
-    public CommandArgs(String line) {
+    public CommandArgs(String line, PMudPlayer player) {
         this.line = line;
         this.args = line.split(" ");
+        if (hasArgs()) {
+            this.args[1] = this.args[1].replaceAll("it", player.getIt());
+            this.args[1] = this.args[1].replaceAll("him", player.getHim());
+            this.args[1] = this.args[1].replaceAll("her", player.getHer());
+            this.args[1] = this.args[1].replaceAll("them", player.getThem());
+        }
     }
 
     public int getArgCount() {

@@ -174,7 +174,7 @@ public class PMudObjectsHandler extends HandlerBase {
                 return;
             }
             if (p.getWielded() != null) {
-                p.removeWielded(o);
+                p.removeWielded(p.getWielded());
             }
             p.setWielded(o);
             resp.setToSenderF("You are now wielding the %s\n", o.name());

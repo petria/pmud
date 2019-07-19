@@ -73,7 +73,6 @@ public class PMudMovementsHandler extends HandlerBase {
         if (toGo == null) {
             resp.setToSender("Unknown player, object or room.\n");
         } else {
-
             resp.setFromRoom(location(req), playerName(req) + " vanishes in a puff of smoke.\n");
             world.playerToNewLocation(player(req), location(req), toGo);
             resp.setToSender(look(req));

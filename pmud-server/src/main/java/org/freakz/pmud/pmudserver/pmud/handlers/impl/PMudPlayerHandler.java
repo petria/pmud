@@ -227,6 +227,19 @@ public class PMudPlayerHandler extends HandlerBase {
 
     }
 
+    @AcceptVerbs(verbs = {"pronouns", "pn"})
+    public void handlePronouns(VerbRequest req, VerbResponse resp) {
+        String msg = "";
+
+        msg += String.format("Current pronouns are\n");
+        msg += String.format("Me    : %s\n", player(req).getMe());
+        msg += String.format("It    : %s\n", player(req).getIt());
+        msg += String.format("Him   : %s\n", player(req).getHim());
+        msg += String.format("Her   : %s\n", player(req).getHer());
+        msg += String.format("Them  : %s\n", player(req).getThem());
+
+        resp.setToSender(msg);
+    }
 
     @AcceptVerbs(verbs = {"stats"})
     public void handleStats(VerbRequest req, VerbResponse resp) {
@@ -288,7 +301,7 @@ public class PMudPlayerHandler extends HandlerBase {
 
         } else {
             resp.setToSender("Who's that?\n");
-
         }
     }
+
 }

@@ -13,7 +13,7 @@ public class VerbRequest {
 
     public VerbRequest(String line, PMudPlayer player) {
         this.line = line;
-        this.args = new CommandArgs(line);
+        this.args = new CommandArgs(line, player);
         this.player = player;
     }
 

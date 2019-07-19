@@ -1,5 +1,6 @@
 package org.freakz.pmud.common.objects;
 
+import org.freakz.pmud.common.player.Pronouns;
 import org.freakz.pmud.common.util.PHelpers;
 
 import java.io.Serializable;
@@ -14,6 +15,8 @@ public class PMudPlayer extends Mobile implements Serializable {
     private int age = 20;
     private int coins = 0;
     private int acAvg = 0;
+
+    private Pronouns pronouns = new Pronouns();
 
     public PMudPlayer(Zone zone) {
         super(zone);
@@ -91,4 +94,52 @@ public class PMudPlayer extends Mobile implements Serializable {
         getCarried().clear();
         getWorn().clear();
     }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        this.pronouns.setMe(name);
+    }
+
+    public String getMe() {
+        return this.pronouns.getMe();
+    }
+
+    public void setMe(String me) {
+        this.pronouns.setMe(me);
+    }
+
+    public String getIt() {
+        return this.pronouns.getIt();
+    }
+
+    public void setIt(String it) {
+        this.pronouns.setIt(it);
+    }
+
+    public String getHim() {
+        return this.pronouns.getHim();
+    }
+
+    public void setHim(String him) {
+        this.pronouns.setHim(him);
+    }
+
+    public String getHer() {
+        return this.pronouns.getHer();
+    }
+
+    public void setHer(String her) {
+        this.pronouns.setHer(her);
+    }
+
+    public String getThem() {
+        return this.pronouns.getThem();
+    }
+
+    public void setThem(String them) {
+        this.pronouns.setThem(them);
+    }
+
+
 }
