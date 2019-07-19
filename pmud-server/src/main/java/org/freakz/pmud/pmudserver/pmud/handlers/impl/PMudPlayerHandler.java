@@ -211,6 +211,11 @@ public class PMudPlayerHandler extends HandlerBase {
                 return;
 
             }
+
+            if (p.isSitting()) {
+                invokeVerbAndSendReply("stand", p);
+            }
+
             p.setFightingTo(m);
             m.setFightingTo(p);
 

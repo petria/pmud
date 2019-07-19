@@ -1,5 +1,6 @@
 package org.freakz.pmud.pmudserver.pmud.handlers.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
@@ -9,12 +10,17 @@ import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
 import org.freakz.pmud.pmudserver.pmud.VerbRequest;
 import org.freakz.pmud.pmudserver.pmud.VerbResponse;
 import org.freakz.pmud.pmudserver.pmud.handlers.PMudVerbHandler;
+import org.freakz.pmud.pmudserver.service.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Slf4j
 public abstract class HandlerBase implements PMudVerbHandler {
 
     @Autowired
     protected CommandHandlerService commandHandlerService;
+
+    @Autowired
+    private MessageSender sender;
 
     @Autowired
     World world;
@@ -64,6 +70,15 @@ public abstract class HandlerBase implements PMudVerbHandler {
             return "his";
         } else {
             return "her";
+        }
+    }
+
+    void invokeVerbAndSendReply(String verb, PMudPlayer p) {
+        VerbResponse resp = commandHandlerService.invokeVerb(verb, p);
+        if (resp != null) {
+            sender.sendReply(resp);
+        } else {
+            log.error("Verb invoke failed: {}", verb);
         }
     }
 
