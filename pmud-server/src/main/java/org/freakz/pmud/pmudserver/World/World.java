@@ -63,6 +63,9 @@ public interface World {
 
     void playerToNewLocation(PMudPlayer mover, Location location, Location toGo);
 
+    void moveMobile(Mobile m, Location from, Location toMove);
+
+
     List<PObject> findPObjects(String name);
 
     PObject findClosestPObject(PMudPlayer p, String name);
@@ -106,4 +109,5 @@ public interface World {
     PObject getObjectById(int objId);
 
     void reset();
+
 }

@@ -3,7 +3,9 @@ package org.freakz.pmud.pmudserver.pmud;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.objects.Location;
+import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PMudPlayer;
+import org.freakz.pmud.common.util.PHelpers;
 import org.freakz.pmud.pmudserver.World.World;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,6 +31,41 @@ public class GameTickService {
     public void gameTick() {
         fight.handleFightTick();
         reGeneratePlayers();
+        moveMoveMobiles();
+    }
+
+    private void moveMoveMobiles() {
+        for (Mobile m : world.getMobilesAndPlayers()) {
+            if (!m.isMobile()) {
+                continue;
+            }
+            if (m.getSpeed() > 0) {
+                int rnd = Math.abs(PHelpers.my_random()) % 30;
+                if (rnd < m.getSpeed()) {
+                    Location l = m.getLocation();
+                    if (l.getExitsMap().values().size() > 0) {
+                        String toMoveExit = PHelpers.getRandomExit(l);
+                        if (toMoveExit != null) {
+
+                            Location toMove = l.getExitsMap().get(toMoveExit);
+
+                            if (toMove.getZone() != l.getZone()) {
+                                continue;
+                            } else {
+                                log.debug("Move: {} - {} -> {}", m.name(), m.getLocation().getName2(), toMove.getName2());
+                                world.moveMobile(m, l, toMove);
+
+                                world.sendToLocationF(l, null, null, "%s ", "");
+                            }
+                        }
+
+                    }
+
+                }
+                //rand() % 30 < pspeed(mon)
+            }
+        }
+
     }
 
 

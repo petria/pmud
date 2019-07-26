@@ -76,4 +76,10 @@ public class Zone extends PMudObject implements Serializable {
         return null;
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        Zone other = (Zone) obj;
+        return name.equals(other.getName());
+    }
 }

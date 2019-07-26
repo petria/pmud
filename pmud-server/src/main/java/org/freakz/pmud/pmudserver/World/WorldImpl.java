@@ -499,6 +499,13 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void moveMobile(Mobile m, Location from, Location toMove) {
+        from.removeMobile(m);
+        toMove.addMobile(m);
+        m.setLocation(toMove);
+    }
+
+    @Override
     public Location findLocationByNameAtZone(String nameAtZone) {
         String[] split = nameAtZone.split("@");
         String name = split[0];
