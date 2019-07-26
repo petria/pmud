@@ -52,10 +52,11 @@ public class GameTickService {
                             if (toMove.getZone() != l.getZone()) {
                                 continue;
                             } else {
-                                log.debug("Move: {} - {} -> {}", m.name(), m.getLocation().getName2(), toMove.getName2());
+//                                log.debug("Move: {} - {} -> {}", m.name(), m.getLocation().getName2(), toMove.getName2());
                                 world.moveMobile(m, l, toMove);
+                                world.sendToLocationF(l, null, null, "%s goes to %s.\n", m.name(), toMoveExit);
+                                world.sendToLocationF(toMove, null, null, "%s arrives.\n", m.name());
 
-                                world.sendToLocationF(l, null, null, "%s ", "");
                             }
                         }
 

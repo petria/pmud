@@ -85,6 +85,9 @@ public class PObject extends PMudObject {
         if (isInRoom) {
             return location;
         }
+        if (isInContainer) {
+            return container.getLocation();
+        }
         return carrier.getLocation();
     }
 
@@ -96,7 +99,9 @@ public class PObject extends PMudObject {
         if (isInRoom) {
             return location.getTitle();
         } else {
-            if (!isWielded && !isWorn) {
+            if (isInContainer) {
+                return "Inside of " + getContainer().name();
+            } else if (!isWielded && !isWorn) {
                 return "carried by " + carrier.getName();
             } else {
                 if (isWielded && isWorn) {
