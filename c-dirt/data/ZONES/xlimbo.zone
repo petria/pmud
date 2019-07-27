@@ -124,7 +124,7 @@ Strength        = 1000
 Damage          = 32
 Aggression      = 0
 Armor           = 0
-Speed           = 0
+Speed           = 40
 Pflags          {NoSummon}
 Description     = "Bob is here, looking eager to answer your questions."
 End             = Bob

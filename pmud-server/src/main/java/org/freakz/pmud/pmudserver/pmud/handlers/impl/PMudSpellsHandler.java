@@ -41,19 +41,37 @@ public class PMudSpellsHandler extends HandlerBase {
             resp.setToSender("Summon who?\n");
             return;
         }
-        PObject o = world.findClosestPObject(player(req), args(req));
-        if (o != null) {
-            setPn(req, o);
-            Location oldL = o.location();
-            String oldW = o.where();
-            resp.setFromRoomF(o.getLocation(), "The %s vanishes!\n", o.name());
-            world.playerSummonObject(player(req), o);
-            resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.\n", playerName(req));
-            resp.setToSenderF("The %s flies into your hand.\nIt was: %-25s | %s\n", o.name(), oldW, oldL.getName2());
-            setIt(req, o);
+        boolean ok = false;
+        Mobile m = world.findPlayerOrMobile(args(req));
+        if (m != null) {
+            resp.setFromRoomF(m.getLocation(), "The %s vanishes in a puff of smoke!\n", m.name());
+            if (m.isMobile()) {
+                world.moveMobile(m, m.getLocation(), player(req).getLocation());
+            } else {
+                world.playerToNewLocation((PMudPlayer) m, m.getLocation(), player(req).getLocation());
+            }
+            resp.setToSender("You cast the summoning...\n");
+            resp.setToRoomF(player(req).getLocation(), "%s appears with an ear-splitting bang.\n", m.name());
+            ok = true;
         } else {
+
+            PObject o = world.findClosestPObject(player(req), args(req));
+            if (o != null) {
+                setPn(req, o);
+                Location oldL = o.location();
+                String oldW = o.where();
+                resp.setFromRoomF(o.getLocation(), "The %s vanishes!\n", o.name());
+                world.playerSummonObject(player(req), o);
+                resp.setToRoomF(o.getLocation(), "%s fetches something from another dimension.\n", playerName(req));
+                resp.setToSenderF("The %s flies into your hand.\nIt was: %-25s | %s\n", o.name(), oldW, oldL.getName2());
+                setIt(req, o);
+                ok = true;
+            }
+        }
+        if (!ok) {
             resp.setToSenderF("Who or what is %s?\n", args(req));
         }
+
     }
 
     @AcceptVerbs(verbs = {"where"})

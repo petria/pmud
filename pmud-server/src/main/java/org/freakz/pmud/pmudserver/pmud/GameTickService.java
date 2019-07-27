@@ -1,6 +1,7 @@
 package org.freakz.pmud.pmudserver.pmud;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freakz.pmud.common.enums.Exits;
 import org.freakz.pmud.common.enums.PClass;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
@@ -44,18 +45,18 @@ public class GameTickService {
                 if (rnd < m.getSpeed()) {
                     Location l = m.getLocation();
                     if (l.getExitsMap().values().size() > 0) {
-                        String toMoveExit = PHelpers.getRandomExit(l);
+                        Exits toMoveExit = PHelpers.getRandomExit(l);
                         if (toMoveExit != null) {
 
-                            Location toMove = l.getExitsMap().get(toMoveExit);
+                            Location toMove = l.getExitsMap().get(toMoveExit.getDir());
 
                             if (toMove.getZone() != l.getZone()) {
                                 continue;
                             } else {
 //                                log.debug("Move: {} - {} -> {}", m.name(), m.getLocation().getName2(), toMove.getName2());
                                 world.moveMobile(m, l, toMove);
-                                world.sendToLocationF(l, null, null, "%s goes to %s.\n", m.name(), toMoveExit);
-                                world.sendToLocationF(toMove, null, null, "%s arrives.\n", m.name());
+                                world.sendToLocationF(l, null, null, "%s goes to %s.\n", m.name(), toMoveExit.getNiceL());
+                                world.sendToLocationF(toMove, null, null, "\001p%s\003 %s.\n", m.name(), toMoveExit.getMobEnter());
 
                             }
                         }

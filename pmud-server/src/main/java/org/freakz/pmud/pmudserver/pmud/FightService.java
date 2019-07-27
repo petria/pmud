@@ -90,7 +90,7 @@ public class FightService {
             } else if (h.hitpct < 33)
                 fightmsg(attacker, victim, h.hitloc, handhit1);
             else if (h.hitpct < 66)
-                fightmsg(attacker, victim, h.hitloc, handhit1);
+                fightmsg(attacker, victim, h.hitloc, handhit2);
             else
                 fightmsg(attacker, victim, h.hitloc, handhit3);
         } else {

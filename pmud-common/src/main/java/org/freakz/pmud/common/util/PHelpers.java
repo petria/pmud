@@ -1,5 +1,6 @@
 package org.freakz.pmud.common.util;
 
+import org.freakz.pmud.common.enums.Exits;
 import org.freakz.pmud.common.objects.Location;
 import org.freakz.pmud.common.objects.Mobile;
 import org.freakz.pmud.common.objects.PObject;
@@ -75,7 +76,7 @@ public class PHelpers {
         return msg;
     }
 
-    public static String getRandomExit(Location l) {
+    public static Exits getRandomExit(Location l) {
         Random rnd = new Random();
         int size = l.getExitsMap().values().size();
         int i = rnd.nextInt(size);
@@ -83,7 +84,7 @@ public class PHelpers {
         for (String key : l.getExitsMap().keySet()) {
             Location toGo = l.getExitsMap().get(key);
             if (toGo == location) {
-                return key;
+                return Exits.getExit(key);
             }
         }
         return null;
