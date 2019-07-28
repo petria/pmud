@@ -51,7 +51,7 @@ public class PMudSpellsHandler extends HandlerBase {
                 world.playerToNewLocation((PMudPlayer) m, m.getLocation(), player(req).getLocation());
             }
             resp.setToSender("You cast the summoning...\n");
-            resp.setToRoomF(player(req).getLocation(), "%s appears with an ear-splitting bang.\n", m.name());
+            world.sendToLocationF(m.getLocation(), m, null, "%s appears with an ear-splitting bang.\n", m.name());
             ok = true;
         } else {
 

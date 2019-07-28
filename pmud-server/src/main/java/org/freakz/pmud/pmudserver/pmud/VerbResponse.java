@@ -12,6 +12,7 @@ public class VerbResponse {
 
     private Location to;
     private String toRoom = null;
+    private boolean toRoomAll = false;
 
     private String toSender = null;
     private String toWorld = null;
@@ -62,6 +63,12 @@ public class VerbResponse {
         this.toRoom = String.format(format, (Object[]) args);
     }
 
+    public void setToRoomF(boolean toRoomAll, Location location, String format, String... args) {
+        this.to = location;
+        this.toRoomAll = toRoomAll;
+        this.toRoom = String.format(format, (Object[]) args);
+    }
+
     public String getToSender() {
         return toSender;
     }
@@ -94,5 +101,14 @@ public class VerbResponse {
 
     public void setDoQuit(boolean doQuit) {
         this.doQuit = doQuit;
+    }
+
+
+    public boolean isToRoomAll() {
+        return toRoomAll;
+    }
+
+    public void setToRoomAll(boolean toRoomAll) {
+        this.toRoomAll = toRoomAll;
     }
 }
