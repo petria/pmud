@@ -40,7 +40,7 @@ public class GameTickService {
             if (!m.isMobile()) {
                 continue;
             }
-            if (m.getSpeed() > 0) {
+            if (m.getSpeed() > 0 && !m.isFighting()) {
                 int rnd = Math.abs(PHelpers.my_random()) % 30;
                 if (rnd < m.getSpeed()) {
                     Location l = m.getLocation();
