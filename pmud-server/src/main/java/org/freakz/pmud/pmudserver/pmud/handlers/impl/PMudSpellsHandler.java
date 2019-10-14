@@ -23,7 +23,7 @@ public class PMudSpellsHandler extends HandlerBase {
             resp.setToSender("Heal who?\n");
             return;
         }
-        Mobile m = world.findPlayerOrMobile(args(req));
+        Mobile m = world.findPlayerOrMobile(argsOrMe(req));
         if (m != null) {
             setHimOrHer(req, m);
             m.setStrength(m.getMaxStrength());
