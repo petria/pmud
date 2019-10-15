@@ -261,6 +261,7 @@ public class BootStrap implements CommandLineRunner {
                 linkedObject.from.setLinkedTo(linkTarget);
                 linkTarget.setState(linkedObject.from.getState());
                 linkTarget.setMaxState(linkedObject.from.getMaxState());
+                linkTarget.setLinkedTo(linkedObject.from);
             } else {
                 log.error("No link target: {} -> {}", linkedObject.from.getName(), linkedObject.to);
             }

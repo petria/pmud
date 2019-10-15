@@ -57,10 +57,6 @@ public class Location extends PMudObject implements Serializable {
         this.zone = zone;
     }
 
-    public Location getExit(Exits exit) {
-        return this.exitsMap.get(exit.getDir());
-    }
-
     public void addRawExit(String exit) {
         addRawExit(exit, false);
     }
@@ -89,6 +85,9 @@ public class Location extends PMudObject implements Serializable {
         this.linkedExitsMap.put(dir, linkedExitObject);
     }
 
+    public Location getExit(Exits exit) {
+        return getExitsLocation(exit.getDir());
+    }
 
     public Location getExitsLocation(String dir) {
         if (linkedExitsMap.get(dir) != null) {
@@ -107,7 +106,13 @@ public class Location extends PMudObject implements Serializable {
     }
 
     public int getExitsCount() {
-        return this.exitsMap.size(); // TODO check linked
+        int openCount = 0;
+        for (PObject obj : this.linkedExitsMap.values()) {
+            if (obj.getState() == 0) {
+                openCount++;
+            }
+        }
+        return this.exitsMap.size() + openCount;
     }
 
 
