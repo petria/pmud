@@ -19,6 +19,8 @@ public class Location extends PMudObject implements Serializable {
     private Zone zone;
 
     private Map<String, Location> exitsMap = new HashMap<>();
+    private Map<String, Location> linkedExitsMap = new HashMap<>();
+
     private Map<String, String> rawExistMap = new HashMap<>();
     private List<String> locationFlags = new ArrayList<>();
 
@@ -58,6 +60,11 @@ public class Location extends PMudObject implements Serializable {
     public Location getExit(Exits exit) {
         return this.exitsMap.get(exit.getDir());
     }
+
+    public void setLinkedExit(String dir, Location linkedExitToLocation) {
+        this.linkedExitsMap.put(dir, linkedExitToLocation);
+    }
+
 
     public void addRawExit(String exit) {
         String[] split = exit.split(":");

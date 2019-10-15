@@ -47,6 +47,8 @@ public class PObject extends PMudObject {
 
     private boolean isInRoom;
 
+    private boolean isLocked;
+
     private PObject linkedTo;
 
     //
@@ -59,11 +61,15 @@ public class PObject extends PMudObject {
 
     private boolean isLit = false;
 
+    private boolean isLockable = false;
+
     private boolean isNoGet = false;
 
     private boolean isOpenable = false;
 
     private boolean isWeapon = false;
+
+    private boolean isKey = false;
 
     public PObject(Zone zone) {
         this.zone = zone;
@@ -211,8 +217,17 @@ public class PObject extends PMudObject {
                 if (flag.equalsIgnoreCase("Extinguish")) {
                     isExtinguish = true;
                 }
+                if (flag.equalsIgnoreCase("Key")) {
+                    isKey = true;
+                }
                 if (flag.equalsIgnoreCase("Lit")) {
                     isLit = true;
+                }
+                if (flag.equalsIgnoreCase("Lockable")) {
+                    isLockable = true;
+                    if (state == 2) {
+                        isLocked = true;
+                    }
                 }
                 if (flag.equalsIgnoreCase("Openable")) {
                     isOpenable = true;
@@ -223,7 +238,9 @@ public class PObject extends PMudObject {
                 if (flag.equalsIgnoreCase("Weapon")) {
                     isWeapon = true;
                 }
+
             }
+
         }
     }
 
@@ -417,5 +434,33 @@ public class PObject extends PMudObject {
 
     public void setExamine(String examine) {
         this.examine = examine;
+    }
+
+    public void setInRoom(boolean inRoom) {
+        isInRoom = inRoom;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean isLockable() {
+        return isLockable;
+    }
+
+    public void setLockable(boolean lockable) {
+        isLockable = lockable;
+    }
+
+    public boolean isKey() {
+        return isKey;
+    }
+
+    public void setKey(boolean key) {
+        isKey = key;
     }
 }

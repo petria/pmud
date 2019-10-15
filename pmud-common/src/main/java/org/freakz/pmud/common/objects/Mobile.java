@@ -404,6 +404,15 @@ public class Mobile extends PMudObject implements Serializable {
         return 0;
     }
 
+    public boolean hasKey() {
+        for (PObject o : carried.values()) {
+            if (o.isKey()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public enum PSex {
         MALE("male"),
         FEMALE("female");

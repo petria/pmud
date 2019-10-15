@@ -98,6 +98,13 @@ public class PMudObjectsHandler extends HandlerBase {
                 if (o.getState() == 0) {
                     resp.setToSender("It's already open.\n");
                 } else {
+                    if (o.isLocked()) {
+                        boolean hasKey = player(req).hasKey();
+                        if (!hasKey) {
+                            resp.setToSender("It seems to be locked.\n");
+                            return;
+                        }
+                    }
                     world.playerOpenObject(player(req), o);
                     resp.setToSender("Done.\n");
                     resp.setToRoomF(o.getLocation(), "%s opens %s.\n", playerName(req), o.name());
