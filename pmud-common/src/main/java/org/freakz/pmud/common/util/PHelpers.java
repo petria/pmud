@@ -78,15 +78,19 @@ public class PHelpers {
 
     public static Exits getRandomExit(Location l) {
         Random rnd = new Random();
-        int size = l.getExitsMap().values().size();
+//        int size = l.getExitsMap().values().size();
+        int size = l.getExitsCount();
         int i = rnd.nextInt(size);
-        Location location = (Location) l.getExitsMap().values().toArray()[i];
+/*        Location location = (Location) l.getExitsMap().values().toArray()[i];
+        for (String key : Exits.) {
         for (String key : l.getExitsMap().keySet()) {
             Location toGo = l.getExitsMap().get(key);
             if (toGo == location) {
                 return Exits.getExit(key);
             }
         }
+TODO
+ */
         return null;
     }
 }

@@ -72,9 +72,11 @@ public class PMudLookHandler extends HandlerBase {
 
     public static String getObivousExits(Location location) {
         String msg = "\nObvious exits are:\n";
-        if (location.getExitsMap().size() > 0) {
+        if (location.getExitsCount() > 0) {
+//        if (location.getExitsMap().size() > 0) {
             for (Exits exit : Exits.values()) {
-                Location l = location.getExitsMap().get(exit.getDir());
+//                Location l = location.getExitsMap().get(exit.getDir());
+                Location l = location.getExitsLocation(exit.getDir());
                 if (l != null) {
                     msg += String.format(" %6s : %-45s : %s\n", exit.getNice(), l.getTitle(), l.getName2());
                 }

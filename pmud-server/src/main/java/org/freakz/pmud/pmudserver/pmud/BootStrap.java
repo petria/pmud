@@ -80,8 +80,7 @@ public class BootStrap implements CommandLineRunner {
                     List<PObject> objects = world.findPObjects(linkedObject);
                     if (objects.size() == 1) {
                         PObject linkedToObj = objects.get(0);
-                        Location linkedExitToLocation = linkedToObj.getLocation();
-                        toMap.setLinkedExit(dir, linkedExitToLocation);
+                        toMap.setLinkedExit(dir, linkedToObj);
                     } else {
                         log.error("No LINKED exit location found {} / {} dir {} -> {}", toMap.getZone().getName(), toMap.getName(), dir, exitToName);
                     }
@@ -97,7 +96,8 @@ public class BootStrap implements CommandLineRunner {
                         }
                     }
                     if (exitToLocation != null) {
-                        toMap.getExitsMap().put(dir, exitToLocation);
+                        toMap.setExit(dir, exitToLocation);
+//                        toMap.getExitsMap().put(dir, exitToLocation);
 
                     } else {
                         log.error("No exit location found {} / {} dir {} -> {}", toMap.getZone().getName(), toMap.getName(), dir, exitToName);
@@ -461,7 +461,7 @@ public class BootStrap implements CommandLineRunner {
                 }
                 if (split.matches("([nsweud]):.*")) {
                     if (split.contains("^")) {
-                        location.addLinkedExit(split); // TODO
+                        location.addRawExit(split, true);
                     } else {
                         location.addRawExit(split);
                     }

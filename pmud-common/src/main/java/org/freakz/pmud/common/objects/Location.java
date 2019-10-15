@@ -19,7 +19,7 @@ public class Location extends PMudObject implements Serializable {
     private Zone zone;
 
     private Map<String, Location> exitsMap = new HashMap<>();
-    private Map<String, Location> linkedExitsMap = new HashMap<>();
+    private HashMap<String, PObject> linkedExitsMap = new HashMap<>();
 
     private Map<String, String> rawExistMap = new HashMap<>();
     private List<String> locationFlags = new ArrayList<>();
@@ -61,14 +61,16 @@ public class Location extends PMudObject implements Serializable {
         return this.exitsMap.get(exit.getDir());
     }
 
-    public void setLinkedExit(String dir, Location linkedExitToLocation) {
-        this.linkedExitsMap.put(dir, linkedExitToLocation);
+    public void addRawExit(String exit) {
+        addRawExit(exit, false);
     }
 
-
-    public void addRawExit(String exit) {
+    public void addRawExit(String exit, boolean linked) {
         String[] split = exit.split(":");
         if (split.length == 2) {
+            if (linked) {
+                int foo = 0;
+            }
             if (split[1].endsWith(";")) {
                 rawExistMap.put(split[0], split[1].replaceFirst(";", ""));
             } else {
@@ -79,9 +81,35 @@ public class Location extends PMudObject implements Serializable {
         }
     }
 
-    public Map<String, Location> getExitsMap() {
+    private Map<String, Location> getExitsMap() {
         return exitsMap;
     }
+
+    public void setLinkedExit(String dir, PObject linkedExitObject) {
+        this.linkedExitsMap.put(dir, linkedExitObject);
+    }
+
+
+    public Location getExitsLocation(String dir) {
+        if (linkedExitsMap.get(dir) != null) {
+            PObject linkedObject = linkedExitsMap.get(dir);
+            if (linkedObject.getState() == 0) {
+                return linkedObject.getLinkedTo().getLocation();
+            }
+            return null;
+        } else {
+            return this.exitsMap.get(dir);
+        }
+    }
+
+    public void setExit(String dir, Location exitToLocation) {
+        this.exitsMap.put(dir, exitToLocation);
+    }
+
+    public int getExitsCount() {
+        return this.exitsMap.size(); // TODO check linked
+    }
+
 
     public Map<String, String> getRawExistMap() {
         return rawExistMap;
