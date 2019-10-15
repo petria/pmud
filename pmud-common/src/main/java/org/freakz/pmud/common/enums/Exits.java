@@ -1,5 +1,7 @@
 package org.freakz.pmud.common.enums;
 
+import java.util.Random;
+
 import static org.freakz.pmud.common.MudTexts.MOB_ENTER;
 
 public enum Exits {
@@ -24,6 +26,11 @@ public enum Exits {
         this.mobEnter = mobEnter;
     }
 
+    public static Exits getRandomExit() {
+        Random rnd = new Random();
+        return values()[rnd.nextInt(values().length)];
+    }
+
     public static Exits getExit(String dir) {
         if (dir.matches("north|n")) {
             return NORTH;
@@ -45,6 +52,7 @@ public enum Exits {
         }
         return NONE;
     }
+
 
     public String getNice() {
         return nice;

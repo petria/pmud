@@ -77,7 +77,7 @@ public class Location extends PMudObject implements Serializable {
         }
     }
 
-    private Map<String, Location> getExitsMap() {
+    public Map<String, Location> getExitsMap() {
         return exitsMap;
     }
 

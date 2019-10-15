@@ -44,13 +44,11 @@ public class GameTickService {
                 int rnd = Math.abs(PHelpers.my_random()) % 30;
                 if (rnd < m.getSpeed()) {
                     Location l = m.getLocation();
-                    if (l.getExitsCount() > 0) {
-//                    if (l.getExitsMap().values().size() > 0) {
+                    if (l.getExitsMap().values().size() > 0) {
                         Exits toMoveExit = PHelpers.getRandomExit(l);
                         if (toMoveExit != null) {
 
-//                            Location toMove = l.getExitsMap().get(toMoveExit.getDir());
-                            Location toMove = l.getExitsLocation(toMoveExit.getDir());
+                            Location toMove = l.getExitsMap().get(toMoveExit.getDir());
 
                             if (toMove.getZone() != l.getZone()) {
                                 continue;
@@ -69,9 +67,7 @@ public class GameTickService {
                 //rand() % 30 < pspeed(mon)
             }
         }
-
     }
-
 
     private void reGeneratePlayers() {
         for (PMudPlayer p : world.getPlayers()) {
