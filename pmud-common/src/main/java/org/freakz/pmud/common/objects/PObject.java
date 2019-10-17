@@ -185,6 +185,13 @@ public class PObject extends PMudObject {
 
     public void setState(int state) {
         this.state = state;
+        if (this.linkedTo != null) {
+            this.linkedTo.setLinkedState(state);
+        }
+    }
+
+    private void setLinkedState(int state) {
+        this.state = state;
     }
 
     public int getMaxState() {

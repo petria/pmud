@@ -416,7 +416,7 @@ public class BootStrap implements CommandLineRunner {
                             continue;
                         }
 
-                        if (line.startsWith("lflags")) {
+                        if (line.contains("lflags")) {
                             parseLocationFlagsLine(location, line);
                         } else if (line.startsWith("Altitude")) {
                             int foo = 0;
@@ -437,7 +437,7 @@ public class BootStrap implements CommandLineRunner {
     }
 
     private void parseLocationFlagsLine(Location location, String line) {
-        String flags = line.replaceAll("lflags \\{|}", "");
+        String flags = line.replaceAll("lflags|\\{|}", "");
         for (String flagString : flags.split(" ")) {
             if (!flagString.isEmpty()) {
                 location.addRawLFlag(flagString);

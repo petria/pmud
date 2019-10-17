@@ -47,6 +47,8 @@ public interface World {
 
     List<Mobile> getMobilesAndPlayers();
 
+    void playerLockObject(PMudPlayer player, PObject o);
+
     void playerCloseObject(PMudPlayer player, PObject o);
 
     void playerOpenObject(PMudPlayer player, PObject o);

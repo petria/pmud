@@ -84,6 +84,19 @@ public class PMudObjectsHandler extends HandlerBase {
         }
     }
 
+    @AcceptVerbs(verbs = {"lock"})
+    public void handleLock(VerbRequest req, VerbResponse resp) {
+        if (!player(req).hasKey()) {
+            resp.setToSender("You have no key.\n\n");
+            return;
+        }
+        if (!hasArgs(req)) {
+            resp.setToSender("Lock what?\n");
+            return;
+        }
+
+    }
+
 
     @AcceptVerbs(verbs = {"open"})
     public void handleOpen(VerbRequest req, VerbResponse resp) {
