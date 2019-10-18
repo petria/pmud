@@ -2,6 +2,7 @@ package org.freakz.pmud.common.objects;
 
 import java.io.Serializable;
 
+
 public abstract class PMudObject implements Serializable {
 
     private static int objectCounter = 0;
@@ -13,7 +14,6 @@ public abstract class PMudObject implements Serializable {
     private final int id;
 
     private int visibilityLevel = 0;
-
     protected String name;
 
 

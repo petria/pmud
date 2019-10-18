@@ -58,6 +58,7 @@ public class BootStrap implements CommandLineRunner {
             log.debug("Mobiles  : {}", world.getMobileCount());
             log.debug("Objects  : {}", world.getObjectCount());
 
+            world.snapshotResetFields();
             log.debug("World is created!");
 
         } catch (Exception e) {

@@ -7,9 +7,19 @@ import org.freakz.pmud.common.util.PHelpers;
 import org.freakz.pmud.pmudserver.pmud.BootStrap;
 import org.freakz.pmud.pmudserver.pmud.ScoreAndLevelsService;
 import org.freakz.pmud.pmudserver.service.MessageSender;
+import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.MethodParameterScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +33,8 @@ public class WorldImpl implements World {
         Mobile f2;
     }
 
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private ScoreAndLevelsService levelsService;
@@ -554,6 +566,31 @@ public class WorldImpl implements World {
             p.setStartLocation(getLocationByName2(p.getStartLocation().getName2()));
             p.setLocation(getLocationByName2(p.getLocation().getName2()));
         }
-
     }
+
+    @Override
+    public void snapshotResetFields() {
+        String packageNamePrefix = "org.freakz.pmud.common.objects";
+        ConfigurationBuilder configBuilder =
+                new ConfigurationBuilder()
+                        .filterInputsBy(new FilterBuilder().includePackage(packageNamePrefix))
+                        .setUrls(ClasspathHelper.forPackage(packageNamePrefix))
+                        .setScanners(
+                                new TypeAnnotationsScanner(),
+                                new MethodParameterScanner(),
+                                new MethodAnnotationsScanner(),
+                                new FieldAnnotationsScanner()
+                        );
+        Reflections reflections = new Reflections(configBuilder);
+        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(ResetObject.class);
+        Set<Field> fields = reflections.getFieldsAnnotatedWith(ResetField.class);
+        Field field = fields.iterator().next();
+//        field.get()
+
+
+//        field.set("test", "value");
+        Class<?> type = field.getType();
+        int foo = 0;
+    }
+
 }

@@ -3,11 +3,13 @@ package org.freakz.pmud.common.objects;
 import java.util.HashMap;
 import java.util.Map;
 
+@ResetObject
 public class PObject extends PMudObject {
 
     private Zone zone;
     private Location location;
 
+    @ResetField
     private String pName;
     private String altName;
 
